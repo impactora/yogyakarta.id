@@ -1,6 +1,11 @@
 {
   "name": "yogyakarta-id",
-  "type": "module",
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "6.14.0",
+    "nuxt": "^4.4.2",
+    "vue": "^3.5.32",
+    "vue-router": "^5.0.4"
+  },
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -9,9 +14,5 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "dependencies": {
-    "nuxt": "^4.4.2",
-    "vue": "^3.5.32",
-    "vue-router": "^5.0.4"
-  }
+  "type": "module"
 }

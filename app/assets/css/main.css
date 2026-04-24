@@ -1,42 +1,40 @@
-/* assets/css/main.css */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --color-parchment: #f6f0e5;
+  --color-warm-white: #faf7f2;
+  --color-ink: #1a1208;
+  --color-brown: #3d2510;
+  --color-terra: #b8491f;
+  --color-forest: #2d5a3d;
+  --color-gold-warm: #c4840a;
+  --color-muted: #8a7560;
+  --color-line: rgba(26, 18, 8, 0.12);
+
+  --font-lato: "Lato", sans-serif;
+  --font-libre: "Libre Baskerville", serif;
+  --font-josefin: "Josefin Sans", sans-serif;
 }
 
-:root {
-  --parchment: #f6f0e5;
-  --warm-white: #faf7f2;
-  --ink: #1a1208;
-  --brown: #3d2510;
-  --terra: #b8491f;
-  --forest: #2d5a3d;
-  --gold-warm: #c4840a;
-  --muted: #8a7560;
-  --line: rgba(26, 18, 8, 0.12);
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  body {
+    font-family: var(--font-lato);
+    background-color: var(--color-warm-white);
+    color: var(--color-ink);
+    overflow-x: hidden;
+  }
 
-body {
-  font-family: "Lato", sans-serif;
-  background: var(--warm-white);
-  color: var(--ink);
-  overflow-x: hidden;
-}
-
-/* Paper texture overlay */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.6;
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
 }
