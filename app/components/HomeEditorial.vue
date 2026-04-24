@@ -98,7 +98,7 @@ const techStats = [
 
 <style scoped>
 .editorial {
-  padding: 80px 60px 120px;
+  padding: 140px 60px 120px;
   position: relative;
   z-index: 1;
 }

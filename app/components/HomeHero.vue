@@ -47,10 +47,10 @@ const features = [
 }
 .hero-left {
   background: var(--parchment);
-  padding: 80px 60px;
+  padding: 120px 60px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   border-right: 1px solid var(--line);
   position: relative;
 }
@@ -131,7 +131,7 @@ const features = [
   background: var(--ink);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 60px;
   position: relative;
   overflow: hidden;
