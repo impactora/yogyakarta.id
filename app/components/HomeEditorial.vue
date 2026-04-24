@@ -38,7 +38,7 @@ const techStats = [
 
 <template>
   <section
-    class="relative z-10 px-5 py-10 pb-20 md:px-6 lg:px-[60px] lg:pt-[140px] lg:pb-[120px]"
+    class="relative z-10 px-5 py-10 pb-32 md:px-6 lg:px-[60px] lg:pt-[140px] lg:pb-[200px]"
   >
     <div class="mb-10 lg:mb-16">
       <div

@@ -1,21 +1,41 @@
 <script setup lang="ts">
-const items = [
+import { ref } from "vue";
+
+const timeline = [
   {
-    year: "1755 M",
+    year: "1755",
     title: "Perjanjian Giyanti",
-    desc: "Lahirnya Kasultanan Ngayogyakarta Hadiningrat.",
+    desc: "Pecahnya Mataram Islam menjadi dua kekuatan: Kasunanan Surakarta dan Kasultanan Ngayogyakarta Hadiningrat. Pangeran Mangkubumi dinobatkan sebagai Sultan Hamengku Buwono I, merancang poros kosmologis kota dari awal.",
+    meta: "Awal Mula",
   },
   {
-    year: "1946 M",
+    year: "1825",
+    title: "Perang Jawa",
+    desc: "Pangeran Diponegoro memimpin perlawanan besar-besaran melawan pemerintah kolonial Hindia Belanda. Taktik gerilya yang berpusat di Goa Selarong menguras kas Belanda hingga ke titik krisis kebangkrutan.",
+    meta: "Perlawanan",
+  },
+  {
+    year: "1946",
     title: "Ibukota Republik",
-    desc: "Pusat pemerintahan darurat Republik Indonesia.",
+    desc: "Ketika Jakarta jatuh ke tangan Sekutu/NICA, Sultan HB IX dan Paku Alam VIII mengambil risiko besar. Mereka menawarkan Yogyakarta sebagai ibukota darurat Republik Indonesia, menyelamatkan nyawa negara yang baru seumur jagung.",
+    meta: "Revolusi",
   },
   {
-    year: "2012 M",
+    year: "1949",
+    title: "Serangan Umum 1 Maret",
+    desc: "Sebuah serangan mendadak di pagi buta untuk menduduki Jogja selama 6 jam. Secara militer mungkin kecil, namun pukulan politisnya membuka mata PBB bahwa TNI dan Republik Indonesia masih eksis dan mematikan.",
+    meta: "Eksistensi",
+  },
+  {
+    year: "2012",
     title: "UU Keistimewaan",
-    desc: "Pengakuan resmi atas status istimewa tata pemerintahan.",
+    desc: "Pengesahan Undang-Undang Nomor 13 Tahun 2012. Negara mengakui secara hukum tata pemerintahan istimewa di mana Sultan dan Paku Alam bertahta secara institusional sebagai Gubernur dan Wakil Gubernur tanpa pemilihan umum.",
+    meta: "Era Modern",
   },
 ];
+
+// Reaktif state untuk mengendalikan era mana yang sedang aktif
+const activeIndex = ref(0);
 </script>
 
 <template>
@@ -25,26 +45,108 @@ const items = [
     <CategoryHeader
       category="Sejarah"
       title="Merekam Jejak Waktu"
-      description="Menelusuri linimasa sejarah, dari pendirian Kraton Yogyakarta hingga masa revolusi."
+      description="Menelusuri linimasa sejarah, dari pendirian Kraton Yogyakarta hingga masa revolusi kemerdekaan."
     />
 
-    <div class="relative border-l border-line ml-3 pl-8 flex flex-col gap-10">
-      <article v-for="(item, index) in items" :key="index" class="relative">
-        <div
-          class="absolute -left-[37px] top-1 w-[11px] h-[11px] bg-terra rounded-full border-2 border-warm-white"
-        ></div>
-        <div class="font-josefin text-[14px] font-light text-terra mb-2">
-          {{ item.year }}
-        </div>
-        <h2 class="font-libre text-[22px] font-bold text-ink mb-2">
-          {{ item.title }}
-        </h2>
-        <p
-          class="text-[15px] font-light text-brown leading-[1.8] max-w-[600px]"
+    <div
+      class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-16 lg:gap-24 mt-10 lg:mt-20 items-start"
+    >
+      <div
+        class="relative border-l border-line ml-3 pl-8 flex flex-col gap-12 lg:gap-16"
+      >
+        <button
+          v-for="(item, index) in timeline"
+          :key="index"
+          @click="activeIndex = index"
+          class="relative text-left group cursor-pointer"
         >
-          {{ item.desc }}
-        </p>
-      </article>
+          <div
+            class="absolute -left-[37px] top-2 w-[11px] h-[11px] rounded-full border-2 transition-all duration-300"
+            :class="
+              activeIndex === index
+                ? 'bg-terra border-terra scale-125'
+                : 'bg-warm-white border-line group-hover:border-terra'
+            "
+          ></div>
+
+          <div
+            class="font-josefin text-[16px] lg:text-[20px] font-light transition-colors duration-300 mb-1"
+            :class="
+              activeIndex === index
+                ? 'text-terra'
+                : 'text-muted group-hover:text-terra/70'
+            "
+          >
+            {{ item.year }}
+          </div>
+          <h3
+            class="font-libre text-[18px] lg:text-[22px] font-bold transition-colors duration-300"
+            :class="
+              activeIndex === index
+                ? 'text-ink'
+                : 'text-ink/40 group-hover:text-ink/70'
+            "
+          >
+            {{ item.title }}
+          </h3>
+        </button>
+      </div>
+
+      <div class="lg:sticky lg:top-[120px] flex flex-col">
+        <div :key="activeIndex" class="animate-fade-in">
+          <div
+            class="h-[240px] md:h-[320px] lg:h-[400px] bg-ink relative overflow-hidden mb-8"
+          >
+            <div class="absolute inset-0 bg-parchment/5"></div>
+            <div
+              class="absolute inset-x-10 inset-y-12 border border-white/10 flex flex-col items-center justify-center text-center"
+            >
+              <span
+                class="font-josefin text-[10px] tracking-[0.3em] uppercase text-white/30 mb-3"
+                >Arsip Visual</span
+              >
+              <span class="font-libre text-[28px] italic text-white/50">{{
+                timeline[activeIndex].year
+              }}</span>
+            </div>
+          </div>
+
+          <div
+            class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4"
+          >
+            Babak: {{ timeline[activeIndex].meta }}
+          </div>
+
+          <h2
+            class="font-libre text-[28px] lg:text-[36px] font-bold text-ink leading-[1.2] mb-6"
+          >
+            {{ timeline[activeIndex].title }}
+          </h2>
+
+          <p
+            class="text-[15px] font-light text-brown leading-[1.9] max-w-[500px]"
+          >
+            {{ timeline[activeIndex].desc }}
+          </p>
+        </div>
+      </div>
     </div>
   </main>
 </template>
+
+<style scoped>
+/* Keyframe injeksi sederhana untuk transisi pergantian data */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+</style>
