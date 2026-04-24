@@ -3,38 +3,49 @@ import { ref } from "vue";
 
 const timeline = [
   {
+    year: "732",
+    title: "Prasasti Canggal",
+    desc: "Raja Sanjaya mendirikan lingga di Bukit Stirangga, Gunung Wukir. Dokumen tertua keberadaan peradaban Hindu di dataran Kedu — titik nol sejarah tertulis Yogyakarta.",
+    meta: "Awal Peradaban",
+  },
+  {
+    year: "856",
+    title: "Rampungnya Prambanan",
+    desc: "Wangsa Sanjaya merampungkan kompleks candi Hindu terbesar Asia Tenggara. 240 struktur batu andesit dibangun tanpa semen — hanya gravitasi, presisi, dan keyakinan.",
+    meta: "Puncak Wangsa Sanjaya",
+  },
+  {
     year: "1755",
     title: "Perjanjian Giyanti",
-    desc: "Pecahnya Mataram Islam menjadi dua kekuatan: Kasunanan Surakarta dan Kasultanan Ngayogyakarta Hadiningrat. Pangeran Mangkubumi dinobatkan sebagai Sultan Hamengku Buwono I, merancang poros kosmologis kota dari awal.",
-    meta: "Awal Mula",
+    desc: "VOC membelah Mataram Islam. Pangeran Mangkubumi menjadi Sultan Hamengku Buwono I dan langsung merancang tata kota berbasis poros kosmologis Merapi–Keraton–Parangtritis.",
+    meta: "Kelahiran Kesultanan",
   },
   {
     year: "1825",
-    title: "Perang Jawa",
-    desc: "Pangeran Diponegoro memimpin perlawanan besar-besaran melawan pemerintah kolonial Hindia Belanda. Taktik gerilya yang berpusat di Goa Selarong menguras kas Belanda hingga ke titik krisis kebangkrutan.",
-    meta: "Perlawanan",
+    title: "Perang Diponegoro",
+    desc: "Lima tahun gerilya dari Goa Selarong menguras kas Hindia Belanda hingga Fl 20 juta. Perlawanan terpanjang dan termahal yang pernah dihadapi VOC di Jawa.",
+    meta: "Perlawanan Kolonial",
   },
   {
     year: "1946",
-    title: "Ibukota Republik",
-    desc: "Ketika Jakarta jatuh ke tangan Sekutu/NICA, Sultan HB IX dan Paku Alam VIII mengambil risiko besar. Mereka menawarkan Yogyakarta sebagai ibukota darurat Republik Indonesia, menyelamatkan nyawa negara yang baru seumur jagung.",
+    title: "Yogyakarta: Ibukota Republik",
+    desc: "Sultan HB IX menyerahkan kedaulatan wilayahnya kepada NKRI. Ketika Jakarta jatuh ke NICA, Yogyakarta menjelma menjadi jantung yang memompa darah revolusi kemerdekaan.",
     meta: "Revolusi",
   },
   {
     year: "1949",
     title: "Serangan Umum 1 Maret",
-    desc: "Sebuah serangan mendadak di pagi buta untuk menduduki Jogja selama 6 jam. Secara militer mungkin kecil, namun pukulan politisnya membuka mata PBB bahwa TNI dan Republik Indonesia masih eksis dan mematikan.",
-    meta: "Eksistensi",
+    desc: "TNI menduduki Yogyakarta selama 6 jam di bawah komando Letkol Soeharto. Serangan simbolis yang membuktikan kepada Dewan Keamanan PBB bahwa Republik Indonesia belum mati.",
+    meta: "Eksistensi Militer",
   },
   {
     year: "2012",
-    title: "UU Keistimewaan",
-    desc: "Pengesahan Undang-Undang Nomor 13 Tahun 2012. Negara mengakui secara hukum tata pemerintahan istimewa di mana Sultan dan Paku Alam bertahta secara institusional sebagai Gubernur dan Wakil Gubernur tanpa pemilihan umum.",
-    meta: "Era Modern",
+    title: "UU Keistimewaan DIY",
+    desc: "UU No. 13 Tahun 2012 mengukuhkan Sultan dan Paku Alam sebagai Gubernur dan Wakil Gubernur seumur hidup — satu-satunya monarki konstitusional yang diakui negara republik ini.",
+    meta: "Era Istimewa",
   },
 ];
 
-// Reaktif state untuk mengendalikan era mana yang sedang aktif
 const activeIndex = ref(0);
 </script>
 
@@ -43,6 +54,8 @@ const activeIndex = ref(0);
     class="min-h-screen pt-[120px] lg:pt-[180px] px-5 md:px-6 lg:px-[60px] pb-20 relative z-10"
   >
     <CategoryHeader
+      v-observe
+      class="reveal-up"
       category="Sejarah"
       title="Merekam Jejak Waktu"
       description="Menelusuri linimasa sejarah, dari pendirian Kraton Yogyakarta hingga masa revolusi kemerdekaan."
@@ -58,7 +71,9 @@ const activeIndex = ref(0);
           v-for="(item, index) in timeline"
           :key="index"
           @click="activeIndex = index"
-          class="relative text-left group cursor-pointer"
+          v-observe
+          class="relative text-left group cursor-pointer reveal-up"
+          :style="`transition-delay: ${(index % 5) * 100}ms`"
         >
           <div
             class="absolute -left-[37px] top-2 w-[11px] h-[11px] rounded-full border-2 transition-all duration-300"
@@ -68,7 +83,6 @@ const activeIndex = ref(0);
                 : 'bg-warm-white border-line group-hover:border-terra'
             "
           ></div>
-
           <div
             class="font-josefin text-[16px] lg:text-[20px] font-light transition-colors duration-300 mb-1"
             :class="
@@ -92,7 +106,10 @@ const activeIndex = ref(0);
         </button>
       </div>
 
-      <div class="lg:sticky lg:top-[120px] flex flex-col">
+      <div
+        v-observe
+        class="lg:sticky lg:top-[120px] flex flex-col reveal-up delay-300"
+      >
         <div :key="activeIndex" class="animate-fade-in">
           <div
             class="h-[240px] md:h-[320px] lg:h-[400px] bg-ink relative overflow-hidden mb-8"
@@ -110,19 +127,16 @@ const activeIndex = ref(0);
               }}</span>
             </div>
           </div>
-
           <div
             class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4"
           >
             Babak: {{ timeline[activeIndex].meta }}
           </div>
-
           <h2
             class="font-libre text-[28px] lg:text-[36px] font-bold text-ink leading-[1.2] mb-6"
           >
             {{ timeline[activeIndex].title }}
           </h2>
-
           <p
             class="text-[15px] font-light text-brown leading-[1.9] max-w-[500px]"
           >
@@ -135,7 +149,6 @@ const activeIndex = ref(0);
 </template>
 
 <style scoped>
-/* Keyframe injeksi sederhana untuk transisi pergantian data */
 @keyframes fadeIn {
   from {
     opacity: 0;

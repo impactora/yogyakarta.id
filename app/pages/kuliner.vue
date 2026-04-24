@@ -6,48 +6,63 @@ const activeCategory = ref("Semua");
 
 const culinaryItems = [
   {
-    title: "Gudeg Jogja",
+    title: "Gudeg Kraton",
     category: "Makanan Berat",
     story:
-      "Lahir dari dapur prajurit Mataram abad ke-16, Gudeg adalah manifestasi kesabaran. Nangka muda dimasak perlahan dalam kuali tanah liat selama belasan jam hingga mencapai karamelisasi sempurna tanpa pemanis buatan berlebih.",
-    meta: "Resep Warisan Sesuai Musim",
+      "Nangka muda direbus 12 jam dengan santan, gula aren, dan daun jati hingga menghasilkan karamelisasi alami berwarna cokelat tua. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
+    meta: "Warisan Dapur Kerajaan",
     featured: true,
   },
   {
-    title: "Bakpia Pathok",
-    category: "Cemilan",
-    story:
-      "Hasil akulturasi budaya Tionghoa dan lokal, Bakpia menjadi ikon yang berevolusi dari isi kacang hijau hingga varian modern.",
-    meta: "Akulturasi Budaya",
-    featured: false,
-  },
-  {
-    title: "Kopi Joss",
-    category: "Minuman",
-    story:
-      "Arang membara yang dicelupkan bukan sekadar atraksi, melainkan penetralisir kafein yang menciptakan aroma karamel unik.",
-    meta: "Kultur Angkringan",
-    featured: false,
-  },
-  {
-    title: "Oseng Mercon",
+    title: "Oseng Mercon Bu Narti",
     category: "Makanan Berat",
     story:
-      "Antitesis dari citarasa manis Jogja, Oseng Mercon adalah ledakan pedas yang lahir di akhir era 90-an sebagai inovasi kuliner jalanan.",
-    meta: "Kontemporer Pedas",
+      "Lahir di Jalan Kranggan pada 1998 — kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Bukan hidangan musiman; ini provokasi terhadap manis-gurih dominan Yogyakarta.",
+    meta: "Perlawanan Pedas",
     featured: false,
   },
   {
-    title: "Wedang Ronde",
+    title: "Sate Klathak",
+    category: "Makanan Berat",
+    story:
+      "Dua tusuk jeruji sepeda bukan estetika — konduktivitas besi memastikan daging kambing matang dari dalam ke luar secara merata. Hanya garam kasar. Teknik memasak yang menolak kompromi rasa.",
+    meta: "Minimalis Ekstrem",
+    featured: false,
+  },
+  {
+    title: "Bakpia Pathok 75",
+    category: "Cemilan",
+    story:
+      "Akulturasi kuliner Tionghoa-Jawa yang lahir di Kampung Pathok abad ke-20. Kulit tipis berlapis isi pasta kacang hijau kukus — evolusi dari moon cake yang beradaptasi dengan lidah lokal selama tiga generasi.",
+    meta: "Akulturasi Lintas Budaya",
+    featured: false,
+  },
+  {
+    title: "Kopi Joss Lek Man",
     category: "Minuman",
     story:
-      "Minuman penghangat malam yang memadukan jahe pedas dengan kenyalnya bola-bola ketan isi kacang.",
-    meta: "Tradisi Penghangat",
+      "Arang membara yang diceburkan bukan gimmick; karbon aktif menetralkan asam lambung dan menciptakan aroma karamel yang tak bisa direplikasi oleh mesin espresso manapun. Angkringan depan Stasiun Tugu sejak 1960-an.",
+    meta: "Kimia Warung Angkringan",
+    featured: false,
+  },
+  {
+    title: "Wedang Uwuh",
+    category: "Minuman",
+    story:
+      "Literalmente berarti 'minuman sampah' — campuran jahe bakar, kayu secang, cengkeh, kayu manis, dan pala yang tampak seperti reruntuhan rempah di dalam gelas. Minuman anti-inflamasi yang mendahului tren wellness global.",
+    meta: "Jamu dalam Cangkir",
+    featured: false,
+  },
+  {
+    title: "Mangut Lele Mbah Marto",
+    category: "Makanan Berat",
+    story:
+      "Lele asap dimasak dalam santan pedas dengan serai dan daun salam di tungku kayu — metode yang menciptakan lapisan rasa smoky yang tidak bisa ditiru kompor gas. Warung di Imogiri yang antreannya dimulai pukul 10 pagi.",
+    meta: "Slow Food Selatan Jogja",
     featured: false,
   },
 ];
 
-// Computed property to handle reactive filtering logic
 const filteredItems = computed(() => {
   if (activeCategory.value === "Semua")
     return culinaryItems.filter((i) => !i.featured);
@@ -55,7 +70,6 @@ const filteredItems = computed(() => {
     (i) => i.category === activeCategory.value && !i.featured,
   );
 });
-
 const featuredItem = culinaryItems.find((i) => i.featured);
 </script>
 
@@ -64,6 +78,8 @@ const featuredItem = culinaryItems.find((i) => i.featured);
     class="min-h-screen pt-[120px] lg:pt-[180px] px-5 md:px-6 lg:px-[60px] pb-32 relative z-10"
   >
     <CategoryHeader
+      v-observe
+      class="reveal-up"
       category="Kuliner"
       title="Simfoni Rasa Manis & Gurih"
       description="Eksplorasi gastronomi lokal. Cerita kesabaran di balik setiap hidangan yang menjadi identitas Yogyakarta."
@@ -71,7 +87,8 @@ const featuredItem = culinaryItems.find((i) => i.featured);
 
     <section
       v-if="featuredItem"
-      class="mb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center"
+      v-observe
+      class="mb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center reveal-up delay-100"
     >
       <div class="aspect-video bg-ink relative overflow-hidden group">
         <div
@@ -105,7 +122,10 @@ const featuredItem = culinaryItems.find((i) => i.featured);
       </div>
     </section>
 
-    <div class="mb-12 flex flex-wrap gap-4 border-b border-line pb-8">
+    <div
+      v-observe
+      class="mb-12 flex flex-wrap gap-4 border-b border-line pb-8 reveal-up delay-200"
+    >
       <button
         v-for="cat in categories"
         :key="cat"
@@ -123,7 +143,13 @@ const featuredItem = culinaryItems.find((i) => i.featured);
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
       <transition-group name="list">
-        <article v-for="item in filteredItems" :key="item.title" class="group">
+        <article
+          v-for="(item, index) in filteredItems"
+          :key="item.title"
+          v-observe
+          class="group reveal-up"
+          :style="`transition-delay: ${(index % 3) * 100}ms`"
+        >
           <div
             class="h-[200px] bg-line mb-6 transition-colors group-hover:bg-line/50"
           ></div>
@@ -145,7 +171,6 @@ const featuredItem = culinaryItems.find((i) => i.featured);
 </template>
 
 <style scoped>
-/* Smooth transition for category switching */
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease;

@@ -1,35 +1,60 @@
 <script setup lang="ts">
-// Data structure accommodates an alternating zigzag editorial layout
 const culturalHeritage = [
   {
     id: "batik",
-    category: "Seni Kriya",
-    title: "Mahakarya Batik",
-    subtitle: "Lukisan Malam di Atas Lembaran Waktu",
+    category: "Seni Kriya · UNESCO 2009",
+    title: "Filosofi Batik Kraton",
+    subtitle: "Doa yang Digoreskan di Atas Lembaran Kain",
     description:
-      "Batik bukan sekadar corak pakaian, melainkan doa dan filosofi yang digoreskan menggunakan malam (lilin). Motif Parang melambangkan ketangguhan ombak laut selatan, sementara Kawung mengingatkan manusia akan asal-usulnya.",
-    highlights: ["Filosofi Parang", "Teknik Canting", "Pewarna Alami"],
+      "Bukan sekadar motif — setiap goresan canting membawa muatan kosmologi Jawa. Motif Parang Rusak dilarang dikenakan rakyat biasa di era Mataram; Kawung menyimbolkan empat arah mata angin dan sumber kehidupan semesta.",
+    highlights: [
+      "Motif Larangan Keraton",
+      "Teknik Tulis vs Cap",
+      "Pewarna Soga Alami",
+    ],
     reverse: false,
   },
   {
-    id: "wayang",
-    category: "Seni Pertunjukan",
-    title: "Bayang Wayang Kulit",
-    subtitle: "Refleksi Moral dan Spiritualitas",
+    id: "wayang-kulit",
+    category: "Seni Pertunjukan · UNESCO 2003",
+    title: "Wayang Kulit Purwa",
+    subtitle: "Bayangan yang Lebih Nyata dari Realita",
     description:
-      "Melalui lakon epik Mahabharata dan Ramayana, sang Dalang menghidupkan lembaran kulit kerbau. Ini adalah medium penyebaran nilai moral, diiringi magisnya tembang dan pendaran lampu blencong di layar kelir.",
-    highlights: ["Peran Dalang", "Epik Ramayana", "Layar Kelir"],
+      "Lakon berlangsung 8 jam tanpa jeda, dari senja hingga fajar. Dalang adalah satu-satunya seniman dunia yang sekaligus menjadi sutradara, aktor 200 karakter, komposer, dan filsuf — sendirian, dalam satu malam.",
+    highlights: [
+      "Pakeliran Semalam Suntuk",
+      "Gunungan sebagai Aksis Kosmis",
+      "Sulukan & Antawecana",
+    ],
     reverse: true,
   },
   {
     id: "gamelan",
-    category: "Pusaka Bunyi",
-    title: "Harmoni Gamelan",
-    subtitle: "Keselarasan dalam Keberagaman Nada",
+    category: "Pusaka Bunyi · UNESCO 2021",
+    title: "Gamelan Kraton Yogyakarta",
+    subtitle: "Demokrasi Suara yang Berusia Sepuluh Abad",
     description:
-      "Ansambel musik tradisional ini tidak menonjolkan instrumen tunggal secara egois, melainkan harmoni komunal. Ketukan Bonang, irama Saron, dan dengung Gong berpadu menciptakan gelombang spiritual yang mendalam.",
-    highlights: ["Laras Slendro", "Laras Pelog", "Gong Ageng"],
+      "Tidak ada instrumen prima donna dalam gamelan — sebuah antitesis dari orkestra Barat. Dua perangkat gamelan pusaka Kraton, Kyai Gunturmadu dan Kyai Nagawilaga, hanya dimainkan pada upacara Sekaten setiap Maulid Nabi.",
+    highlights: [
+      "Laras Pélog & Sléndro",
+      "Kyai Gunturmadu (Pusaka)",
+      "Irama Lancaran hingga Ketawang",
+    ],
     reverse: false,
+  },
+  {
+    id: "arsitektur-keraton",
+    category: "Arsitektur Tradisional",
+    title: "Tata Ruang Keraton Ngayogyakarta",
+    subtitle: "Kota di Dalam Kota yang Dirancang Bersama Semesta",
+    description:
+      "Sumbu filosofi Yogyakarta — Gunung Merapi, Tugu, Keraton, Panggung Krapyak, Pantai Parangtritis — bukan kebetulan geografis. Ini adalah mandala kosmologis yang direncanakan Sultan HB I sebagai satu sistem tata makna.",
+    highlights: [
+      "Sumbu Filosofis 33 km",
+      "Bangsal Kencana & Siti Hinggil",
+      "Konsep Hamemayu Hayuning Bawana",
+    ],
+    reverse: true,
   },
 ];
 </script>
@@ -39,6 +64,8 @@ const culturalHeritage = [
     class="min-h-screen pt-[120px] lg:pt-[180px] px-5 md:px-6 lg:px-[60px] pb-20 relative z-10"
   >
     <CategoryHeader
+      v-observe
+      class="reveal-up"
       category="Budaya"
       title="Denyut Nadi Tradisi"
       description="Visualisasi mahakarya warisan budaya yang terus hidup dalam keseharian warganya."
@@ -48,7 +75,9 @@ const culturalHeritage = [
       <article
         v-for="(item, index) in culturalHeritage"
         :key="item.id"
-        class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center"
+        v-observe
+        class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center reveal-up"
+        :style="`transition-delay: 100ms`"
       >
         <div
           class="relative aspect-[4/5] md:aspect-video lg:aspect-[4/5] bg-ink group overflow-hidden"
@@ -57,26 +86,12 @@ const culturalHeritage = [
           <div
             class="absolute inset-0 bg-parchment/5 transition-colors duration-700 group-hover:bg-transparent"
           ></div>
-
           <div
-            class="absolute inset-x-10 inset-y-12 border border-white/10 flex items-center justify-center"
+            class="absolute inset-x-10 inset-y-12 border border-white/10 flex items-center justify-center text-center"
           >
-            <div class="text-center">
-              <div
-                class="font-josefin text-[10px] tracking-[0.3em] uppercase text-white/30 mb-2"
-              >
-                Visual Asset
-              </div>
-              <div class="font-libre text-[24px] italic text-white/50">
-                {{ item.title }}
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="absolute bottom-6 right-6 font-josefin text-[8px] tracking-[0.2em] text-white/30 uppercase"
-          >
-            Fig. {{ String(index + 1).padStart(2, "0") }}
+            <span class="font-libre text-[24px] italic text-white/50 block">{{
+              item.title
+            }}</span>
           </div>
         </div>
 
@@ -89,23 +104,19 @@ const culturalHeritage = [
           >
             {{ item.category }}
           </div>
-
           <h2
             class="font-libre text-[32px] lg:text-[44px] font-bold text-ink leading-[1.1] mb-4"
           >
             {{ item.title }}
           </h2>
-
           <h3 class="font-libre text-[16px] italic text-muted mb-8">
             {{ item.subtitle }}
           </h3>
-
           <p
             class="text-[15px] font-light text-brown leading-[1.9] mb-10 max-w-[500px]"
           >
             {{ item.description }}
           </p>
-
           <ul class="flex flex-col gap-4 border-l border-line pl-6">
             <li
               v-for="highlight in item.highlights"

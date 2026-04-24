@@ -6,40 +6,53 @@ const destinations = [
     id: "prambanan",
     area: "Sleman",
     title: "Candi Prambanan",
-    desc: "Gugusan candi Hindu terbesar di Indonesia yang menjulang setinggi 47 meter. Dibangun pada abad ke-9, arsitekturnya adalah mahakarya dedikasi spiritual wangsa Sanjaya.",
+    desc: "Trilogi candi Trimurti setinggi 47 meter — masing-masing didedikasikan untuk Brahma, Wisnu, dan Siwa. Dibangun 856 Masehi; rampung dalam satu generasi oleh wangsa Sanjaya.",
     mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.30310860822!2d110.48891547594954!3d-7.75202059226685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a5ae3bbd3155f%3A0x1d3615f79590748b!2sPrambanan%20Temple!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid",
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.489,-7.753,110.493,-7.749&layer=mapnik",
+  },
+  {
+    id: "keraton",
+    area: "Kota Yogyakarta",
+    title: "Keraton Ngayogyakarta",
+    desc: "Istana yang masih berdenyut sebagai pusat pemerintahan monarki aktif. Dibangun 1755 oleh HB I di titik persilangan sumbu kosmologis.",
+    mapUrl:
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.361,-7.807,110.365,-7.804&layer=mapnik",
   },
   {
     id: "malioboro",
-    area: "Pusat Kota",
+    area: "Kota Yogyakarta",
     title: "Jalan Malioboro",
-    desc: "Poros pejalan kaki dan urat nadi ekonomi kultural Jogja. Membentang dari Tugu hingga Keraton, tempat ini adalah rumah bagi musisi jalanan, seniman, dan angkringan yang tak pernah tidur.",
+    desc: "Koridor 2 kilometer dari Tugu ke Keraton yang merupakan sumbu filosofis kota. Siang: pasar batik. Malam: angkringan yang tak pernah padam.",
     mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.9351052676837!2d110.36342837595!3d-7.79664539222452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a57404499e71b%3A0xeab4e1d15db5b534!2sJalan%20Malioboro%2C%20Yogyakarta!5e0!3m2!1sen!2sid!4v1700000000001!5m2!1sen!2sid",
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.364,-7.794,110.367,-7.791&layer=mapnik",
+  },
+  {
+    id: "merapi",
+    area: "Sleman",
+    title: "Gunung Merapi",
+    desc: "Stratovolcano paling aktif di Indonesia dengan 68 letusan tercatat sejak 1548. Bagi warga Yogyakarta, Merapi bukan ancaman, melainkan leluhur.",
+    mapUrl:
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.44,-7.545,110.45,-7.535&layer=mapnik",
   },
   {
     id: "parangtritis",
     area: "Bantul",
     title: "Pantai Parangtritis",
-    desc: "Hamparan pasir hitam vulkanik yang berbatasan langsung dengan ombak ganas Samudra Hindia. Secara kosmologis, ini adalah gerbang magis menuju dimensi Ratu Pantai Selatan.",
+    desc: "Garis pantai pasir hitam vulkanik yang menjadi kutub selatan sumbu kosmologis Yogyakarta. Secara geologis aktif.",
     mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.4184699507817!2d110.32049187595353!3d-8.01630169201083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7ba0e5272a8187%3A0x6a0c0a3e8e19c0b!2sParangtritis%20Beach!5e0!3m2!1sen!2sid!4v1700000000002!5m2!1sen!2sid",
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.31,-8.03,110.33,-8.01&layer=mapnik",
   },
   {
-    id: "keraton",
-    area: "Pusat Kota",
-    title: "Keraton Yogyakarta",
-    desc: "Istana resmi Kesultanan Ngayogyakarta Hadiningrat yang masih berfungsi sebagai pusat pemerintahan monarki sekaligus benteng terakhir penjaga kebudayaan Jawa murni.",
+    id: "kotagede",
+    area: "Kota Yogyakarta",
+    title: "Kotagede",
+    desc: "Bekas ibukota Mataram Islam abad ke-16 yang kini menjadi distrik perak dengan lebih dari 200 bengkel pengrajin aktif.",
     mapUrl:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.883713437194!2d110.36098047595007!3d-7.805284392215359!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a5796db06c7ef%3A0x395271d6f61b817!2sThe%20Palace%20of%20Yogyakarta!5e0!3m2!1sen!2sid!4v1700000000003!5m2!1sen!2sid",
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.395,-7.83,110.405,-7.82&layer=mapnik",
   },
 ];
 
-// Reactive state to control the currently focused destination
 const activeDestination = ref(destinations[0].id);
-
-// Dynamically compute the iframe URL based on selection to prevent mutating the DOM manually
 const activeMapUrl = computed(() => {
   const target = destinations.find((d) => d.id === activeDestination.value);
   return target ? target.mapUrl : destinations[0].mapUrl;
@@ -51,6 +64,8 @@ const activeMapUrl = computed(() => {
     class="min-h-screen pt-[120px] lg:pt-[180px] px-5 md:px-6 lg:px-[60px] pb-32 relative z-10"
   >
     <CategoryHeader
+      v-observe
+      class="reveal-up"
       category="Wisata"
       title="Sudut Keajaiban Mataram"
       description="Navigasi destinasi ikonik Yogyakarta. Klik lokasi di bawah untuk menjelajahi peta secara interaktif."
@@ -61,13 +76,15 @@ const activeMapUrl = computed(() => {
     >
       <div class="flex flex-col">
         <button
-          v-for="item in destinations"
+          v-for="(item, index) in destinations"
           :key="item.id"
           @click="activeDestination = item.id"
-          class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden"
+          v-observe
+          class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden reveal-up"
           :class="
             activeDestination === item.id ? 'bg-ink' : 'hover:bg-white/40'
           "
+          :style="`transition-delay: ${(index % 5) * 100}ms`"
         >
           <div
             class="absolute left-0 top-0 bottom-0 w-1 bg-terra transition-transform duration-300 origin-top"
@@ -77,7 +94,6 @@ const activeMapUrl = computed(() => {
                 : 'scale-y-0 group-hover:scale-y-100'
             "
           ></div>
-
           <div
             class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase mb-3 transition-colors duration-300"
             :class="
@@ -86,7 +102,6 @@ const activeMapUrl = computed(() => {
           >
             {{ item.area }}
           </div>
-
           <h2
             class="font-libre text-[24px] lg:text-[28px] font-bold mb-4 transition-colors duration-300"
             :class="
@@ -97,7 +112,6 @@ const activeMapUrl = computed(() => {
           >
             {{ item.title }}
           </h2>
-
           <p
             class="text-[14px] font-light leading-[1.8] transition-colors duration-300"
             :class="
@@ -109,7 +123,7 @@ const activeMapUrl = computed(() => {
         </button>
       </div>
 
-      <div class="relative">
+      <div v-observe class="relative reveal-up delay-300">
         <div
           class="lg:sticky lg:top-[120px] h-[400px] lg:h-[600px] w-full bg-ink border border-line shadow-2xl overflow-hidden p-2"
         >
@@ -118,7 +132,6 @@ const activeMapUrl = computed(() => {
           >
             Memuat Data Spasial...
           </div>
-
           <iframe
             :key="activeDestination"
             :src="activeMapUrl"
