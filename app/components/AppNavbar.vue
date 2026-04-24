@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const navLinks = ["Sejarah", "Budaya", "Kuliner", "Wisata", "Teknologi"];
+const navLinks = [
+  { name: "Sejarah", path: "/sejarah" },
+  { name: "Budaya", path: "/budaya" },
+  { name: "Kuliner", path: "/kuliner" },
+  { name: "Wisata", path: "/wisata" },
+  { name: "Teknologi", path: "/teknologi" },
+];
 </script>
 
 <template>
@@ -11,15 +17,19 @@ const navLinks = ["Sejarah", "Budaya", "Kuliner", "Wisata", "Teknologi"];
       class="font-libre text-[18px] lg:text-[20px] font-normal text-ink tracking-[0.04em]"
       >Jiwa <em class="italic text-terra">Nusantara</em></NuxtLink
     >
+
     <ul class="hidden lg:flex gap-9">
-      <li v-for="link in navLinks" :key="link">
+      <li v-for="link in navLinks" :key="link.name">
         <NuxtLink
-          to="#"
+          :to="link.path"
+          active-class="text-terra"
           class="font-josefin text-[11px] font-semibold tracking-[0.18em] uppercase text-muted transition-colors duration-200 hover:text-terra"
-          >{{ link }}</NuxtLink
         >
+          {{ link.name }}
+        </NuxtLink>
       </li>
     </ul>
+
     <div class="flex items-center gap-3 lg:gap-6">
       <span
         class="font-josefin text-[9px] lg:text-[10px] font-light tracking-[0.15em] uppercase text-muted border-r border-line pr-3 lg:pr-6"
