@@ -1,11 +1,36 @@
 <script setup lang="ts">
 const features = [
-  { id: "01", title: "Sejarah", sub: "1.200 tahun perjalanan" },
-  { id: "02", title: "Budaya", sub: "Wayang · Batik · Gamelan" },
-  { id: "03", title: "Kuliner", sub: "Gudeg · Bakpia · Kopi Joss" },
-  { id: "04", title: "Wisata", sub: "Prambanan · Keraton · Merapi" },
-  { id: "05", title: "Teknologi", sub: "21 Universitas · 300+ Startup" },
-  { id: "06", title: "Peta", sub: "Navigasi interaktif kota" },
+  {
+    id: "01",
+    title: "Sejarah",
+    sub: "1.200 tahun perjalanan",
+    path: "/sejarah",
+  },
+  {
+    id: "02",
+    title: "Budaya",
+    sub: "Wayang · Batik · Gamelan",
+    path: "/budaya",
+  },
+  {
+    id: "03",
+    title: "Kuliner",
+    sub: "Gudeg · Bakpia · Kopi Joss",
+    path: "/kuliner",
+  },
+  {
+    id: "04",
+    title: "Wisata",
+    sub: "Prambanan · Keraton · Merapi",
+    path: "/wisata",
+  },
+  {
+    id: "05",
+    title: "Teknologi",
+    sub: "21 Universitas · 300+ Startup",
+    path: "/teknologi",
+  },
+  { id: "06", title: "Peta", sub: "Navigasi interaktif kota", path: "/wisata" },
 ];
 </script>
 
@@ -49,28 +74,30 @@ const features = [
       >
         Enam Dimensi Kota
       </div>
+
       <div
         class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5"
       >
-        <div
+        <NuxtLink
           v-for="item in features"
           :key="item.id"
-          class="p-[28px_24px] bg-ink cursor-pointer transition-colors duration-200 relative hover:bg-white/5"
+          :to="item.path"
+          class="p-[28px_24px] bg-ink cursor-pointer transition-colors duration-200 relative hover:bg-white/5 block group"
         >
           <div
-            class="font-josefin text-[9px] font-light tracking-[0.15em] text-white/30 mb-5"
+            class="font-josefin text-[9px] font-light tracking-[0.15em] text-white/30 mb-5 group-hover:text-terra transition-colors duration-200"
           >
             {{ item.id }}
           </div>
           <div
-            class="font-libre text-base text-parchment/90 leading-[1.3] mb-2"
+            class="font-libre text-base text-parchment/90 leading-[1.3] mb-2 group-hover:text-parchment transition-colors duration-200"
           >
             {{ item.title }}
           </div>
           <div class="text-xs font-light text-white/35 leading-[1.6]">
             {{ item.sub }}
           </div>
-        </div>
+        </NuxtLink>
       </div>
     </div>
   </section>
