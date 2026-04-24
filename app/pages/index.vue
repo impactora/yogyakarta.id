@@ -4,50 +4,16 @@
   <main>
     <HomeHero />
 
-    <div class="hr-divider">
-      <div class="hr-divider-text">Mengenal Yogyakarta</div>
+    <div
+      class="grid grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-6 px-5 md:px-6 lg:px-[60px] mt-10 md:mt-[80px] before:content-[''] before:h-px before:bg-line after:content-[''] after:h-px after:bg-line"
+    >
+      <div
+        class="font-josefin text-[9px] font-semibold tracking-[0.25em] uppercase text-muted whitespace-nowrap"
+      >
+        Mengenal Yogyakarta
+      </div>
     </div>
 
     <HomeEditorial />
   </main>
 </template>
-
-<style scoped>
-.hr-divider {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 24px;
-  padding: 0 60px;
-  margin: 80px 0 0;
-}
-.hr-divider::before,
-.hr-divider::after {
-  content: "";
-  height: 1px;
-  background: var(--line);
-}
-.hr-divider-text {
-  font-family: "Josefin Sans", sans-serif;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--muted);
-  white-space: nowrap;
-}
-@media (max-width: 900px) {
-  .hr-divider {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .hr-divider {
-    padding: 0 20px;
-    margin: 40px 0 0;
-    gap: 16px;
-  }
-}
-</style>
