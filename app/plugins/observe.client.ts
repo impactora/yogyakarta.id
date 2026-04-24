@@ -6,6 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               el.classList.add("in-view");
+              el.dataset.inView = "true";
               observerInstance.unobserve(el);
             }
           });
@@ -17,6 +18,11 @@ export default defineNuxtPlugin((nuxtApp) => {
       );
 
       observer.observe(el);
+    },
+    updated(el) {
+      if (el.dataset.inView === "true") {
+        el.classList.add("in-view");
+      }
     },
   });
 });

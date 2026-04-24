@@ -1,143 +1,109 @@
 <script setup lang="ts">
-const tourismStats = [
+const pillars = [
   {
-    num: "5M",
-    title: "Wisatawan Per Tahun",
-    desc: "Yogyakarta adalah kota tujuan wisata kedua terbesar Indonesia, setelah Bali.",
+    id: "sejarah",
+    title: "1.200 Tahun Narasi",
+    desc: "Dari Prasasti Canggal hingga monarki modern, sejarah kota ini adalah fondasi peradaban Jawa yang terus hidup dan berdenyut.",
+    link: "/sejarah",
+    metric: "856 M",
+    metricLabel: "Prambanan Berdiri",
+    spanClass: "md:col-span-1 lg:col-span-2",
   },
   {
-    num: "4",
-    title: "Situs Warisan UNESCO",
-    desc: "Prambanan, Borobudur, Wayang Kulit, dan Batik — semua ada di Yogyakarta.",
+    id: "budaya",
+    title: "Denyut Tradisi",
+    desc: "Seni kriya, wayang, dan gamelan yang diakui UNESCO, hidup berdampingan dalam harmoni tanpa tergilas modernisasi.",
+    link: "/budaya",
+    metric: "3",
+    metricLabel: "Warisan UNESCO",
+    spanClass: "md:col-span-1 lg:col-span-2",
   },
   {
-    num: "21",
-    title: "Perguruan Tinggi",
-    desc: "Kota dengan rasio mahasiswa tertinggi di Indonesia — 1 dari 3 penduduk adalah pelajar.",
-  },
-];
-
-const techStats = [
-  {
-    num: "732",
-    title: "Tahun Pertama Dicatat",
-    desc: "Prasasti Canggal adalah dokumen tertulis paling tua tentang peradaban di dataran ini.",
+    id: "kuliner",
+    title: "Simfoni Rasa",
+    desc: "Gastronomi yang lahir dari kesabaran. Setiap hidangan, dari Gudeg hingga Kopi Joss, adalah identitas kultur Yogyakarta.",
+    link: "/kuliner",
+    metric: "12 Jam",
+    metricLabel: "Karamelisasi Gudeg",
+    spanClass: "md:col-span-1 lg:col-span-2",
   },
   {
-    num: "300+",
-    title: "Startup Aktif",
-    desc: "Ekosistem digital yang tumbuh pesat, didukung talent pool universitas terbesar Asia Tenggara.",
+    id: "wisata",
+    title: "Sudut Keajaiban",
+    desc: "Dari megahnya candi purba peninggalan wangsa Sanjaya hingga mistisnya garis pantai vulkanik di pesisir Samudra Hindia.",
+    link: "/wisata",
+    metric: "5M+",
+    metricLabel: "Kunjungan Tahunan",
+    spanClass: "md:col-span-1 lg:col-span-3",
   },
   {
-    num: "87%",
-    title: "Penetrasi Internet",
-    desc: "Kota istimewa yang juga menjadi kota paling terhubung secara digital di Jawa Tengah.",
+    id: "teknologi",
+    title: "Lompatan Digital",
+    desc: "Mesin pencetak inovator. Ribuan lulusan STEM per tahun membangun ekosistem startup terbesar di luar ibu kota.",
+    link: "/teknologi",
+    metric: "300+",
+    metricLabel: "Startup Aktif",
+    spanClass: "md:col-span-2 lg:col-span-3",
   },
 ];
 </script>
 
 <template>
   <section
-    class="relative z-10 px-5 py-10 pb-32 md:px-6 lg:px-[60px] lg:pt-[140px] lg:pb-[200px]"
+    class="relative z-10 px-5 py-20 lg:px-[60px] lg:py-[140px] bg-warm-white"
   >
-    <div class="mb-10 lg:mb-16">
+    <div v-observe class="mb-16 lg:mb-24 reveal-up">
       <div
-        class="font-josefin text-[10px] font-semibold tracking-[0.25em] uppercase text-terra mb-4"
+        class="font-josefin text-[10px] font-semibold tracking-[0.25em] uppercase text-terra mb-6"
       >
         Laporan Utama
       </div>
       <h2
-        class="font-libre text-[clamp(32px,3vw,44px)] font-bold leading-[1.2] text-ink max-w-[600px]"
+        class="font-libre text-[clamp(36px,5vw,56px)] font-bold leading-[1.15] text-ink max-w-[800px]"
       >
-        Kota yang Menjaga Masa Lalu,
-        <em class="italic text-terra">Membangun Masa Depan</em>
+        Menjaga Masa Lalu,<br />
+        <em class="italic text-terra block mt-2">Membangun Masa Depan</em>
       </h2>
     </div>
 
     <div
-      class="grid grid-cols-1 lg:grid-cols-[2fr_1px_1fr_1px_1fr] gap-10 lg:gap-x-12 lg:gap-y-0"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-16"
     >
-      <div>
-        <span
-          class="inline-block font-josefin text-[9px] font-semibold tracking-[0.2em] uppercase text-warm-white bg-terra py-[5px] px-3 mb-5"
-          >Sejarah</span
-        >
-        <h3
-          class="font-libre text-[24px] lg:text-[28px] font-bold leading-[1.25] text-ink mb-4"
-        >
-          1.200 Tahun Belum Cukup untuk
-          <em class="italic text-terra">Mengenal Jogja</em>
+      <article
+        v-for="(item, index) in pillars"
+        :key="item.id"
+        v-observe
+        class="flex flex-col border-t-2 border-line pt-8 reveal-up"
+        :class="item.spanClass"
+        :style="`transition-delay: ${(index % 3) * 150}ms`"
+      >
+        <div class="flex items-baseline gap-4 mb-8">
+          <span
+            class="font-libre text-[44px] font-bold text-ink leading-none"
+            >{{ item.metric }}</span
+          >
+          <span
+            class="font-josefin text-[10px] tracking-[0.2em] uppercase text-terra"
+            >{{ item.metricLabel }}</span
+          >
+        </div>
+
+        <h3 class="font-libre text-[24px] font-bold text-ink mb-4">
+          {{ item.title }}
         </h3>
         <p
-          class="text-[14px] lg:text-[15px] font-light text-brown leading-[1.8] lg:leading-[1.9] mb-6"
+          class="text-[15px] font-light text-brown leading-[1.8] mb-10 flex-grow"
         >
-          Dari prasasti Canggal 732 Masehi hingga UU Keistimewaan 2012,
-          Yogyakarta telah melewati lebih banyak babak sejarah daripada yang
-          bisa dirangkum dalam satu perjalanan.
-          <strong class="font-bold text-ink"
-            >Prambanan berdiri sejak 856 Masehi</strong
-          >, Keraton Yogyakarta dibangun 1755, dan kota ini sempat menjadi
-          ibukota Republik Indonesia saat Jakarta jatuh ke tangan Belanda.
+          {{ item.desc }}
         </p>
-        <p
-          class="text-[14px] lg:text-[15px] font-light text-brown leading-[1.8] lg:leading-[1.9] mb-6"
-        >
-          Yang luar biasa bukan hanya sejarahnya — tapi bagaimana sejarah itu
-          terus hadir dalam kehidupan sehari-hari warganya. Sultan masih
-          bertakhta, upacara keraton masih dijalankan, dan poros kosmologis
-          Merapi–Keraton–Pantai Selatan masih menjadi pegangan spiritual jutaan
-          orang.
-        </p>
+
         <NuxtLink
-          to="#"
-          class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra flex items-center gap-[10px] after:content-['→'] after:text-[14px]"
-          >Baca Selengkapnya</NuxtLink
+          :to="item.link"
+          class="inline-flex items-center gap-3 font-josefin text-[11px] font-semibold tracking-[0.2em] uppercase text-ink transition-colors duration-300 hover:text-terra after:content-['→'] after:text-[14px]"
         >
-      </div>
-
-      <div class="hidden lg:block bg-line"></div>
-
-      <div class="flex flex-col gap-6 lg:gap-9">
-        <div
-          v-for="stat in tourismStats"
-          :key="stat.title"
-          class="pb-6 lg:pb-9 border-b border-line last:border-b-0 last:pb-0"
-        >
-          <div
-            class="font-josefin text-[32px] font-light text-terra/50 leading-none mb-2"
-          >
-            {{ stat.num }}
-          </div>
-          <div class="font-libre text-[15px] font-bold text-ink mb-[6px]">
-            {{ stat.title }}
-          </div>
-          <div class="text-[12px] font-light text-muted leading-[1.7]">
-            {{ stat.desc }}
-          </div>
-        </div>
-      </div>
-
-      <div class="hidden lg:block bg-line"></div>
-
-      <div class="flex flex-col gap-6 lg:gap-9">
-        <div
-          v-for="stat in techStats"
-          :key="stat.title"
-          class="pb-6 lg:pb-9 border-b border-line last:border-b-0 last:pb-0"
-        >
-          <div
-            class="font-josefin text-[32px] font-light text-terra/50 leading-none mb-2"
-          >
-            {{ stat.num }}
-          </div>
-          <div class="font-libre text-[15px] font-bold text-ink mb-[6px]">
-            {{ stat.title }}
-          </div>
-          <div class="text-[12px] font-light text-muted leading-[1.7]">
-            {{ stat.desc }}
-          </div>
-        </div>
-      </div>
+          Eksplorasi
+        </NuxtLink>
+      </article>
     </div>
   </section>
 </template>
