@@ -13,7 +13,6 @@ const navLinks = [
 const isMenuOpen = ref(false);
 const route = useRoute();
 
-// Tutup menu secara otomatis setiap kali rute berubah
 watch(
   () => route.path,
   () => {
