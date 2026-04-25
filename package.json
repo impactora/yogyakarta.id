@@ -2,6 +2,7 @@
   "name": "yogyakarta-id",
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
+    "lucide-vue-next": "^1.0.0",
     "nuxt": "^4.4.2",
     "tailwindcss": "^4.2.4",
     "vue": "^3.5.32",

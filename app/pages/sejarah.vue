@@ -83,6 +83,7 @@ const activeIndex = ref(0);
           v-for="(item, index) in timeline"
           :key="index"
           @click="activeIndex = index"
+          :aria-label="`Lihat detail peristiwa ${item.title} tahun ${item.year}`"
           v-observe
           class="relative text-left group cursor-pointer reveal-up"
           :style="`transition-delay: ${(index % 5) * 100}ms`"

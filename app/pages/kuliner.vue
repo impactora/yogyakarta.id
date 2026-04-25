@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { MapPin, Banknote } from "lucide-vue-next";
 
 const categories = ["Semua", "Makanan Berat", "Cemilan", "Minuman"];
 const activeCategory = ref("Semua");
@@ -25,7 +26,7 @@ const culinaryItems = [
     story:
       "Kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Provokasi terhadap rasa manis-gurih.",
     meta: "Perlawanan Pedas",
-    address: "Jl. KH. Ahmad Dahlan, Ngampilan",
+    address: "Jl. KH. Ahmad Dahlan",
     price: "Rp 30.000 / Porsi",
     featured: false,
   },
@@ -35,10 +36,33 @@ const culinaryItems = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Sate_Klathak.jpg",
     story:
-      "Dua tusuk jeruji sepeda memastikan daging kambing matang dari dalam ke luar secara merata. Hanya dibumbui garam kasar.",
+      "Dua tusuk jeruji sepeda memastikan daging kambing matang merata. Hanya dibumbui garam kasar.",
     meta: "Minimalis Ekstrem",
     address: "Jl. Imogiri Timur, Bantul",
     price: "Rp 35.000 - 50.000",
+    featured: false,
+  },
+  {
+    title: "Sego Kucing Angkringan",
+    category: "Makanan Berat",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Makanan_angkringan.jpg",
+    story:
+      "Nasi sekepal dengan sekuku bandeng. Bukan soal porsi, tapi kultur diskusi egaliter di bawah temaram lampu gerobak.",
+    meta: "Kultur Egaliter",
+    address: "Tersebar di seluruh sudut kota",
+    price: "Rp 3.000 / Bungkus",
+    featured: false,
+  },
+  {
+    title: "Tiwul Gunungkidul",
+    category: "Makanan Berat",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tiwul.JPG",
+    story:
+      "Substitusi beras dari singkong kering peninggalan masa paceklik, kini diangkat menjadi warisan kuliner otentik.",
+    meta: "Penyintas Zaman",
+    address: "Kabupaten Gunungkidul",
+    price: "Rp 10.000 / Porsi",
     featured: false,
   },
   {
@@ -49,8 +73,20 @@ const culinaryItems = [
     story:
       "Akulturasi kuliner Tionghoa-Jawa abad 20. Kulit tipis berlapis isi pasta kacang hijau kukus tradisional.",
     meta: "Akulturasi Budaya",
-    address: "Kawasan Pathuk, Ngampilan",
+    address: "Kawasan Pathuk",
     price: "Rp 45.000 / Kotak",
+    featured: false,
+  },
+  {
+    title: "Jadah Tempe Mbah Carik",
+    category: "Cemilan",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Jadah_tempe.jpg",
+    story:
+      "Kombinasi tak lazim ketan putih tumbuk bersanding tempe bacem. Camilan favorit Sultan HB IX saat menyepi ke lereng Merapi.",
+    meta: "Camilan Monarki",
+    address: "Kaliurang, Sleman",
+    price: "Rp 15.000 / Paket",
     featured: false,
   },
   {
@@ -72,20 +108,8 @@ const culinaryItems = [
     story:
       "Campuran jahe bakar, kayu secang, cengkeh, dan pala yang tampak seperti reruntuhan dedaunan di dalam gelas.",
     meta: "Jamu dalam Cangkir",
-    address: "Kawasan Makam Raja Imogiri",
+    address: "Makam Raja Imogiri",
     price: "Rp 10.000 / Gelas",
-    featured: false,
-  },
-  {
-    title: "Mangut Lele Mbah Marto",
-    category: "Makanan Berat",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Mangut_lele.jpg",
-    story:
-      "Lele asap dimasak dalam santan pedas di tungku kayu — menciptakan lapisan rasa smoky yang otentik.",
-    meta: "Slow Food Selatan Jogja",
-    address: "Panggungharjo, Sewon, Bantul",
-    price: "Rp 30.000 / Porsi",
     featured: false,
   },
 ];
@@ -157,10 +181,10 @@ const featuredItem = culinaryItems.find((i) => i.featured);
           class="flex flex-col gap-3 pt-6 border-t border-line font-josefin text-[10px] tracking-[0.15em] text-muted"
         >
           <div class="flex items-center gap-3">
-            <span class="text-terra">📍</span> {{ featuredItem.address }}
+            <MapPin class="w-3 h-3 text-terra" /> {{ featuredItem.address }}
           </div>
           <div class="flex items-center gap-3">
-            <span class="text-terra">💰</span> {{ featuredItem.price }}
+            <Banknote class="w-3 h-3 text-terra" /> {{ featuredItem.price }}
           </div>
         </div>
       </div>
@@ -174,6 +198,7 @@ const featuredItem = culinaryItems.find((i) => i.featured);
         v-for="cat in categories"
         :key="cat"
         @click="activeCategory = cat"
+        :aria-label="`Saring kategori kuliner ${cat}`"
         class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 px-5 py-3 border border-transparent cursor-pointer"
         :class="
           activeCategory === cat
@@ -224,13 +249,13 @@ const featuredItem = culinaryItems.find((i) => i.featured);
           </p>
 
           <div
-            class="pt-4 border-t border-line flex flex-col gap-2 font-josefin text-[9px] tracking-[0.15em] text-muted transition-colors duration-300"
+            class="pt-4 border-t border-line flex flex-col gap-3 font-josefin text-[9px] tracking-[0.15em] text-muted transition-colors duration-300"
           >
             <div class="flex items-center gap-3">
-              <span class="text-terra">📍</span> {{ item.address }}
+              <MapPin class="w-3 h-3 text-terra" /> {{ item.address }}
             </div>
             <div class="flex items-center gap-3">
-              <span class="text-terra">💰</span> {{ item.price }}
+              <Banknote class="w-3 h-3 text-terra" /> {{ item.price }}
             </div>
           </div>
         </article>

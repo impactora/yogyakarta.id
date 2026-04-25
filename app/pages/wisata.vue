@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { useHead } from "#imports";
+import { Clock, Ticket, Bus, MapPin } from "lucide-vue-next";
 
 const destinations = [
   {
@@ -8,7 +10,8 @@ const destinations = [
     title: "Candi Prambanan",
     desc: "Trilogi candi Trimurti setinggi 47 meter. Dibangun 856 Masehi oleh wangsa Sanjaya.",
     hours: "06.00 - 17.00 WIB",
-    price: "Rp 75.000 (WNI) / USD 25 (WNA)",
+    price: "Rp 75.000",
+    transport: "Trans Jogja Jalur 1A",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.489,-7.753,110.493,-7.749&layer=mapnik",
     image:
@@ -19,8 +22,9 @@ const destinations = [
     area: "Kota Yogyakarta",
     title: "Keraton Ngayogyakarta",
     desc: "Istana yang masih berdenyut sebagai pusat pemerintahan monarki aktif. Dibangun 1755 oleh HB I.",
-    hours: "08.30 - 14.30 WIB (Tutup Senin)",
-    price: "Rp 15.000 (Domestik)",
+    hours: "08.30 - 14.30 WIB",
+    price: "Rp 15.000",
+    transport: "Berjalan kaki dari Malioboro",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.361,-7.807,110.365,-7.804&layer=mapnik",
     image:
@@ -32,11 +36,50 @@ const destinations = [
     title: "Jalan Malioboro",
     desc: "Koridor 2 kilometer dari Tugu ke Keraton yang merupakan sumbu filosofis kota.",
     hours: "24 Jam",
-    price: "Gratis (Akses Publik)",
+    price: "Gratis",
+    transport: "Stasiun Tugu / Trans Jogja 1A, 2A, 3A",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.364,-7.794,110.367,-7.791&layer=mapnik",
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Malioboro_Street,_Yogyakarta.JPG",
+  },
+  {
+    id: "tamansari",
+    area: "Kota Yogyakarta",
+    title: "Taman Sari",
+    desc: "Istana air dan kompleks pemandian keraton peninggalan abad ke-18. Area pertahanan dan rekreasi Sultan.",
+    hours: "09.00 - 15.00 WIB",
+    price: "Rp 15.000",
+    transport: "Becak dari Alun-Alun Selatan",
+    mapUrl:
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.357,-7.811,110.361,-7.808&layer=mapnik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Tamansari_Water_Castle.jpg",
+  },
+  {
+    id: "kaliurang",
+    area: "Sleman",
+    title: "Kawasan Kaliurang",
+    desc: "Resor pegunungan bersejarah di lereng selatan Merapi. Tempat perundingan KTN masa revolusi.",
+    hours: "24 Jam",
+    price: "Rp 5.000 (Retribusi)",
+    transport: "Bus DAMRI / Jeep Wisata",
+    mapUrl:
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.42,-7.6,110.43,-7.59&layer=mapnik",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kaliurang.jpg",
+  },
+  {
+    id: "sambisari",
+    area: "Sleman",
+    title: "Candi Sambisari",
+    desc: "Candi Hindu abad ke-9 yang terkubur lahar dingin Merapi setinggi 6,5 meter selama berabad-abad.",
+    hours: "07.00 - 17.00 WIB",
+    price: "Rp 10.000",
+    transport: "10 menit dari Bandara Adisutjipto",
+    mapUrl:
+      "https://www.openstreetmap.org/export/embed.html?bbox=110.445,-7.763,110.448,-7.761&layer=mapnik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Sambisari_Kalasan_Sleman_Yogyakarta.jpg",
   },
   {
     id: "merapi",
@@ -44,7 +87,8 @@ const destinations = [
     title: "Gunung Merapi",
     desc: "Stratovolcano paling aktif di Indonesia. Bagi warga Yogyakarta, Merapi adalah leluhur.",
     hours: "06.00 - 16.00 WIB",
-    price: "Mulai Rp 350.000 (Sewa Jeep)",
+    price: "Mulai Rp 350.000",
+    transport: "Jeep dari Basecamp Kaliurang",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.44,-7.545,110.45,-7.535&layer=mapnik",
     image:
@@ -56,23 +100,12 @@ const destinations = [
     title: "Pantai Parangtritis",
     desc: "Garis pantai pasir hitam vulkanik yang menjadi kutub selatan sumbu kosmologis.",
     hours: "24 Jam",
-    price: "Rp 10.000 / Orang",
+    price: "Rp 10.000",
+    transport: "Bus DAMRI dari Terminal Giwangan",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.31,-8.03,110.33,-8.01&layer=mapnik",
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Parangtritis_Beach,_Bantul,_Yogyakarta_01.JPG",
-  },
-  {
-    id: "kotagede",
-    area: "Kota Yogyakarta",
-    title: "Kotagede",
-    desc: "Bekas ibukota Mataram Islam abad ke-16 yang kini menjadi distrik perak aktif.",
-    hours: "08.00 - 17.00 WIB",
-    price: "Gratis (Eksplorasi Kawasan)",
-    mapUrl:
-      "https://www.openstreetmap.org/export/embed.html?bbox=110.395,-7.83,110.405,-7.82&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Kota_Gede_Jogjakarta.jpg",
   },
 ];
 
@@ -86,6 +119,28 @@ const activeMapUrl = computed(() => {
 const activeImage = computed(() => {
   const target = destinations.find((d) => d.id === activeDestination.value);
   return target ? target.image : destinations[0].image;
+});
+
+useHead({
+  script: [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        itemListElement: destinations.map((dest, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "TouristAttraction",
+            name: dest.title,
+            description: dest.desc,
+            publicAccess: true,
+          },
+        })),
+      }),
+    },
+  ],
 });
 </script>
 
@@ -126,6 +181,7 @@ const activeImage = computed(() => {
           v-for="item in destinations"
           :key="item.id"
           @click="activeDestination = item.id"
+          :aria-label="`Tampilkan info destinasi wisata ${item.title}`"
           class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden cursor-pointer flex flex-col"
           :class="
             activeDestination === item.id ? 'bg-ink' : 'hover:bg-white/40'
@@ -140,12 +196,12 @@ const activeImage = computed(() => {
             "
           ></div>
           <div
-            class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase mb-3 transition-colors duration-300"
+            class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase mb-3 transition-colors duration-300 flex items-center gap-2"
             :class="
               activeDestination === item.id ? 'text-terra' : 'text-terra/70'
             "
           >
-            {{ item.area }}
+            <MapPin class="w-3 h-3" /> {{ item.area }}
           </div>
           <h2
             class="font-libre text-[24px] lg:text-[28px] font-bold mb-4 transition-colors duration-300"
@@ -158,7 +214,7 @@ const activeImage = computed(() => {
             {{ item.title }}
           </h2>
           <p
-            class="text-[14px] font-light leading-[1.8] transition-colors duration-300 mb-4"
+            class="text-[14px] font-light leading-[1.8] transition-colors duration-300 mb-5"
             :class="
               activeDestination === item.id ? 'text-parchment/70' : 'text-brown'
             "
@@ -167,18 +223,21 @@ const activeImage = computed(() => {
           </p>
 
           <div
-            class="flex flex-wrap gap-4 pt-4 border-t border-line/30 font-josefin text-[9px] tracking-[0.15em] transition-colors duration-300 w-full"
+            class="flex flex-col gap-3 pt-4 border-t border-line/30 font-josefin text-[9px] tracking-[0.15em] transition-colors duration-300 w-full"
             :class="
               activeDestination === item.id
                 ? 'text-parchment/60 border-white/10'
                 : 'text-muted border-line'
             "
           >
-            <div class="flex items-center gap-2">
-              <span class="text-terra">⏰</span> {{ item.hours }}
+            <div class="flex items-center gap-3">
+              <Clock class="w-3 h-3 text-terra" /> {{ item.hours }}
             </div>
-            <div class="flex items-center gap-2">
-              <span class="text-terra">🎟️</span> {{ item.price }}
+            <div class="flex items-center gap-3">
+              <Ticket class="w-3 h-3 text-terra" /> {{ item.price }}
+            </div>
+            <div class="flex items-center gap-3">
+              <Bus class="w-3 h-3 text-terra" /> {{ item.transport }}
             </div>
           </div>
         </button>
