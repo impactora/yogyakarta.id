@@ -17,6 +17,22 @@ const pillars = [
     metricLabel: "Warisan UNESCO",
   },
   {
+    id: "kuliner",
+    title: "Simfoni Rasa",
+    desc: "Gastronomi lokal yang merekam jejak kesabaran. Dari manisnya Gudeg hingga ekstremnya Sate Klathak.",
+    link: "/kuliner",
+    metric: "12+",
+    metricLabel: "Jam Dimasak",
+  },
+  {
+    id: "wisata",
+    title: "Navigasi Destinasi",
+    desc: "Menjelajahi ruang spasial dari puncak Merapi di utara hingga pesisir Parangtritis di selatan.",
+    link: "/wisata",
+    metric: "33 KM",
+    metricLabel: "Sumbu Kosmologis",
+  },
+  {
     id: "teknologi",
     title: "Lompatan Digital",
     desc: "Mesin pencetak inovator. Ribuan lulusan STEM per tahun membangun ekosistem startup.",
@@ -24,60 +40,124 @@ const pillars = [
     metric: "300+",
     metricLabel: "Startup Aktif",
   },
+  {
+    id: "peta",
+    title: "Peta Interaktif",
+    desc: "Navigasi spasial interaktif untuk memetakan seluruh dimensi kota dalam satu layar.",
+    link: "/peta",
+    metric: "1",
+    metricLabel: "Kanvas Digital",
+  },
 ];
 </script>
 
 <template>
   <section
-    class="relative z-10 px-5 pt-[140px] pb-20 lg:pt-[200px] lg:px-[60px] lg:pb-[140px] bg-warm-white"
+    id="editorial-section"
+    class="relative z-10 px-5 pt-[160px] pb-24 lg:pt-[240px] lg:px-[60px] lg:pb-[180px] bg-warm-white border-t border-line"
   >
-    <div v-observe class="mb-16 lg:mb-20 reveal-up">
-      <div
-        class="font-josefin text-[10px] font-semibold tracking-[0.25em] uppercase text-terra mb-6"
-      >
-        Laporan Utama
-      </div>
-      <h2
-        class="font-libre text-[clamp(32px,5vw,52px)] font-bold leading-[1.15] text-ink max-w-[700px]"
-      >
-        Menjaga Masa Lalu,<br />
-        <em class="italic text-terra block mt-2">Membangun Masa Depan</em>
-      </h2>
-    </div>
+    <div
+      class="absolute inset-0 opacity-[0.03] pointer-events-none"
+      style="
+        background-image: radial-gradient(var(--color-ink) 1px, transparent 0);
+        background-size: 40px 40px;
+      "
+    ></div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16">
-      <article
-        v-for="(item, index) in pillars"
-        :key="item.id"
+    <div class="relative max-w-[1440px] mx-auto">
+      <div
         v-observe
-        class="flex flex-col border-t-2 border-line pt-8 reveal-up"
-        :style="`transition-delay: ${index * 150}ms`"
+        class="mb-20 lg:mb-32 reveal-up grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-10 items-end"
       >
-        <div class="flex items-baseline gap-4 mb-6">
-          <span
-            class="font-libre text-[36px] font-bold text-ink leading-none"
-            >{{ item.metric }}</span
+        <div>
+          <div
+            class="font-josefin text-[10px] font-semibold tracking-[0.3em] uppercase text-terra mb-8 flex items-center gap-4"
           >
-          <span
-            class="font-josefin text-[9px] tracking-[0.2em] uppercase text-terra"
-            >{{ item.metricLabel }}</span
+            <span class="w-12 h-[1px] bg-terra"></span>
+            Laporan Utama
+          </div>
+          <h2
+            class="font-libre text-[clamp(36px,6vw,64px)] font-bold leading-[1.05] text-ink italic"
           >
+            Menjaga Masa Lalu,<br />
+            <span class="not-italic text-terra">Membangun Masa Depan</span>
+          </h2>
         </div>
-        <h3 class="font-libre text-[22px] font-bold text-ink mb-3">
-          {{ item.title }}
-        </h3>
-        <p
-          class="text-[14px] font-light text-brown leading-[1.8] mb-8 flex-grow"
+        <div
+          class="font-josefin text-[13px] text-brown leading-relaxed border-l border-line pl-8 mb-4"
         >
-          {{ item.desc }}
-        </p>
-        <NuxtLink
-          :to="item.link"
-          class="inline-flex items-center gap-3 font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-ink transition-colors duration-300 hover:text-terra after:content-['→'] after:text-[14px]"
+          Sebuah eksplorasi multidimensi Yogyakarta. Dari sumbu filosofis hingga
+          klaster teknologi, setiap sudut kota adalah naskah yang menunggu untuk
+          dibaca.
+        </div>
+      </div>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-line"
+      >
+        <article
+          v-for="(item, index) in pillars"
+          :key="item.id"
+          v-observe
+          class="group flex flex-col border-r border-b border-line p-10 lg:p-14 reveal-up transition-colors duration-500 hover:bg-ink/[0.02]"
+          :style="`transition-delay: ${index * 100}ms`"
         >
-          Eksplorasi
-        </NuxtLink>
-      </article>
+          <div
+            class="font-libre text-[12px] text-muted mb-12 flex items-center gap-2"
+          >
+            <span class="text-terra">/</span> 0{{ index + 1 }}
+          </div>
+
+          <div class="flex items-baseline gap-4 mb-8">
+            <span
+              class="font-libre text-[42px] font-bold text-ink leading-none"
+              >{{ item.metric }}</span
+            >
+            <span
+              class="font-josefin text-[9px] tracking-[0.2em] uppercase text-terra font-semibold"
+              >{{ item.metricLabel }}</span
+            >
+          </div>
+
+          <h3
+            class="font-libre text-[26px] font-bold text-ink mb-4 group-hover:text-terra transition-colors duration-300"
+          >
+            {{ item.title }}
+          </h3>
+
+          <p
+            class="text-[15px] font-light text-brown leading-[1.9] mb-12 flex-grow"
+          >
+            {{ item.desc }}
+          </p>
+
+          <NuxtLink
+            :to="item.link"
+            class="inline-flex items-center gap-4 font-josefin text-[11px] font-bold tracking-[0.2em] uppercase text-ink group-hover:gap-6 transition-all duration-300"
+            :aria-label="`Eksplorasi ${item.title}`"
+          >
+            Pelajari Selengkapnya
+            <span class="text-terra text-[16px] leading-none">→</span>
+          </NuxtLink>
+        </article>
+      </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#editorial-section {
+  scroll-margin-top: 100px;
+}
+</style>

@@ -6,12 +6,17 @@ useHead({
   link: [
     {
       rel: "stylesheet",
-      href: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
-      crossorigin: "",
+      href: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css",
+      crossorigin: "anonymous",
+      referrerpolicy: "no-referrer",
     },
   ],
   script: [
-    { src: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", crossorigin: "" },
+    {
+      src: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js",
+      crossorigin: "anonymous",
+      referrerpolicy: "no-referrer",
+    },
   ],
 });
 

@@ -117,9 +117,7 @@ const culinaryItems = [
 const filteredItems = computed(() => {
   if (activeCategory.value === "Semua")
     return culinaryItems.filter((i) => !i.featured);
-  return culinaryItems.filter(
-    (i) => i.category === activeCategory.value && !i.featured,
-  );
+  return culinaryItems.filter((i) => i.category === activeCategory.value);
 });
 
 const featuredItem = culinaryItems.find((i) => i.featured);
