@@ -1,7 +1,9 @@
 {
   "name": "yogyakarta-id",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/vite": "^4.2.4",
+    "groq-sdk": "^1.1.2",
     "lucide-vue-next": "^1.0.0",
     "nuxt": "^4.4.2",
     "tailwindcss": "^4.2.4",
