@@ -30,7 +30,7 @@ const features = [
     sub: "21 Universitas · 300+ Startup",
     path: "/teknologi",
   },
-  { id: "06", title: "Peta", sub: "Navigasi interaktif kota", path: "/wisata" },
+  { id: "06", title: "Peta", sub: "Navigasi interaktif kota", path: "/peta" },
 ];
 </script>
 
@@ -74,7 +74,6 @@ const features = [
       >
         Enam Dimensi Kota
       </div>
-
       <div
         class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5"
       >
@@ -90,7 +89,7 @@ const features = [
             {{ item.id }}
           </div>
           <div
-            class="font-libre text-base text-parchment/90 leading-[1.3] mb-2 group-hover:text-parchment transition-colors duration-200"
+            class="font-libre text-base text-parchment/90 leading-[1.3] mb-2 group-hover:text-white transition-colors duration-200"
           >
             {{ item.title }}
           </div>
