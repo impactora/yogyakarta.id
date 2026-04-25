@@ -8,6 +8,7 @@ const navLinks = [
   { name: "Kuliner", path: "/kuliner" },
   { name: "Wisata", path: "/wisata" },
   { name: "Teknologi", path: "/teknologi" },
+  { name: "Peta", path: "/peta" },
 ];
 
 const isMenuOpen = ref(false);
@@ -53,10 +54,9 @@ watch(
           class="font-josefin text-[10px] font-light tracking-[0.15em] uppercase text-muted border-r border-line pr-6"
           >Vol. I · Yogyakarta</span
         >
-        <a
-          href="#"
-          class="font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra"
-          >EN / ID</a
+        <span
+          class="font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra cursor-default"
+          >ID</span
         >
       </div>
 
@@ -107,10 +107,9 @@ watch(
             class="font-josefin text-[10px] font-light tracking-[0.15em] uppercase text-muted"
             >Vol. I · Yogyakarta</span
           >
-          <a
-            href="#"
-            class="font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra"
-            >EN / ID</a
+          <span
+            class="font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra cursor-default"
+            >ID</span
           >
         </div>
       </div>
