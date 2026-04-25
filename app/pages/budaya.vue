@@ -2,6 +2,8 @@
 const culturalHeritage = [
   {
     id: "batik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Batik_Tulis.jpg",
     category: "Seni Kriya · UNESCO 2009",
     title: "Filosofi Batik Kraton",
     subtitle: "Doa yang Digoreskan di Atas Lembaran Kain",
@@ -16,6 +18,8 @@ const culturalHeritage = [
   },
   {
     id: "wayang-kulit",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Wayang_kulit.jpg",
     category: "Seni Pertunjukan · UNESCO 2003",
     title: "Wayang Kulit Purwa",
     subtitle: "Bayangan yang Lebih Nyata dari Realita",
@@ -30,6 +34,8 @@ const culturalHeritage = [
   },
   {
     id: "gamelan",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Gamelan_Jawa.jpg",
     category: "Pusaka Bunyi · UNESCO 2021",
     title: "Gamelan Kraton Yogyakarta",
     subtitle: "Demokrasi Suara yang Berusia Sepuluh Abad",
@@ -44,6 +50,8 @@ const culturalHeritage = [
   },
   {
     id: "arsitektur-keraton",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kraton_Yogyakarta.jpg",
     category: "Arsitektur Tradisional",
     title: "Tata Ruang Keraton Ngayogyakarta",
     subtitle: "Kota di Dalam Kota yang Dirancang Bersama Semesta",
@@ -77,21 +85,25 @@ const culturalHeritage = [
         :key="item.id"
         v-observe
         class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center reveal-up"
-        :style="`transition-delay: 100ms`"
+        :style="`transition-delay: ${index * 100}ms`"
       >
         <div
-          class="relative aspect-[4/5] md:aspect-video lg:aspect-[4/5] bg-ink group overflow-hidden"
+          class="relative aspect-[4/5] md:aspect-video lg:aspect-[4/5] bg-ink group overflow-hidden border border-line"
           :class="item.reverse ? 'lg:order-2' : 'lg:order-1'"
         >
+          <img
+            :src="item.image"
+            :alt="item.title"
+            class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
           <div
-            class="absolute inset-0 bg-parchment/5 transition-colors duration-700 group-hover:bg-transparent"
+            class="absolute inset-0 bg-parchment/5 transition-colors duration-700 group-hover:bg-transparent z-10"
           ></div>
           <div
-            class="absolute inset-x-10 inset-y-12 border border-white/10 flex items-center justify-center text-center"
+            class="absolute bottom-4 left-4 z-20 font-josefin text-[8px] tracking-[0.2em] text-white/70 uppercase bg-ink/80 backdrop-blur-sm px-3 py-1 border border-white/10"
           >
-            <span class="font-libre text-[24px] italic text-white/50 block">{{
-              item.title
-            }}</span>
+            Arsip Kebudayaan · 2026
           </div>
         </div>
 

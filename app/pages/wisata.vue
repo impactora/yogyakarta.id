@@ -6,41 +6,51 @@ const destinations = [
     id: "prambanan",
     area: "Sleman",
     title: "Candi Prambanan",
-    desc: "Trilogi candi Trimurti setinggi 47 meter — masing-masing didedikasikan untuk Brahma, Wisnu, dan Siwa. Dibangun 856 Masehi; rampung dalam satu generasi oleh wangsa Sanjaya.",
+    desc: "Trilogi candi Trimurti setinggi 47 meter. Dibangun 856 Masehi oleh wangsa Sanjaya.",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.489,-7.753,110.493,-7.749&layer=mapnik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Prambanan,_Candi_Hindu_Terbesar_Warisan_Budaya_Indonesia.jpg",
   },
   {
     id: "keraton",
     area: "Kota Yogyakarta",
     title: "Keraton Ngayogyakarta",
-    desc: "Istana yang masih berdenyut sebagai pusat pemerintahan monarki aktif. Dibangun 1755 oleh HB I di titik persilangan sumbu kosmologis.",
+    desc: "Istana yang masih berdenyut sebagai pusat pemerintahan monarki aktif. Dibangun 1755 oleh HB I.",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.361,-7.807,110.365,-7.804&layer=mapnik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kraton_Yogyakarta_Pagelaran.jpg",
   },
   {
     id: "malioboro",
     area: "Kota Yogyakarta",
     title: "Jalan Malioboro",
-    desc: "Koridor 2 kilometer dari Tugu ke Keraton yang merupakan sumbu filosofis kota. Siang: pasar batik. Malam: angkringan yang tak pernah padam.",
+    desc: "Koridor 2 kilometer dari Tugu ke Keraton yang merupakan sumbu filosofis kota.",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.364,-7.794,110.367,-7.791&layer=mapnik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Malioboro_Street,_Yogyakarta.JPG",
   },
   {
     id: "merapi",
     area: "Sleman",
     title: "Gunung Merapi",
-    desc: "Stratovolcano paling aktif di Indonesia dengan 68 letusan tercatat sejak 1548. Bagi warga Yogyakarta, Merapi bukan ancaman, melainkan leluhur.",
+    desc: "Stratovolcano paling aktif di Indonesia. Bagi warga Yogyakarta, Merapi adalah leluhur.",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.44,-7.545,110.45,-7.535&layer=mapnik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/TN_Gunung_Merapi.jpg",
   },
   {
     id: "parangtritis",
     area: "Bantul",
     title: "Pantai Parangtritis",
-    desc: "Garis pantai pasir hitam vulkanik yang menjadi kutub selatan sumbu kosmologis Yogyakarta. Secara geologis aktif.",
+    desc: "Garis pantai pasir hitam vulkanik yang menjadi kutub selatan sumbu kosmologis.",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.31,-8.03,110.33,-8.01&layer=mapnik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Parangtritis_Beach,_Bantul,_Yogyakarta_01.JPG",
   },
   {
     id: "kotagede",
@@ -49,6 +59,8 @@ const destinations = [
     desc: "Bekas ibukota Mataram Islam abad ke-16 yang kini menjadi distrik perak dengan lebih dari 200 bengkel pengrajin aktif.",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.395,-7.83,110.405,-7.82&layer=mapnik",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kota_Gede_Jogjakarta.jpg",
   },
 ];
 
@@ -57,6 +69,11 @@ const activeDestination = ref(destinations[0].id);
 const activeMapUrl = computed(() => {
   const target = destinations.find((d) => d.id === activeDestination.value);
   return target ? target.mapUrl : destinations[0].mapUrl;
+});
+
+const activeImage = computed(() => {
+  const target = destinations.find((d) => d.id === activeDestination.value);
+  return target ? target.image : destinations[0].image;
 });
 </script>
 
@@ -73,8 +90,25 @@ const activeMapUrl = computed(() => {
     />
 
     <div
-      class="grid grid-cols-1 lg:grid-cols-[1fr_500px] gap-10 lg:gap-16 mt-10"
+      v-observe
+      class="w-full h-[30vh] lg:h-[40vh] mt-10 mb-16 relative overflow-hidden reveal-up delay-100 border border-line shadow-xl"
     >
+      <img
+        :key="activeDestination"
+        :src="activeImage"
+        alt="Visual Destinasi"
+        class="w-full h-full object-cover opacity-90 transition-opacity duration-500"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-ink/10"></div>
+      <div
+        class="absolute bottom-4 right-4 z-20 font-josefin text-[8px] tracking-[0.2em] text-white/70 uppercase bg-ink/80 backdrop-blur-sm px-3 py-1 border border-white/10"
+      >
+        Pratinjau Lokasi
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_500px] gap-10 lg:gap-16">
       <div v-observe class="flex flex-col reveal-up">
         <button
           v-for="item in destinations"

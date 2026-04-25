@@ -7,42 +7,54 @@ const timeline = [
     title: "Prasasti Canggal",
     desc: "Raja Sanjaya mendirikan lingga di Bukit Stirangga, Gunung Wukir. Dokumen tertua keberadaan peradaban Hindu di dataran Kedu — titik nol sejarah tertulis Yogyakarta.",
     meta: "Awal Peradaban",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Canggal_inscription.jpg",
   },
   {
     year: "856",
     title: "Rampungnya Prambanan",
     desc: "Wangsa Sanjaya merampungkan kompleks candi Hindu terbesar Asia Tenggara. 240 struktur batu andesit dibangun tanpa semen — hanya gravitasi, presisi, dan keyakinan.",
     meta: "Puncak Wangsa Sanjaya",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Prambanan.jpg",
   },
   {
     year: "1755",
     title: "Perjanjian Giyanti",
-    desc: "VOC membelah Mataram Islam. Pangeran Mangkubumi menjadi Sultan Hamengku Buwono I dan langsung merancang tata kota berbasis poros kosmologis Merapi–Keraton–Parangtritis.",
+    desc: "VOC membelah Mataram Islam. Pangeran Mangkubumi menjadi Sultan Hamengku Buwono I dan langsung merancang tata kota berbasis poros kosmologis.",
     meta: "Kelahiran Kesultanan",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Keraton_Ngayogyakarta.jpg",
   },
   {
     year: "1825",
     title: "Perang Diponegoro",
     desc: "Lima tahun gerilya dari Goa Selarong menguras kas Hindia Belanda hingga Fl 20 juta. Perlawanan terpanjang dan termahal yang pernah dihadapi VOC di Jawa.",
     meta: "Perlawanan Kolonial",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Raden_Saleh_-_Diponegoro_arrest.jpg",
   },
   {
     year: "1946",
     title: "Yogyakarta: Ibukota Republik",
-    desc: "Sultan HB IX menyerahkan kedaulatan wilayahnya kepada NKRI. Ketika Jakarta jatuh ke NICA, Yogyakarta menjelma menjadi jantung yang memompa darah revolusi kemerdekaan.",
+    desc: "Sultan HB IX menyerahkan kedaulatan wilayahnya kepada NKRI. Ketika Jakarta jatuh ke NICA, Yogyakarta menjelma menjadi jantung revolusi kemerdekaan.",
     meta: "Revolusi",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Gedung_Agung.jpg",
   },
   {
     year: "1949",
     title: "Serangan Umum 1 Maret",
-    desc: "TNI menduduki Yogyakarta selama 6 jam di bawah komando Letkol Soeharto. Serangan simbolis yang membuktikan kepada Dewan Keamanan PBB bahwa Republik Indonesia belum mati.",
+    desc: "TNI menduduki Yogyakarta selama 6 jam di bawah komando Letkol Soeharto. Serangan simbolis yang membuktikan kepada PBB bahwa RI belum mati.",
     meta: "Eksistensi Militer",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Monumen_Serangan_Umum_1_Maret_(1_March_General_Attack_Monument).JPG",
   },
   {
     year: "2012",
     title: "UU Keistimewaan DIY",
-    desc: "UU No. 13 Tahun 2012 mengukuhkan Sultan dan Paku Alam sebagai Gubernur dan Wakil Gubernur seumur hidup — satu-satunya monarki konstitusional yang diakui negara republik ini.",
+    desc: "UU No. 13 Tahun 2012 mengukuhkan Sultan dan Paku Alam sebagai Gubernur dan Wakil Gubernur seumur hidup — satu-satunya monarki konstitusional diakui negara.",
     meta: "Era Istimewa",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tugu_Jogja.jpg",
   },
 ];
 
@@ -112,19 +124,17 @@ const activeIndex = ref(0);
       >
         <div :key="activeIndex" class="animate-fade-in">
           <div
-            class="h-[240px] md:h-[320px] lg:h-[400px] bg-ink relative overflow-hidden mb-8"
+            class="h-[240px] md:h-[320px] lg:h-[400px] bg-ink relative overflow-hidden mb-8 border border-line shadow-xl"
           >
-            <div class="absolute inset-0 bg-parchment/5"></div>
+            <img
+              :src="timeline[activeIndex].image"
+              :alt="timeline[activeIndex].title"
+              class="w-full h-full object-cover opacity-90"
+            />
             <div
-              class="absolute inset-x-10 inset-y-12 border border-white/10 flex flex-col items-center justify-center text-center"
+              class="absolute bottom-3 right-3 bg-ink/80 backdrop-blur-sm px-3 py-1 font-lato text-[9px] text-white/50 border border-white/10 uppercase tracking-widest"
             >
-              <span
-                class="font-josefin text-[10px] tracking-[0.3em] uppercase text-white/30 mb-3"
-                >Arsip Visual</span
-              >
-              <span class="font-libre text-[28px] italic text-white/50">{{
-                timeline[activeIndex].year
-              }}</span>
+              Arsip Visual · 2026
             </div>
           </div>
           <div

@@ -8,56 +8,69 @@ const culinaryItems = [
   {
     title: "Gudeg Kraton",
     category: "Makanan Berat",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Gudeg_Jogja.jpg",
     story:
-      "Nangka muda direbus 12 jam dengan santan, gula aren, dan daun jati hingga menghasilkan karamelisasi alami berwarna cokelat tua. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
+      "Nangka muda direbus 12 jam dengan santan dan gula aren hingga menghasilkan karamelisasi alami berwarna cokelat tua. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
     meta: "Warisan Dapur Kerajaan",
     featured: true,
   },
   {
     title: "Oseng Mercon Bu Narti",
     category: "Makanan Berat",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Oseng_mercon.jpg",
     story:
-      "Lahir di Jalan Kranggan pada 1998 — kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Bukan hidangan musiman; ini provokasi terhadap manis-gurih dominan Yogyakarta.",
+      "Lahir di Jalan Kranggan pada 1998 — kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Ini provokasi terhadap manis-gurih dominan Yogyakarta.",
     meta: "Perlawanan Pedas",
     featured: false,
   },
   {
     title: "Sate Klathak",
     category: "Makanan Berat",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Sate_Klathak.jpg",
     story:
-      "Dua tusuk jeruji sepeda bukan estetika — konduktivitas besi memastikan daging kambing matang dari dalam ke luar secara merata. Hanya garam kasar. Teknik memasak yang menolak kompromi rasa.",
+      "Dua tusuk jeruji sepeda memastikan daging kambing matang dari dalam ke luar secara merata. Hanya garam kasar. Teknik memasak yang menolak kompromi rasa.",
     meta: "Minimalis Ekstrem",
     featured: false,
   },
   {
     title: "Bakpia Pathok 75",
     category: "Cemilan",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bakpia_Pathok.jpg",
     story:
-      "Akulturasi kuliner Tionghoa-Jawa yang lahir di Kampung Pathok abad ke-20. Kulit tipis berlapis isi pasta kacang hijau kukus — evolusi dari moon cake yang beradaptasi dengan lidah lokal selama tiga generasi.",
-    meta: "Akulturasi Lintas Budaya",
+      "Akulturasi kuliner Tionghoa-Jawa yang lahir di Kampung Pathok. Kulit tipis berlapis isi pasta kacang hijau kukus yang beradaptasi dengan lidah lokal selama tiga generasi.",
+    meta: "Akulturasi Budaya",
     featured: false,
   },
   {
     title: "Kopi Joss Lek Man",
     category: "Minuman",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kopi_Joss.jpg",
     story:
-      "Arang membara yang diceburkan bukan gimmick; karbon aktif menetralkan asam lambung dan menciptakan aroma karamel yang tak bisa direplikasi oleh mesin espresso manapun. Angkringan depan Stasiun Tugu sejak 1960-an.",
+      "Arang membara yang diceburkan bukan gimmick; karbon aktif menetralkan asam lambung dan menciptakan aroma karamel yang tak bisa direplikasi oleh mesin espresso manapun.",
     meta: "Kimia Warung Angkringan",
     featured: false,
   },
   {
     title: "Wedang Uwuh",
     category: "Minuman",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Wedang_Uwuh.jpg",
     story:
-      "Literalmente berarti 'minuman sampah' — campuran jahe bakar, kayu secang, cengkeh, kayu manis, dan pala yang tampak seperti reruntuhan rempah di dalam gelas. Minuman anti-inflamasi yang mendahului tren wellness global.",
+      "Literalmente berarti 'minuman sampah' — campuran jahe bakar, kayu secang, cengkeh, kayu manis, dan pala yang tampak seperti reruntuhan rempah di dalam gelas.",
     meta: "Jamu dalam Cangkir",
     featured: false,
   },
   {
     title: "Mangut Lele Mbah Marto",
     category: "Makanan Berat",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mangut_lele.jpg",
     story:
-      "Lele asap dimasak dalam santan pedas dengan serai dan daun salam di tungku kayu — metode yang menciptakan lapisan rasa smoky yang tidak bisa ditiru kompor gas. Warung di Imogiri yang antreannya dimulai pukul 10 pagi.",
+      "Lele asap dimasak dalam santan pedas dengan serai dan daun salam di tungku kayu — metode yang menciptakan lapisan rasa smoky yang tidak bisa ditiru kompor gas.",
     meta: "Slow Food Selatan Jogja",
     featured: false,
   },
@@ -70,6 +83,7 @@ const filteredItems = computed(() => {
     (i) => i.category === activeCategory.value && !i.featured,
   );
 });
+
 const featuredItem = culinaryItems.find((i) => i.featured);
 </script>
 
@@ -88,36 +102,52 @@ const featuredItem = culinaryItems.find((i) => i.featured);
     <section
       v-if="featuredItem"
       v-observe
-      class="mb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center reveal-up delay-100"
+      class="mt-10 mb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center reveal-up delay-100"
     >
-      <div class="aspect-video bg-ink relative overflow-hidden group">
+      <div
+        class="aspect-[4/3] lg:aspect-video bg-ink relative overflow-hidden group shadow-xl border border-line"
+      >
+        <img
+          :src="featuredItem.image"
+          :alt="featuredItem.title"
+          class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
         <div
-          class="absolute inset-0 bg-parchment/5 group-hover:bg-transparent transition-colors duration-500"
+          class="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500 z-10"
         ></div>
         <div
-          class="absolute inset-0 flex items-center justify-center font-libre italic text-white/20 text-4xl"
+          class="absolute top-4 left-4 z-20 font-josefin text-[9px] uppercase tracking-widest text-white/90 bg-ink/80 backdrop-blur-sm px-3 py-1 border border-white/10"
         >
-          Featured
+          Khas Mataram
         </div>
       </div>
-      <div>
+      <div class="flex flex-col justify-center">
         <div
           class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4"
         >
           {{ featuredItem.meta }}
         </div>
         <h2
-          class="font-libre text-[32px] lg:text-[44px] font-bold text-ink mb-6"
+          class="font-libre text-[32px] lg:text-[44px] font-bold text-ink mb-6 leading-[1.15]"
         >
           {{ featuredItem.title }}
         </h2>
-        <p class="text-[16px] font-light text-brown leading-[1.9] mb-6 italic">
+        <p
+          class="text-[16px] font-light text-brown leading-[1.9] mb-8 italic border-l-2 border-terra pl-5"
+        >
           "{{ featuredItem.story }}"
         </p>
+
         <div
-          class="inline-block px-4 py-1 border border-terra text-terra font-josefin text-[9px] uppercase tracking-[0.2em]"
+          class="flex flex-col gap-2 pt-6 border-t border-line font-josefin text-[11px] tracking-[0.1em] text-muted"
         >
-          Cerita Utama
+          <div class="flex items-center gap-3">
+            <span class="text-terra">📍</span> Wijilan, Kota Yogyakarta
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-terra">⏰</span> 06.00 - 21.00 WIB
+          </div>
         </div>
       </div>
     </section>
@@ -130,38 +160,53 @@ const featuredItem = culinaryItems.find((i) => i.featured);
         v-for="cat in categories"
         :key="cat"
         @click="activeCategory = cat"
-        class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 px-4 py-2"
+        class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 px-5 py-3 border border-transparent cursor-pointer"
         :class="
           activeCategory === cat
-            ? 'bg-terra text-warm-white'
-            : 'text-muted hover:text-terra'
+            ? 'bg-terra text-warm-white shadow-md'
+            : 'text-muted hover:border-line hover:text-ink'
         "
       >
         {{ cat }}
       </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16"
+    >
       <transition-group name="list">
         <article
-          v-for="(item, index) in filteredItems"
+          v-for="item in filteredItems"
           :key="item.title"
-          v-observe
-          class="group reveal-up"
-          :style="`transition-delay: ${(index % 3) * 100}ms`"
+          class="group flex flex-col h-full"
         >
           <div
-            class="h-[200px] bg-line mb-6 transition-colors group-hover:bg-line/50"
-          ></div>
-          <div
-            class="font-josefin text-[9px] font-semibold tracking-[0.2em] uppercase text-terra mb-3"
+            class="h-[240px] bg-ink mb-6 overflow-hidden relative border border-line shadow-sm"
           >
-            {{ item.category }} · {{ item.meta }}
+            <img
+              :src="item.image"
+              :alt="item.title"
+              class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+              loading="lazy"
+            />
+            <div
+              class="absolute inset-0 bg-ink/10 group-hover:bg-transparent transition-colors duration-500"
+            ></div>
           </div>
-          <h3 class="font-libre text-[20px] font-bold text-ink mb-3">
+
+          <div
+            class="font-josefin text-[9px] font-semibold tracking-[0.2em] uppercase text-terra mb-3 flex items-center gap-2"
+          >
+            {{ item.category }} <span class="text-line">|</span> {{ item.meta }}
+          </div>
+
+          <h3
+            class="font-libre text-[22px] font-bold text-ink mb-3 group-hover:text-terra transition-colors duration-300"
+          >
             {{ item.title }}
           </h3>
-          <p class="text-[14px] font-light text-brown leading-[1.7]">
+
+          <p class="text-[14px] font-light text-brown leading-[1.8] flex-grow">
             {{ item.story }}
           </p>
         </article>
@@ -173,11 +218,11 @@ const featuredItem = culinaryItems.find((i) => i.featured);
 <style scoped>
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(20px) scale(0.98);
 }
 </style>
