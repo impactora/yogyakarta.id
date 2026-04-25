@@ -31,7 +31,7 @@ export default defineNuxtConfig({
         },
         { property: "og:image", content: "/og-image.jpg" },
         { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://yogyakarta.id" },
+        { property: "og:url", content: "https://yogyakarta-id.pages.dev" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: "Jiwa Nusantara - Yogyakarta" },
         {
@@ -44,7 +44,7 @@ export default defineNuxtConfig({
           rel: "stylesheet",
           href: "https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=Josefin+Sans:wght@300;400;600&display=swap",
         },
-        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         {
           rel: "preconnect",
