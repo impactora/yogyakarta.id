@@ -11,8 +11,10 @@ const culinaryItems = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Gudeg_Jogja.jpg",
     story:
-      "Nangka muda direbus 12 jam dengan santan dan gula aren hingga menghasilkan karamelisasi alami berwarna cokelat tua. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
+      "Nangka muda direbus 12 jam dengan santan dan gula aren. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
     meta: "Warisan Dapur Kerajaan",
+    address: "Jl. Wijilan, Panembahan",
+    price: "Rp 25.000 - 50.000",
     featured: true,
   },
   {
@@ -21,8 +23,10 @@ const culinaryItems = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Oseng_mercon.jpg",
     story:
-      "Lahir di Jalan Kranggan pada 1998 — kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Ini provokasi terhadap manis-gurih dominan Yogyakarta.",
+      "Kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Provokasi terhadap rasa manis-gurih.",
     meta: "Perlawanan Pedas",
+    address: "Jl. KH. Ahmad Dahlan, Ngampilan",
+    price: "Rp 30.000 / Porsi",
     featured: false,
   },
   {
@@ -31,8 +35,10 @@ const culinaryItems = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Sate_Klathak.jpg",
     story:
-      "Dua tusuk jeruji sepeda memastikan daging kambing matang dari dalam ke luar secara merata. Hanya garam kasar. Teknik memasak yang menolak kompromi rasa.",
+      "Dua tusuk jeruji sepeda memastikan daging kambing matang dari dalam ke luar secara merata. Hanya dibumbui garam kasar.",
     meta: "Minimalis Ekstrem",
+    address: "Jl. Imogiri Timur, Bantul",
+    price: "Rp 35.000 - 50.000",
     featured: false,
   },
   {
@@ -41,8 +47,10 @@ const culinaryItems = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Bakpia_Pathok.jpg",
     story:
-      "Akulturasi kuliner Tionghoa-Jawa yang lahir di Kampung Pathok. Kulit tipis berlapis isi pasta kacang hijau kukus yang beradaptasi dengan lidah lokal selama tiga generasi.",
+      "Akulturasi kuliner Tionghoa-Jawa abad 20. Kulit tipis berlapis isi pasta kacang hijau kukus tradisional.",
     meta: "Akulturasi Budaya",
+    address: "Kawasan Pathuk, Ngampilan",
+    price: "Rp 45.000 / Kotak",
     featured: false,
   },
   {
@@ -50,8 +58,10 @@ const culinaryItems = [
     category: "Minuman",
     image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kopi_Joss.jpg",
     story:
-      "Arang membara yang diceburkan bukan gimmick; karbon aktif menetralkan asam lambung dan menciptakan aroma karamel yang tak bisa direplikasi oleh mesin espresso manapun.",
+      "Arang membara yang diceburkan memunculkan karbon aktif yang menetralkan asam lambung dan menciptakan aroma karamel.",
     meta: "Kimia Warung Angkringan",
+    address: "Utara Stasiun Tugu",
+    price: "Rp 8.000 / Gelas",
     featured: false,
   },
   {
@@ -60,8 +70,10 @@ const culinaryItems = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Wedang_Uwuh.jpg",
     story:
-      "Literalmente berarti 'minuman sampah' — campuran jahe bakar, kayu secang, cengkeh, kayu manis, dan pala yang tampak seperti reruntuhan rempah di dalam gelas.",
+      "Campuran jahe bakar, kayu secang, cengkeh, dan pala yang tampak seperti reruntuhan dedaunan di dalam gelas.",
     meta: "Jamu dalam Cangkir",
+    address: "Kawasan Makam Raja Imogiri",
+    price: "Rp 10.000 / Gelas",
     featured: false,
   },
   {
@@ -70,8 +82,10 @@ const culinaryItems = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Mangut_lele.jpg",
     story:
-      "Lele asap dimasak dalam santan pedas dengan serai dan daun salam di tungku kayu — metode yang menciptakan lapisan rasa smoky yang tidak bisa ditiru kompor gas.",
+      "Lele asap dimasak dalam santan pedas di tungku kayu — menciptakan lapisan rasa smoky yang otentik.",
     meta: "Slow Food Selatan Jogja",
+    address: "Panggungharjo, Sewon, Bantul",
+    price: "Rp 30.000 / Porsi",
     featured: false,
   },
 ];
@@ -140,13 +154,13 @@ const featuredItem = culinaryItems.find((i) => i.featured);
         </p>
 
         <div
-          class="flex flex-col gap-2 pt-6 border-t border-line font-josefin text-[11px] tracking-[0.1em] text-muted"
+          class="flex flex-col gap-3 pt-6 border-t border-line font-josefin text-[10px] tracking-[0.15em] text-muted"
         >
           <div class="flex items-center gap-3">
-            <span class="text-terra">📍</span> Wijilan, Kota Yogyakarta
+            <span class="text-terra">📍</span> {{ featuredItem.address }}
           </div>
           <div class="flex items-center gap-3">
-            <span class="text-terra">⏰</span> 06.00 - 21.00 WIB
+            <span class="text-terra">💰</span> {{ featuredItem.price }}
           </div>
         </div>
       </div>
@@ -193,22 +207,32 @@ const featuredItem = culinaryItems.find((i) => i.featured);
               class="absolute inset-0 bg-ink/10 group-hover:bg-transparent transition-colors duration-500"
             ></div>
           </div>
-
           <div
             class="font-josefin text-[9px] font-semibold tracking-[0.2em] uppercase text-terra mb-3 flex items-center gap-2"
           >
             {{ item.category }} <span class="text-line">|</span> {{ item.meta }}
           </div>
-
           <h3
             class="font-libre text-[22px] font-bold text-ink mb-3 group-hover:text-terra transition-colors duration-300"
           >
             {{ item.title }}
           </h3>
-
-          <p class="text-[14px] font-light text-brown leading-[1.8] flex-grow">
+          <p
+            class="text-[14px] font-light text-brown leading-[1.8] flex-grow mb-6"
+          >
             {{ item.story }}
           </p>
+
+          <div
+            class="pt-4 border-t border-line flex flex-col gap-2 font-josefin text-[9px] tracking-[0.15em] text-muted transition-colors duration-300"
+          >
+            <div class="flex items-center gap-3">
+              <span class="text-terra">📍</span> {{ item.address }}
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-terra">💰</span> {{ item.price }}
+            </div>
+          </div>
         </article>
       </transition-group>
     </div>
