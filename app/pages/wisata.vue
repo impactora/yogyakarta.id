@@ -53,6 +53,7 @@ const destinations = [
 ];
 
 const activeDestination = ref(destinations[0].id);
+
 const activeMapUrl = computed(() => {
   const target = destinations.find((d) => d.id === activeDestination.value);
   return target ? target.mapUrl : destinations[0].mapUrl;
@@ -74,17 +75,15 @@ const activeMapUrl = computed(() => {
     <div
       class="grid grid-cols-1 lg:grid-cols-[1fr_500px] gap-10 lg:gap-16 mt-10"
     >
-      <div class="flex flex-col">
+      <div v-observe class="flex flex-col reveal-up">
         <button
-          v-for="(item, index) in destinations"
+          v-for="item in destinations"
           :key="item.id"
           @click="activeDestination = item.id"
-          v-observe
-          class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden reveal-up"
+          class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden cursor-pointer"
           :class="
             activeDestination === item.id ? 'bg-ink' : 'hover:bg-white/40'
           "
-          :style="`transition-delay: ${(index % 5) * 100}ms`"
         >
           <div
             class="absolute left-0 top-0 bottom-0 w-1 bg-terra transition-transform duration-300 origin-top"
@@ -123,7 +122,7 @@ const activeMapUrl = computed(() => {
         </button>
       </div>
 
-      <div v-observe class="relative reveal-up delay-300">
+      <div v-observe class="relative reveal-up delay-200">
         <div
           class="lg:sticky lg:top-[120px] h-[400px] lg:h-[600px] w-full bg-ink border border-line shadow-2xl overflow-hidden p-2"
         >
