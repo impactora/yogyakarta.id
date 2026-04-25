@@ -7,6 +7,8 @@ const destinations = [
     area: "Sleman",
     title: "Candi Prambanan",
     desc: "Trilogi candi Trimurti setinggi 47 meter. Dibangun 856 Masehi oleh wangsa Sanjaya.",
+    hours: "06.00 - 17.00 WIB",
+    price: "Rp 75.000 (WNI) / USD 25 (WNA)",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.489,-7.753,110.493,-7.749&layer=mapnik",
     image:
@@ -17,6 +19,8 @@ const destinations = [
     area: "Kota Yogyakarta",
     title: "Keraton Ngayogyakarta",
     desc: "Istana yang masih berdenyut sebagai pusat pemerintahan monarki aktif. Dibangun 1755 oleh HB I.",
+    hours: "08.30 - 14.30 WIB (Tutup Senin)",
+    price: "Rp 15.000 (Domestik)",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.361,-7.807,110.365,-7.804&layer=mapnik",
     image:
@@ -27,6 +31,8 @@ const destinations = [
     area: "Kota Yogyakarta",
     title: "Jalan Malioboro",
     desc: "Koridor 2 kilometer dari Tugu ke Keraton yang merupakan sumbu filosofis kota.",
+    hours: "24 Jam",
+    price: "Gratis (Akses Publik)",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.364,-7.794,110.367,-7.791&layer=mapnik",
     image:
@@ -37,6 +43,8 @@ const destinations = [
     area: "Sleman",
     title: "Gunung Merapi",
     desc: "Stratovolcano paling aktif di Indonesia. Bagi warga Yogyakarta, Merapi adalah leluhur.",
+    hours: "06.00 - 16.00 WIB",
+    price: "Mulai Rp 350.000 (Sewa Jeep)",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.44,-7.545,110.45,-7.535&layer=mapnik",
     image:
@@ -47,6 +55,8 @@ const destinations = [
     area: "Bantul",
     title: "Pantai Parangtritis",
     desc: "Garis pantai pasir hitam vulkanik yang menjadi kutub selatan sumbu kosmologis.",
+    hours: "24 Jam",
+    price: "Rp 10.000 / Orang",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.31,-8.03,110.33,-8.01&layer=mapnik",
     image:
@@ -56,7 +66,9 @@ const destinations = [
     id: "kotagede",
     area: "Kota Yogyakarta",
     title: "Kotagede",
-    desc: "Bekas ibukota Mataram Islam abad ke-16 yang kini menjadi distrik perak dengan lebih dari 200 bengkel pengrajin aktif.",
+    desc: "Bekas ibukota Mataram Islam abad ke-16 yang kini menjadi distrik perak aktif.",
+    hours: "08.00 - 17.00 WIB",
+    price: "Gratis (Eksplorasi Kawasan)",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.395,-7.83,110.405,-7.82&layer=mapnik",
     image:
@@ -114,7 +126,7 @@ const activeImage = computed(() => {
           v-for="item in destinations"
           :key="item.id"
           @click="activeDestination = item.id"
-          class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden cursor-pointer"
+          class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden cursor-pointer flex flex-col"
           :class="
             activeDestination === item.id ? 'bg-ink' : 'hover:bg-white/40'
           "
@@ -146,13 +158,29 @@ const activeImage = computed(() => {
             {{ item.title }}
           </h2>
           <p
-            class="text-[14px] font-light leading-[1.8] transition-colors duration-300"
+            class="text-[14px] font-light leading-[1.8] transition-colors duration-300 mb-4"
             :class="
               activeDestination === item.id ? 'text-parchment/70' : 'text-brown'
             "
           >
             {{ item.desc }}
           </p>
+
+          <div
+            class="flex flex-wrap gap-4 pt-4 border-t border-line/30 font-josefin text-[9px] tracking-[0.15em] transition-colors duration-300 w-full"
+            :class="
+              activeDestination === item.id
+                ? 'text-parchment/60 border-white/10'
+                : 'text-muted border-line'
+            "
+          >
+            <div class="flex items-center gap-2">
+              <span class="text-terra">⏰</span> {{ item.hours }}
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-terra">🎟️</span> {{ item.price }}
+            </div>
+          </div>
         </button>
       </div>
 
