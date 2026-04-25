@@ -1,27 +1,33 @@
 export default defineNuxtPlugin((nuxtApp) => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-        }
-      });
-    },
-    { threshold: 0.1 },
-  );
-
   nuxtApp.vueApp.directive("observe", {
     mounted(el) {
-      observer.observe(el);
-    },
-    updated(el) {
-      if (!el.classList.contains("in-view")) {
-        observer.unobserve(el);
+      if (import.meta.client) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+        el._observer = observer;
         observer.observe(el);
       }
     },
+    updated(el) {
+      if (import.meta.client && el._observer) {
+        if (!el.classList.contains("in-view")) {
+          el._observer.unobserve(el);
+          el._observer.observe(el);
+        }
+      }
+    },
     unmounted(el) {
-      observer.unobserve(el);
+      if (import.meta.client && el._observer) {
+        el._observer.unobserve(el);
+      }
     },
   });
 });
