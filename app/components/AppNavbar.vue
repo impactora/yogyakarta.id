@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { Search } from "lucide-vue-next";
 
 const navLinks = [
   { name: "Sejarah", path: "/sejarah" },
@@ -12,6 +13,7 @@ const navLinks = [
 ];
 
 const isMenuOpen = ref(false);
+const isSearchOpen = ref(false);
 const route = useRoute();
 
 watch(
@@ -50,8 +52,16 @@ watch(
       </ul>
 
       <div class="hidden lg:flex items-center gap-6">
+        <button
+          @click="isSearchOpen = true"
+          class="flex items-center justify-center p-2 hover:bg-ink/5 rounded-full transition-colors"
+          aria-label="Buka Pencarian Global"
+        >
+          <Search class="w-4 h-4 text-ink hover:text-terra transition-colors" />
+        </button>
+
         <span
-          class="font-josefin text-[10px] font-light tracking-[0.15em] uppercase text-muted border-r border-line pr-6"
+          class="font-josefin text-[10px] font-light tracking-[0.15em] uppercase text-muted border-l border-r border-line px-6"
           >Vol. I · Yogyakarta</span
         >
         <span
@@ -60,24 +70,34 @@ watch(
         >
       </div>
 
-      <button
-        class="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-[5px] cursor-pointer"
-        @click="isMenuOpen = !isMenuOpen"
-        aria-label="Toggle Menu"
-      >
-        <span
-          class="block w-6 h-[1px] bg-ink transition-transform duration-300 origin-center"
-          :class="{ 'rotate-45 translate-y-[6px]': isMenuOpen }"
-        ></span>
-        <span
-          class="block w-6 h-[1px] bg-ink transition-opacity duration-300"
-          :class="{ 'opacity-0': isMenuOpen }"
-        ></span>
-        <span
-          class="block w-6 h-[1px] bg-ink transition-transform duration-300 origin-center"
-          :class="{ '-rotate-45 -translate-y-[6px]': isMenuOpen }"
-        ></span>
-      </button>
+      <div class="flex lg:hidden items-center gap-4">
+        <button
+          @click="isSearchOpen = true"
+          class="flex items-center justify-center p-2"
+          aria-label="Buka Pencarian Global"
+        >
+          <Search class="w-5 h-5 text-ink" />
+        </button>
+
+        <button
+          class="flex flex-col justify-center items-center w-8 h-8 gap-[5px] cursor-pointer"
+          @click="isMenuOpen = !isMenuOpen"
+          aria-label="Toggle Menu"
+        >
+          <span
+            class="block w-6 h-[1px] bg-ink transition-transform duration-300 origin-center"
+            :class="{ 'rotate-45 translate-y-[6px]': isMenuOpen }"
+          ></span>
+          <span
+            class="block w-6 h-[1px] bg-ink transition-opacity duration-300"
+            :class="{ 'opacity-0': isMenuOpen }"
+          ></span>
+          <span
+            class="block w-6 h-[1px] bg-ink transition-transform duration-300 origin-center"
+            :class="{ '-rotate-45 -translate-y-[6px]': isMenuOpen }"
+          ></span>
+        </button>
+      </div>
     </div>
 
     <div
@@ -114,5 +134,7 @@ watch(
         </div>
       </div>
     </div>
+
+    <GlobalSearch :isOpen="isSearchOpen" @close="isSearchOpen = false" />
   </nav>
 </template>
