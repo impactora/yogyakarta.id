@@ -1,0 +1,10 @@
+{
+  "nav": {
+    "sejarah": "History",
+    "budaya": "Culture",
+    "kuliner": "Culinary",
+    "wisata": "Tourism",
+    "teknologi": "Technology",
+    "peta": "Map"
+  }
+}

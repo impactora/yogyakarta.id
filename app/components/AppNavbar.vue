@@ -1,19 +1,12 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { Search } from "lucide-vue-next";
+import { Search, Globe } from "lucide-vue-next";
 import { useI18n } from "#imports";
 
-const { locale, setLocale, t } = useI18n();
+const { locale, setLocale } = useI18n();
 
-const navLinks = computed(() => [
-  { name: t("nav.sejarah"), path: "/sejarah" },
-  { name: t("nav.budaya"), path: "/budaya" },
-  { name: t("nav.kuliner"), path: "/kuliner" },
-  { name: t("nav.wisata"), path: "/wisata" },
-  { name: t("nav.teknologi"), path: "/teknologi" },
-  { name: t("nav.peta"), path: "/peta" },
-]);
+const routes = ["sejarah", "budaya", "kuliner", "wisata", "teknologi", "peta"];
 
 const isMenuOpen = ref(false);
 const isSearchOpen = ref(false);
@@ -47,13 +40,13 @@ const toggleLanguage = () => {
       </NuxtLink>
 
       <ul class="hidden lg:flex gap-9">
-        <li v-for="link in navLinks" :key="link.path">
+        <li v-for="item in routes" :key="item">
           <NuxtLink
-            :to="link.path"
+            :to="`/${item}`"
             active-class="text-terra"
             class="font-josefin text-[11px] font-semibold tracking-[0.18em] uppercase text-muted transition-colors duration-200 hover:text-terra"
           >
-            {{ link.name }}
+            {{ $t(`nav.${item}`) }}
           </NuxtLink>
         </li>
       </ul>
@@ -75,9 +68,9 @@ const toggleLanguage = () => {
 
         <button
           @click="toggleLanguage"
-          class="font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra hover:opacity-60 transition-opacity w-6"
+          class="flex items-center gap-1.5 font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra hover:opacity-60 transition-opacity"
         >
-          {{ locale === "id" ? "ID" : "EN" }}
+          <Globe class="w-3.5 h-3.5" /> {{ locale === "id" ? "ID" : "EN" }}
         </button>
       </div>
 
@@ -128,14 +121,14 @@ const toggleLanguage = () => {
     >
       <div class="px-5 py-8 flex flex-col gap-6">
         <ul class="flex flex-col gap-6">
-          <li v-for="link in navLinks" :key="link.path">
+          <li v-for="item in routes" :key="item">
             <NuxtLink
-              :to="link.path"
+              :to="`/${item}`"
               active-class="text-terra"
               class="font-josefin text-[14px] font-semibold tracking-[0.2em] uppercase text-muted transition-colors duration-200 hover:text-terra block"
               @click="isMenuOpen = false"
             >
-              {{ link.name }}
+              {{ $t(`nav.${item}`) }}
             </NuxtLink>
           </li>
         </ul>

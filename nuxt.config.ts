@@ -11,11 +11,11 @@ export default defineNuxtConfig({
   i18n: {
     strategy: "no_prefix",
     locales: [
-      { code: "id", name: "Indonesia" },
-      { code: "en", name: "English" },
+      { code: "id", name: "Indonesia", file: "id.json" },
+      { code: "en", name: "English", file: "en.json" },
     ],
     defaultLocale: "id",
-    vueI18n: "./i18n.config.ts",
+    langDir: "locales/",
   },
 
   runtimeConfig: {
