@@ -19,5 +19,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@nuxtjs/color-mode": "^4.0.0",
+    "@vite-pwa/nuxt": "^1.1.1"
+  }
 }

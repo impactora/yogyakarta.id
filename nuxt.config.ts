@@ -1,12 +1,17 @@
 import tailwindcss from "@tailwindcss/vite";
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
 
-  modules: ["@nuxtjs/i18n"],
+  modules: ["@nuxtjs/i18n", "@vite-pwa/nuxt", "@nuxtjs/color-mode"],
+
+  colorMode: {
+    classSuffix: "",
+    preference: "system",
+    fallback: "light",
+  },
 
   i18n: {
     strategy: "no_prefix",
@@ -21,13 +26,47 @@ export default defineNuxtConfig({
   runtimeConfig: {
     geminiApiKey: process.env.GEMINI_API_KEY,
     groqApiKey: process.env.GROQ_API_KEY,
+    openWeatherApiKey: process.env.OPENWEATHER_API_KEY,
+  },
+
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Jiwa Nusantara — Yogyakarta",
+      short_name: "Yogyakarta.id",
+      theme_color: "#faf7f2",
+      background_color: "#faf7f2",
+      display: "standalone",
+      orientation: "portrait",
+    },
+    workbox: {
+      navigateFallback: "/",
+      globPatterns: ["**/*.{js,css,html,png,svg,ico,woff2}"],
+      runtimeCaching: [
+        {
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "google-fonts-cache",
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 365,
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+      ],
+    },
+    client: {
+      installPrompt: true,
+    },
   },
 
   app: {
     head: {
-      htmlAttrs: {
-        lang: "id",
-      },
+      htmlAttrs: { lang: "id" },
       title: "Jiwa Nusantara — Yogyakarta",
       meta: [
         { charset: "utf-8" },
@@ -36,24 +75,6 @@ export default defineNuxtConfig({
           name: "description",
           content:
             "Portal panduan wisata, sejarah, budaya, kuliner, dan teknologi Kota Yogyakarta.",
-        },
-        {
-          property: "og:title",
-          content: "Jiwa Nusantara - Nusantara Digital City",
-        },
-        {
-          property: "og:description",
-          content:
-            "Eksplorasi dimensi kota Yogyakarta melalui portal digital interaktif 2026.",
-        },
-        { property: "og:image", content: "/og-image.jpg" },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: "https://yogyakarta-id.pages.dev" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: "Jiwa Nusantara - Yogyakarta" },
-        {
-          name: "twitter:description",
-          content: "Portal digital kebudayaan dan teknologi Kota Yogyakarta.",
         },
       ],
       link: [
