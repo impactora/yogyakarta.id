@@ -1,19 +1,36 @@
 <script setup lang="ts">
-const culturalHeritage = [
+import { computed } from "vue";
+import { useHead, useI18n } from "#imports";
+
+const { locale } = useI18n();
+
+const rawCulturalHeritage = [
   {
     id: "batik",
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Batik_Tulis.jpg",
     category: "Seni Kriya · UNESCO 2009",
-    title: "Filosofi Batik Kraton",
-    subtitle: "Doa yang Digoreskan di Atas Lembaran Kain",
-    description:
-      "Bukan sekadar motif — setiap goresan canting membawa muatan kosmologi Jawa. Motif Parang Rusak dilarang dikenakan rakyat biasa di era Mataram.",
-    highlights: [
-      "Motif Larangan Keraton",
-      "Teknik Tulis vs Cap",
-      "Pewarna Soga Alami",
-    ],
+    title: { id: "Filosofi Batik Kraton", en: "Kraton Batik Philosophy" },
+    subtitle: {
+      id: "Doa yang Digoreskan di Atas Lembaran Kain",
+      en: "Prayers Etched on Fabric",
+    },
+    description: {
+      id: "Bukan sekadar motif — setiap goresan canting membawa muatan kosmologi Jawa. Motif Parang Rusak dilarang dikenakan rakyat biasa di era Mataram.",
+      en: "Not just a motif — every stroke of the canting carries Javanese cosmology. The Parang Rusak motif was forbidden for commoners in the Mataram era.",
+    },
+    highlights: {
+      id: [
+        "Motif Larangan Keraton",
+        "Teknik Tulis vs Cap",
+        "Pewarna Soga Alami",
+      ],
+      en: [
+        "Royal Forbidden Motifs",
+        "Hand-Drawn vs Stamped",
+        "Natural Soga Dye",
+      ],
+    },
     reverse: false,
   },
   {
@@ -21,15 +38,27 @@ const culturalHeritage = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Wayang_kulit.jpg",
     category: "Seni Pertunjukan · UNESCO 2003",
-    title: "Wayang Kulit Purwa",
-    subtitle: "Bayangan yang Lebih Nyata dari Realita",
-    description:
-      "Lakon berlangsung 8 jam tanpa jeda, dari senja hingga fajar. Dalang adalah satu-satunya seniman dunia yang sekaligus menjadi sutradara, aktor 200 karakter, komposer, dan filsuf.",
-    highlights: [
-      "Pakeliran Semalam Suntuk",
-      "Gunungan sebagai Aksis Kosmis",
-      "Sulukan & Antawecana",
-    ],
+    title: { id: "Wayang Kulit Purwa", en: "Purwa Shadow Puppets" },
+    subtitle: {
+      id: "Bayangan yang Lebih Nyata dari Realita",
+      en: "Shadows More Real Than Reality",
+    },
+    description: {
+      id: "Lakon berlangsung 8 jam tanpa jeda, dari senja hingga fajar. Dalang adalah satu-satunya seniman dunia yang sekaligus menjadi sutradara, aktor 200 karakter, komposer, dan filsuf.",
+      en: "The play lasts 8 hours without a break, from dusk till dawn. The Dalang is the only artist in the world who simultaneously acts as director, actor of 200 characters, composer, and philosopher.",
+    },
+    highlights: {
+      id: [
+        "Pakeliran Semalam Suntuk",
+        "Gunungan sebagai Aksis Kosmis",
+        "Sulukan & Antawecana",
+      ],
+      en: [
+        "All-Night Performance",
+        "Gunungan as Cosmic Axis",
+        "Vocal Chants & Dialogues",
+      ],
+    },
     reverse: true,
   },
   {
@@ -37,15 +66,27 @@ const culturalHeritage = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Gamelan_Jawa.jpg",
     category: "Pusaka Bunyi · UNESCO 2021",
-    title: "Gamelan Kraton Yogyakarta",
-    subtitle: "Demokrasi Suara yang Berusia Sepuluh Abad",
-    description:
-      "Tidak ada instrumen prima donna dalam gamelan. Dua perangkat gamelan pusaka Kraton, Kyai Gunturmadu dan Kyai Nagawilaga, hanya dimainkan pada upacara Sekaten setiap Maulid Nabi.",
-    highlights: [
-      "Laras Pélog & Sléndro",
-      "Kyai Gunturmadu (Pusaka)",
-      "Irama Lancaran hingga Ketawang",
-    ],
+    title: { id: "Gamelan Kraton Yogyakarta", en: "Yogyakarta Kraton Gamelan" },
+    subtitle: {
+      id: "Demokrasi Suara yang Berusia Sepuluh Abad",
+      en: "A Ten-Century-Old Democracy of Sound",
+    },
+    description: {
+      id: "Tidak ada instrumen prima donna dalam gamelan. Dua perangkat gamelan pusaka Kraton, Kyai Gunturmadu dan Kyai Nagawilaga, hanya dimainkan pada upacara Sekaten setiap Maulid Nabi.",
+      en: "There is no prima donna instrument in gamelan. The Kraton's two heirloom gamelan sets, Kyai Gunturmadu and Kyai Nagawilaga, are only played during the Sekaten ceremony every Mawlid.",
+    },
+    highlights: {
+      id: [
+        "Laras Pélog & Sléndro",
+        "Kyai Gunturmadu (Pusaka)",
+        "Irama Lancaran hingga Ketawang",
+      ],
+      en: [
+        "Pélog & Sléndro Scales",
+        "Kyai Gunturmadu (Heirloom)",
+        "Rhythms from Lancaran to Ketawang",
+      ],
+    },
     reverse: false,
   },
   {
@@ -53,39 +94,92 @@ const culturalHeritage = [
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Kraton_Yogyakarta.jpg",
     category: "Arsitektur Tradisional",
-    title: "Tata Ruang Keraton Ngayogyakarta",
-    subtitle: "Kota di Dalam Kota yang Dirancang Bersama Semesta",
-    description:
-      "Sumbu filosofi Yogyakarta — Gunung Merapi, Tugu, Keraton, Panggung Krapyak, Pantai Parangtritis — bukan kebetulan geografis. Ini adalah mandala kosmologis yang direncanakan Sultan HB I.",
-    highlights: [
-      "Sumbu Filosofis 33 km",
-      "Bangsal Kencana & Siti Hinggil",
-      "Konsep Hamemayu Hayuning Bawana",
-    ],
+    title: {
+      id: "Tata Ruang Keraton Ngayogyakarta",
+      en: "Ngayogyakarta Palace Spatial Layout",
+    },
+    subtitle: {
+      id: "Kota di Dalam Kota yang Dirancang Bersama Semesta",
+      en: "A City Within a City Designed with the Universe",
+    },
+    description: {
+      id: "Sumbu filosofi Yogyakarta — Gunung Merapi, Tugu, Keraton, Panggung Krapyak, Pantai Parangtritis — bukan kebetulan geografis. Ini adalah mandala kosmologis yang direncanakan Sultan HB I.",
+      en: "Yogyakarta's philosophical axis — Mount Merapi, Tugu, Kraton, Panggung Krapyak, Parangtritis Beach — is no geographical accident. It is a cosmological mandala planned by Sultan HB I.",
+    },
+    highlights: {
+      id: [
+        "Sumbu Filosofis 33 km",
+        "Bangsal Kencana & Siti Hinggil",
+        "Konsep Hamemayu Hayuning Bawana",
+      ],
+      en: [
+        "33 km Philosophical Axis",
+        "Golden Pavilion & Siti Hinggil",
+        "Hamemayu Hayuning Bawana Concept",
+      ],
+    },
     reverse: true,
   },
 ];
 
-const festivals = [
+const rawFestivals = [
   {
     id: "sekaten",
-    name: "Sekaten & Pasar Malam",
-    month: "Maulud (Rabiul Awal)",
-    desc: "Perayaan kelahiran Nabi Muhammad SAW yang ditandai dengan dibunyikannya gamelan pusaka selama 7 hari penuh di halaman Masjid Gedhe Kauman, diiringi pasar raya rakyat.",
+    name: { id: "Sekaten & Pasar Malam", en: "Sekaten & Night Market" },
+    month: { id: "Maulud (Rabiul Awal)", en: "Mawlid (Rabi' al-Awwal)" },
+    desc: {
+      id: "Perayaan kelahiran Nabi Muhammad SAW yang ditandai dengan dibunyikannya gamelan pusaka selama 7 hari penuh di halaman Masjid Gedhe Kauman, diiringi pasar raya rakyat.",
+      en: "A celebration of the Prophet Muhammad's birth marked by the playing of heirloom gamelan for 7 full days in the courtyard of the Great Kauman Mosque, accompanied by a folk market.",
+    },
   },
   {
     id: "grebeg",
-    name: "Grebeg Syawal & Besar",
-    month: "Syawal & Dzulhijjah",
-    desc: "Sultan membagikan sedekah bumi berupa 'Gunungan' hasil panen yang diarak oleh prajurit keraton untuk diperebutkan rakyat sebagai wujud berkah (ngalap berkah).",
+    name: { id: "Grebeg Syawal & Besar", en: "Grebeg Syawal & Besar" },
+    month: { id: "Syawal & Dzulhijjah", en: "Shawwal & Dhu al-Hijjah" },
+    desc: {
+      id: "Sultan membagikan sedekah bumi berupa 'Gunungan' hasil panen yang diarak oleh prajurit keraton untuk diperebutkan rakyat sebagai wujud berkah (ngalap berkah).",
+      en: "The Sultan distributes earth's alms in the form of a 'Gunungan' of harvest yields, paraded by palace guards for the people to fight over as a manifestation of blessing (ngalap berkah).",
+    },
   },
   {
     id: "labuhan",
-    name: "Labuhan Alit & Ageng",
-    month: "Rajab",
-    desc: "Upacara persembahan Kraton di Pantai Parangtritis, Gunung Merapi, dan Gunung Lawu untuk menjaga keseimbangan spiritual antara manusia, alam, dan Tuhan.",
+    name: { id: "Labuhan Alit & Ageng", en: "Labuhan Alit & Ageng" },
+    month: { id: "Rajab", en: "Rajab" },
+    desc: {
+      id: "Upacara persembahan Kraton di Pantai Parangtritis, Gunung Merapi, dan Gunung Lawu untuk menjaga keseimbangan spiritual antara manusia, alam, dan Tuhan.",
+      en: "A Kraton offering ceremony at Parangtritis Beach, Mount Merapi, and Mount Lawu to maintain spiritual balance between humans, nature, and God.",
+    },
   },
 ];
+
+const culturalHeritage = computed(() => {
+  const l = locale.value as "id" | "en";
+  return rawCulturalHeritage.map((item) => ({
+    ...item,
+    displayTitle: item.title[l],
+    displaySubtitle: item.subtitle[l],
+    displayDescription: item.description[l],
+    displayHighlights: item.highlights[l],
+  }));
+});
+
+const festivals = computed(() => {
+  const l = locale.value as "id" | "en";
+  return rawFestivals.map((fest) => ({
+    ...fest,
+    displayName: fest.name[l],
+    displayMonth: fest.month[l],
+    displayDesc: fest.desc[l],
+  }));
+});
+
+useHead({
+  title: computed(() =>
+    locale.value === "id"
+      ? "Budaya - Jiwa Nusantara"
+      : "Culture - Jiwa Nusantara",
+  ),
+});
 </script>
 
 <template>
@@ -95,9 +189,15 @@ const festivals = [
     <CategoryHeader
       v-observe
       class="reveal-up"
-      category="Budaya"
-      title="Denyut Nadi Tradisi"
-      description="Visualisasi mahakarya warisan budaya yang terus hidup dalam keseharian warganya."
+      :category="locale === 'id' ? 'Budaya' : 'Culture'"
+      :title="
+        locale === 'id' ? 'Denyut Nadi Tradisi' : 'The Pulse of Tradition'
+      "
+      :description="
+        locale === 'id'
+          ? 'Visualisasi mahakarya warisan budaya yang terus hidup dalam keseharian warganya.'
+          : 'Visualizing masterpiece cultural heritages that live on in the daily lives of its citizens.'
+      "
     />
 
     <div class="flex flex-col gap-20 lg:gap-32 mt-10">
@@ -114,7 +214,7 @@ const festivals = [
         >
           <img
             :src="item.image"
-            :alt="item.title"
+            :alt="item.displayTitle"
             class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
             loading="lazy"
           />
@@ -124,7 +224,11 @@ const festivals = [
           <div
             class="absolute bottom-4 left-4 z-20 font-josefin text-[8px] tracking-[0.2em] text-white/70 uppercase bg-ink/80 backdrop-blur-sm px-3 py-1 border border-white/10"
           >
-            Arsip Kebudayaan · 2026
+            {{
+              locale === "id"
+                ? "Arsip Kebudayaan · 2026"
+                : "Cultural Archive · 2026"
+            }}
           </div>
         </div>
         <div
@@ -139,19 +243,19 @@ const festivals = [
           <h2
             class="font-libre text-[32px] lg:text-[44px] font-bold text-ink leading-[1.1] mb-4"
           >
-            {{ item.title }}
+            {{ item.displayTitle }}
           </h2>
           <h3 class="font-libre text-[16px] italic text-muted mb-8">
-            {{ item.subtitle }}
+            {{ item.displaySubtitle }}
           </h3>
           <p
             class="text-[15px] font-light text-brown leading-[1.9] mb-10 max-w-[500px]"
           >
-            {{ item.description }}
+            {{ item.displayDescription }}
           </p>
           <ul class="flex flex-col gap-4 border-l border-line pl-6">
             <li
-              v-for="highlight in item.highlights"
+              v-for="highlight in item.displayHighlights"
               :key="highlight"
               class="font-josefin text-[11px] font-semibold tracking-[0.15em] uppercase text-ink flex items-center gap-4 before:content-[''] before:block before:w-3 before:h-[1px] before:bg-terra"
             >
@@ -167,16 +271,19 @@ const festivals = [
         <div
           class="font-josefin text-[10px] tracking-[0.25em] uppercase text-terra mb-6"
         >
-          Kalender Ritual
+          {{ locale === "id" ? "Kalender Ritual" : "Ritual Calendar" }}
         </div>
         <h2
           class="font-libre text-[36px] lg:text-[48px] font-bold text-ink mb-6"
         >
-          Siklus Waktu Mataram
+          {{ locale === "id" ? "Siklus Waktu Mataram" : "Mataram Time Cycle" }}
         </h2>
         <p class="text-[15px] font-light text-brown max-w-[600px] mx-auto">
-          Ritual tahunan yang menolak punah. Kapan waktu terbaik untuk
-          menyaksikan wajah asli budaya Yogyakarta?
+          {{
+            locale === "id"
+              ? "Ritual tahunan yang menolak punah. Kapan waktu terbaik untuk menyaksikan wajah asli budaya Yogyakarta?"
+              : "Annual rituals that refuse to go extinct. When is the best time to witness the true face of Yogyakarta culture?"
+          }}
         </p>
       </div>
 
@@ -197,15 +304,15 @@ const festivals = [
             class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4 flex items-center gap-3"
           >
             <span class="w-2 h-2 rounded-full bg-terra"></span>
-            Bulan {{ fest.month }}
+            {{ locale === "id" ? "Bulan" : "Month of" }} {{ fest.displayMonth }}
           </div>
           <h3
             class="font-libre text-[22px] lg:text-[26px] font-bold text-ink mb-4"
           >
-            {{ fest.name }}
+            {{ fest.displayName }}
           </h3>
           <p class="text-[14px] font-light text-brown leading-[1.8]">
-            {{ fest.desc }}
+            {{ fest.displayDesc }}
           </p>
         </article>
       </div>

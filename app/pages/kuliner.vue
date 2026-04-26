@@ -1,126 +1,158 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { useHead, useI18n } from "#imports";
 import { MapPin, Banknote } from "lucide-vue-next";
 
-const categories = ["Semua", "Makanan Berat", "Cemilan", "Minuman"];
+const { locale } = useI18n();
+
+const categories = computed(() => [
+  { key: "Semua", label: locale.value === "id" ? "Semua" : "All" },
+  {
+    key: "Makanan Berat",
+    label: locale.value === "id" ? "Makanan Berat" : "Main Course",
+  },
+  { key: "Cemilan", label: locale.value === "id" ? "Cemilan" : "Snacks" },
+  { key: "Minuman", label: locale.value === "id" ? "Minuman" : "Drinks" },
+]);
+
 const activeCategory = ref("Semua");
 
-const culinaryItems = [
+const rawCulinary = [
   {
-    title: "Gudeg Kraton",
+    id: "gudeg",
     category: "Makanan Berat",
+    featured: true,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Gudeg_Jogja.jpg",
-    story:
-      "Nangka muda direbus 12 jam dengan santan dan gula aren. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
-    meta: "Warisan Dapur Kerajaan",
-    address: "Jl. Wijilan, Panembahan",
-    price: "Rp 25.000 - 50.000",
-    featured: true,
+    title: { id: "Gudeg Kraton", en: "Royal Gudeg" },
+    story: {
+      id: "Nangka muda direbus 12 jam dengan santan dan gula aren. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
+      en: "Young jackfruit boiled for 12 hours with coconut milk and palm sugar. A royal kitchen recipe unchanged since the 18th century.",
+    },
+    meta: { id: "Warisan Dapur Kerajaan", en: "Royal Kitchen Heritage" },
+    address: { id: "Jl. Wijilan, Panembahan", en: "Wijilan St., Panembahan" },
+    price: { id: "Rp 25.000 - 50.000", en: "IDR 25,000 - 50,000" },
   },
   {
-    title: "Oseng Mercon Bu Narti",
+    id: "oseng",
     category: "Makanan Berat",
+    featured: false,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Oseng_mercon.jpg",
-    story:
-      "Kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Provokasi terhadap rasa manis-gurih.",
-    meta: "Perlawanan Pedas",
-    address: "Jl. KH. Ahmad Dahlan",
-    price: "Rp 30.000 / Porsi",
-    featured: false,
+    title: {
+      id: "Oseng Mercon Bu Narti",
+      en: "Bu Narti's Firecracker Stir-fry",
+    },
+    story: {
+      id: "Kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Provokasi terhadap rasa manis-gurih.",
+      en: "Beef tendon and skin stir-fried with an industrial amount of bird's eye chili. A provocation against the sweet-savory norm.",
+    },
+    meta: { id: "Perlawanan Pedas", en: "Spicy Resistance" },
+    address: { id: "Jl. KH. Ahmad Dahlan", en: "KH. Ahmad Dahlan St." },
+    price: { id: "Rp 30.000 / Porsi", en: "IDR 30,000 / Portion" },
   },
   {
-    title: "Sate Klathak",
+    id: "klathak",
     category: "Makanan Berat",
+    featured: false,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Sate_Klathak.jpg",
-    story:
-      "Dua tusuk jeruji sepeda memastikan daging kambing matang merata. Hanya dibumbui garam kasar.",
-    meta: "Minimalis Ekstrem",
-    address: "Jl. Imogiri Timur, Bantul",
-    price: "Rp 35.000 - 50.000",
-    featured: false,
+    title: { id: "Sate Klathak", en: "Klathak Satay" },
+    story: {
+      id: "Dua tusuk jeruji sepeda memastikan daging kambing matang merata. Hanya dibumbui garam kasar.",
+      en: "Two bicycle spokes skewers ensure the mutton is cooked evenly. Seasoned only with coarse sea salt.",
+    },
+    meta: { id: "Minimalis Ekstrem", en: "Extreme Minimalism" },
+    address: {
+      id: "Jl. Imogiri Timur, Bantul",
+      en: "East Imogiri St., Bantul",
+    },
+    price: { id: "Rp 35.000 - 50.000", en: "IDR 35,000 - 50,000" },
   },
   {
-    title: "Sego Kucing Angkringan",
-    category: "Makanan Berat",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Makanan_angkringan.jpg",
-    story:
-      "Nasi sekepal dengan sekuku bandeng. Bukan soal porsi, tapi kultur diskusi egaliter di bawah temaram lampu gerobak.",
-    meta: "Kultur Egaliter",
-    address: "Tersebar di seluruh sudut kota",
-    price: "Rp 3.000 / Bungkus",
-    featured: false,
-  },
-  {
-    title: "Tiwul Gunungkidul",
-    category: "Makanan Berat",
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tiwul.JPG",
-    story:
-      "Substitusi beras dari singkong kering peninggalan masa paceklik, kini diangkat menjadi warisan kuliner otentik.",
-    meta: "Penyintas Zaman",
-    address: "Kabupaten Gunungkidul",
-    price: "Rp 10.000 / Porsi",
-    featured: false,
-  },
-  {
-    title: "Bakpia Pathok 75",
+    id: "bakpia",
     category: "Cemilan",
+    featured: false,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Bakpia_Pathok.jpg",
-    story:
-      "Akulturasi kuliner Tionghoa-Jawa abad 20. Kulit tipis berlapis isi pasta kacang hijau kukus tradisional.",
-    meta: "Akulturasi Budaya",
-    address: "Kawasan Pathuk",
-    price: "Rp 45.000 / Kotak",
-    featured: false,
+    title: { id: "Bakpia Pathok 75", en: "Bakpia Pathok 75" },
+    story: {
+      id: "Akulturasi kuliner Tionghoa-Jawa abad 20. Kulit tipis berlapis isi pasta kacang hijau kukus tradisional.",
+      en: "20th-century Chinese-Javanese culinary acculturation. Thin layered skin filled with traditional steamed mung bean paste.",
+    },
+    meta: { id: "Akulturasi Budaya", en: "Cultural Acculturation" },
+    address: { id: "Kawasan Pathuk", en: "Pathuk Area" },
+    price: { id: "Rp 45.000 / Kotak", en: "IDR 45,000 / Box" },
   },
   {
-    title: "Jadah Tempe Mbah Carik",
-    category: "Cemilan",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Jadah_tempe.jpg",
-    story:
-      "Kombinasi tak lazim ketan putih tumbuk bersanding tempe bacem. Camilan favorit Sultan HB IX saat menyepi ke lereng Merapi.",
-    meta: "Camilan Monarki",
-    address: "Kaliurang, Sleman",
-    price: "Rp 15.000 / Paket",
-    featured: false,
-  },
-  {
-    title: "Kopi Joss Lek Man",
+    id: "kopijos",
     category: "Minuman",
+    featured: false,
     image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kopi_Joss.jpg",
-    story:
-      "Arang membara yang diceburkan memunculkan karbon aktif yang menetralkan asam lambung dan menciptakan aroma karamel.",
-    meta: "Kimia Warung Angkringan",
-    address: "Utara Stasiun Tugu",
-    price: "Rp 8.000 / Gelas",
-    featured: false,
+    title: { id: "Kopi Joss Lek Man", en: "Lek Man's Joss Coffee" },
+    story: {
+      id: "Arang membara yang diceburkan memunculkan karbon aktif yang menetralkan asam lambung.",
+      en: "Plunging burning charcoal releases activated carbon that neutralizes stomach acid.",
+    },
+    meta: { id: "Kimia Warung Angkringan", en: "Angkringan Chemistry" },
+    address: { id: "Utara Stasiun Tugu", en: "North of Tugu Station" },
+    price: { id: "Rp 8.000 / Gelas", en: "IDR 8,000 / Glass" },
   },
   {
-    title: "Wedang Uwuh",
+    id: "wedang",
     category: "Minuman",
+    featured: false,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Wedang_Uwuh.jpg",
-    story:
-      "Campuran jahe bakar, kayu secang, cengkeh, dan pala yang tampak seperti reruntuhan dedaunan di dalam gelas.",
-    meta: "Jamu dalam Cangkir",
-    address: "Makam Raja Imogiri",
-    price: "Rp 10.000 / Gelas",
-    featured: false,
+    title: { id: "Wedang Uwuh", en: "Trash Ginger Drink" },
+    story: {
+      id: "Campuran jahe bakar, kayu secang, cengkeh, dan pala yang tampak seperti reruntuhan dedaunan.",
+      en: "A blend of roasted ginger, sappan wood, cloves, and nutmeg that looks like leaf debris.",
+    },
+    meta: { id: "Jamu dalam Cangkir", en: "Herbal Medicine in a Cup" },
+    address: { id: "Makam Raja Imogiri", en: "Imogiri Royal Cemetery" },
+    price: { id: "Rp 10.000 / Gelas", en: "IDR 10,000 / Glass" },
   },
 ];
 
-const filteredItems = computed(() => {
-  if (activeCategory.value === "Semua")
-    return culinaryItems.filter((i) => !i.featured);
-  return culinaryItems.filter((i) => i.category === activeCategory.value);
+const culinaryItems = computed(() => {
+  const l = locale.value as "id" | "en";
+  return rawCulinary.map((item) => ({
+    ...item,
+    displayTitle: item.title[l],
+    displayStory: item.story[l],
+    displayMeta: item.meta[l],
+    displayAddress: item.address[l],
+    displayPrice: item.price[l],
+    displayCategory:
+      l === "id"
+        ? item.category
+        : item.category === "Makanan Berat"
+          ? "Main Course"
+          : item.category === "Cemilan"
+            ? "Snacks"
+            : "Drinks",
+  }));
 });
 
-const featuredItem = culinaryItems.find((i) => i.featured);
+const featuredItem = computed(() =>
+  culinaryItems.value.find((i) => i.featured),
+);
+
+const filteredItems = computed(() => {
+  if (activeCategory.value === "Semua") {
+    return culinaryItems.value.filter((i) => !i.featured);
+  }
+  return culinaryItems.value.filter((i) => i.category === activeCategory.value);
+});
+
+useHead({
+  title: computed(() =>
+    locale.value === "id"
+      ? "Kuliner - Jiwa Nusantara"
+      : "Culinary - Jiwa Nusantara",
+  ),
+});
 </script>
 
 <template>
@@ -130,9 +162,17 @@ const featuredItem = culinaryItems.find((i) => i.featured);
     <CategoryHeader
       v-observe
       class="reveal-up"
-      category="Kuliner"
-      title="Simfoni Rasa Manis & Gurih"
-      description="Eksplorasi gastronomi lokal. Cerita kesabaran di balik setiap hidangan yang menjadi identitas Yogyakarta."
+      :category="locale === 'id' ? 'Kuliner' : 'Culinary'"
+      :title="
+        locale === 'id'
+          ? 'Simfoni Rasa Manis & Gurih'
+          : 'Symphony of Sweet & Savory'
+      "
+      :description="
+        locale === 'id'
+          ? 'Eksplorasi gastronomi lokal. Cerita kesabaran di balik setiap hidangan.'
+          : 'Explore local gastronomy. Stories of patience behind every dish.'
+      "
     />
 
     <section
@@ -145,7 +185,7 @@ const featuredItem = culinaryItems.find((i) => i.featured);
       >
         <img
           :src="featuredItem.image"
-          :alt="featuredItem.title"
+          :alt="featuredItem.displayTitle"
           class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
           loading="lazy"
         />
@@ -155,34 +195,36 @@ const featuredItem = culinaryItems.find((i) => i.featured);
         <div
           class="absolute top-4 left-4 z-20 font-josefin text-[9px] uppercase tracking-widest text-white/90 bg-ink/80 backdrop-blur-sm px-3 py-1 border border-white/10"
         >
-          Khas Mataram
+          {{ locale === "id" ? "Khas Mataram" : "Traditional Mataram" }}
         </div>
       </div>
       <div class="flex flex-col justify-center">
         <div
           class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4"
         >
-          {{ featuredItem.meta }}
+          {{ featuredItem.displayMeta }}
         </div>
         <h2
           class="font-libre text-[32px] lg:text-[44px] font-bold text-ink mb-6 leading-[1.15]"
         >
-          {{ featuredItem.title }}
+          {{ featuredItem.displayTitle }}
         </h2>
         <p
           class="text-[16px] font-light text-brown leading-[1.9] mb-8 italic border-l-2 border-terra pl-5"
         >
-          "{{ featuredItem.story }}"
+          "{{ featuredItem.displayStory }}"
         </p>
 
         <div
           class="flex flex-col gap-3 pt-6 border-t border-line font-josefin text-[10px] tracking-[0.15em] text-muted"
         >
           <div class="flex items-center gap-3">
-            <MapPin class="w-3 h-3 text-terra" /> {{ featuredItem.address }}
+            <MapPin class="w-3 h-3 text-terra" />
+            {{ featuredItem.displayAddress }}
           </div>
           <div class="flex items-center gap-3">
-            <Banknote class="w-3 h-3 text-terra" /> {{ featuredItem.price }}
+            <Banknote class="w-3 h-3 text-terra" />
+            {{ featuredItem.displayPrice }}
           </div>
         </div>
       </div>
@@ -194,17 +236,16 @@ const featuredItem = culinaryItems.find((i) => i.featured);
     >
       <button
         v-for="cat in categories"
-        :key="cat"
-        @click="activeCategory = cat"
-        :aria-label="`Saring kategori kuliner ${cat}`"
+        :key="cat.key"
+        @click="activeCategory = cat.key"
         class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 px-5 py-3 border border-transparent cursor-pointer"
         :class="
-          activeCategory === cat
+          activeCategory === cat.key
             ? 'bg-terra text-warm-white shadow-md'
             : 'text-muted hover:border-line hover:text-ink'
         "
       >
-        {{ cat }}
+        {{ cat.label }}
       </button>
     </div>
 
@@ -214,7 +255,7 @@ const featuredItem = culinaryItems.find((i) => i.featured);
       <transition-group name="list">
         <article
           v-for="item in filteredItems"
-          :key="item.title"
+          :key="item.id"
           class="group flex flex-col h-full"
         >
           <div
@@ -222,7 +263,7 @@ const featuredItem = culinaryItems.find((i) => i.featured);
           >
             <img
               :src="item.image"
-              :alt="item.title"
+              :alt="item.displayTitle"
               class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
               loading="lazy"
             />
@@ -233,27 +274,28 @@ const featuredItem = culinaryItems.find((i) => i.featured);
           <div
             class="font-josefin text-[9px] font-semibold tracking-[0.2em] uppercase text-terra mb-3 flex items-center gap-2"
           >
-            {{ item.category }} <span class="text-line">|</span> {{ item.meta }}
+            {{ item.displayCategory }} <span class="text-line">|</span>
+            {{ item.displayMeta }}
           </div>
           <h3
             class="font-libre text-[22px] font-bold text-ink mb-3 group-hover:text-terra transition-colors duration-300"
           >
-            {{ item.title }}
+            {{ item.displayTitle }}
           </h3>
           <p
             class="text-[14px] font-light text-brown leading-[1.8] flex-grow mb-6"
           >
-            {{ item.story }}
+            {{ item.displayStory }}
           </p>
 
           <div
             class="pt-4 border-t border-line flex flex-col gap-3 font-josefin text-[9px] tracking-[0.15em] text-muted transition-colors duration-300"
           >
             <div class="flex items-center gap-3">
-              <MapPin class="w-3 h-3 text-terra" /> {{ item.address }}
+              <MapPin class="w-3 h-3 text-terra" /> {{ item.displayAddress }}
             </div>
             <div class="flex items-center gap-3">
-              <Banknote class="w-3 h-3 text-terra" /> {{ item.price }}
+              <Banknote class="w-3 h-3 text-terra" /> {{ item.displayPrice }}
             </div>
           </div>
         </article>

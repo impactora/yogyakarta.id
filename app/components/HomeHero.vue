@@ -1,37 +1,62 @@
 <script setup lang="ts">
-const features = [
+const { locale } = useI18n();
+
+const rawFeatures = [
   {
     id: "01",
-    title: "Sejarah",
-    sub: "1.200 tahun perjalanan",
+    title: { id: "Sejarah", en: "History" },
+    sub: { id: "1.200 tahun perjalanan", en: "1,200 years of journey" },
     path: "/sejarah",
   },
   {
     id: "02",
-    title: "Budaya",
-    sub: "Wayang · Batik · Gamelan",
+    title: { id: "Budaya", en: "Culture" },
+    sub: { id: "Wayang · Batik · Gamelan", en: "Puppetry · Batik · Gamelan" },
     path: "/budaya",
   },
   {
     id: "03",
-    title: "Kuliner",
-    sub: "Gudeg · Bakpia · Kopi Joss",
+    title: { id: "Kuliner", en: "Culinary" },
+    sub: {
+      id: "Gudeg · Bakpia · Kopi Joss",
+      en: "Gudeg · Bakpia · Joss Coffee",
+    },
     path: "/kuliner",
   },
   {
     id: "04",
-    title: "Wisata",
-    sub: "Prambanan · Keraton · Merapi",
+    title: { id: "Wisata", en: "Tourism" },
+    sub: {
+      id: "Prambanan · Keraton · Merapi",
+      en: "Prambanan · Palace · Merapi",
+    },
     path: "/wisata",
   },
   {
     id: "05",
-    title: "Teknologi",
-    sub: "21 Universitas · 300+ Startup",
+    title: { id: "Teknologi", en: "Technology" },
+    sub: {
+      id: "21 Universitas · 300+ Startup",
+      en: "21 Universities · 300+ Startups",
+    },
     path: "/teknologi",
   },
-  { id: "06", title: "Peta", sub: "Navigasi interaktif kota", path: "/peta" },
+  {
+    id: "06",
+    title: { id: "Peta", en: "Map" },
+    sub: { id: "Navigasi interaktif kota", en: "Interactive city navigation" },
+    path: "/peta",
+  },
 ];
+
+const features = computed(() => {
+  const l = locale.value as "id" | "en";
+  return rawFeatures.map((feat) => ({
+    ...feat,
+    displayTitle: feat.title[l],
+    displaySub: feat.sub[l],
+  }));
+});
 </script>
 
 <template>
@@ -47,17 +72,29 @@ const features = [
         Nusantara Digital City 2026
       </div>
       <h1
+        v-if="locale === 'id'"
         class="font-libre text-[clamp(40px,10vw,52px)] lg:text-[clamp(52px,6vw,80px)] font-bold leading-[1.08] text-ink mb-6 lg:mb-8"
       >
         Kota yang<br />Tak Pernah<br /><em class="italic text-terra block"
           >Berhenti</em
         >
       </h1>
+      <h1
+        v-else
+        class="font-libre text-[clamp(40px,10vw,52px)] lg:text-[clamp(52px,6vw,80px)] font-bold leading-[1.08] text-ink mb-6 lg:mb-8"
+      >
+        The City<br />That Never<br /><em class="italic text-terra block"
+          >Stops</em
+        >
+      </h1>
       <p
         class="font-libre text-base italic text-muted leading-[1.7] border-l-[3px] border-terra pl-5 mb-12"
       >
-        "Yogyakarta bukan tempat yang kamu kunjungi — ini tempat yang kamu
-        pulang kepadanya, sekalipun baru pertama kali datang."
+        {{
+          locale === "id"
+            ? '"Yogyakarta bukan tempat yang kamu kunjungi — ini tempat yang kamu pulang kepadanya, sekalipun baru pertama kali datang."'
+            : '"Yogyakarta is not a place you visit — it is a place you return to, even if it is your first time coming."'
+        }}
       </p>
       <div
         class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-muted flex items-center gap-5 before:content-[''] before:block before:w-5 before:h-px before:bg-current"
@@ -72,7 +109,9 @@ const features = [
       <div
         class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-gold-warm/80 mb-6"
       >
-        Enam Dimensi Kota
+        {{
+          locale === "id" ? "Enam Dimensi Kota" : "Six Dimensions of the City"
+        }}
       </div>
       <div
         class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5"
@@ -91,10 +130,10 @@ const features = [
           <div
             class="font-libre text-base text-parchment/90 leading-[1.3] mb-2 group-hover:text-white transition-colors duration-200"
           >
-            {{ item.title }}
+            {{ item.displayTitle }}
           </div>
           <div class="text-xs font-light text-white/35 leading-[1.6]">
-            {{ item.sub }}
+            {{ item.displaySub }}
           </div>
         </NuxtLink>
       </div>

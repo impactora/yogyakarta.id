@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
+import { useRouter } from "vue-router";
 import {
   MessageSquare,
   X,
@@ -12,22 +12,18 @@ import {
   Map,
   Bot,
   AlertTriangle,
+  Printer,
 } from "lucide-vue-next";
 
+const { locale } = useI18n();
 const isOpen = ref(false);
 const activeView = ref<"menu" | "chat" | "planner">("menu");
 
-// AI CHAT (GEMINI API)
 const inputMessage = ref("");
 const isLoadingChat = ref(false);
 const chatContainer = ref<HTMLElement | null>(null);
 
-const chatHistory = ref([
-  {
-    role: "ai",
-    text: "Sugeng rawuh. Saya asisten Jiwa Nusantara. Ingin bertanya tentang Jogja atau merancang itinerary?",
-  },
-]);
+const chatHistory = ref<{ role: string; text: string }[]>([]);
 
 const scrollToBottom = async () => {
   await nextTick();
@@ -48,19 +44,21 @@ const sendMessage = async () => {
   try {
     const response = await $fetch("/api/chat", {
       method: "POST",
-      body: { message: userText },
+      body: { message: userText, locale: locale.value },
     });
 
     if (response && response.reply) {
       chatHistory.value.push({ role: "ai", text: response.reply });
     } else {
-      throw new Error("Respons API tidak valid");
+      throw new Error("Invalid API Response");
     }
   } catch (error: any) {
-    console.error("Chat API Error:", error);
     chatHistory.value.push({
       role: "ai",
-      text: "Maaf, Pemandu AI sedang mengalami gangguan koneksi ke server pusat. Silakan coba beberapa saat lagi.",
+      text:
+        locale.value === "id"
+          ? "Maaf, Pemandu AI sedang mengalami gangguan koneksi. Silakan coba beberapa saat lagi."
+          : "Sorry, the AI Guide is experiencing a connection issue. Please try again later.",
     });
   } finally {
     isLoadingChat.value = false;
@@ -68,21 +66,31 @@ const sendMessage = async () => {
   }
 };
 
-// TRIP PLANNER (GROQ/GEMINI API)
 const plannerForm = ref({
   days: 2,
-  interest: "Campuran (Budaya, Alam, Kuliner)",
+  interest: "campuran",
 });
 const isGeneratingPlanner = ref(false);
 const itinerary = ref<any[] | null>(null);
 const plannerError = ref<string | null>(null);
 
-const interests = [
-  "Sejarah & Kraton",
-  "Alam & Pantai",
-  "Kuliner",
-  "Campuran (Budaya, Alam, Kuliner)",
+const rawInterests = [
+  { id: "sejarah", label: { id: "Sejarah & Kraton", en: "History & Palace" } },
+  { id: "alam", label: { id: "Alam & Pantai", en: "Nature & Beaches" } },
+  { id: "kuliner", label: { id: "Kuliner", en: "Culinary" } },
+  {
+    id: "campuran",
+    label: {
+      id: "Campuran (Budaya, Alam, Kuliner)",
+      en: "Mixed (Culture, Nature, Culinary)",
+    },
+  },
 ];
+
+const interests = computed(() => {
+  const l = locale.value as "id" | "en";
+  return rawInterests.map((i) => ({ id: i.id, label: i.label[l] }));
+});
 
 const generatePlan = async () => {
   isGeneratingPlanner.value = true;
@@ -92,22 +100,167 @@ const generatePlan = async () => {
   try {
     const response = await $fetch("/api/planner", {
       method: "POST",
-      body: plannerForm.value,
+      body: { ...plannerForm.value, locale: locale.value },
     });
 
     if (response && response.plan && Array.isArray(response.plan)) {
-      itinerary.value = response.plan;
+      itinerary.value = response.plan.map((d: any, index: number) => {
+        let rawActivities =
+          d.kegiatan ||
+          d.activities ||
+          d.aktivitas ||
+          d.agenda ||
+          d.itinerary ||
+          d.schedule;
+
+        if (!rawActivities) {
+          const potentialKeys = Object.keys(d).filter(
+            (k) => !["hari", "day", "date"].includes(k.toLowerCase()),
+          );
+          if (potentialKeys.length > 0) {
+            rawActivities = potentialKeys.map((k) => ({
+              waktu: k,
+              kegiatan: d[k],
+            }));
+          } else {
+            rawActivities = [];
+          }
+        }
+
+        if (!Array.isArray(rawActivities)) {
+          if (typeof rawActivities === "object" && rawActivities !== null) {
+            rawActivities = Object.entries(rawActivities).map(([k, v]) => ({
+              waktu: k,
+              kegiatan: v,
+            }));
+          } else {
+            rawActivities = [String(rawActivities)];
+          }
+        }
+
+        const normalizedActivities = rawActivities.map((act: any) => {
+          if (typeof act === "string") {
+            const parts = act.split(/:\s*(.+)/);
+            if (parts.length > 1) {
+              return {
+                waktu: parts[0].trim(),
+                kegiatan: parts[1].trim(),
+                deskripsi: "",
+              };
+            }
+            return { waktu: "-", kegiatan: act, deskripsi: "" };
+          } else if (typeof act === "object" && act !== null) {
+            return {
+              waktu: act.waktu || act.time || act.jam || "-",
+              kegiatan:
+                act.kegiatan ||
+                act.activity ||
+                act.title ||
+                act.aktivitas ||
+                act.nama ||
+                Object.values(act)[0] ||
+                "Aktivitas",
+              deskripsi: act.deskripsi || act.desc || act.description || "",
+            };
+          }
+          return {
+            waktu: "-",
+            kegiatan: "Aktivitas tidak diketahui",
+            deskripsi: "",
+          };
+        });
+
+        return {
+          day: d.hari || d.day || index + 1,
+          kegiatan: normalizedActivities,
+        };
+      });
     } else {
-      throw new Error(
-        "Struktur JSON dari AI tidak sesuai format (bukan Array)",
-      );
+      throw new Error("JSON structure mismatch");
     }
   } catch (error: any) {
-    console.error("Planner API Error:", error);
     plannerError.value =
-      "Nexus AI gagal merakit jadwal. Pastikan kunci API telah dikonfigurasi dengan benar di server.";
+      locale.value === "id"
+        ? "Nexus AI gagal merakit jadwal. Pastikan kunci API telah dikonfigurasi dengan benar."
+        : "Nexus AI failed to assemble the schedule. Ensure the API key is configured correctly.";
   } finally {
     isGeneratingPlanner.value = false;
+  }
+};
+
+const downloadPDF = () => {
+  if (!itinerary.value) return;
+
+  const docTitle =
+    locale.value === "id"
+      ? `Jadwal_${plannerForm.value.days}_Hari_Jiwa_Nusantara`
+      : `Itinerary_${plannerForm.value.days}_Days_Jiwa_Nusantara`;
+  const headerText =
+    locale.value === "id"
+      ? `Jadwal Perjalanan ${plannerForm.value.days} Hari`
+      : `${plannerForm.value.days}-Day Travel Itinerary`;
+  const dayText = locale.value === "id" ? "Hari" : "Day";
+
+  let printContent = `
+    <!DOCTYPE html>
+    <html lang="${locale.value}">
+    <head>
+      <meta charset="UTF-8">
+      <title>${docTitle}</title>
+      <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a1208; padding: 40px; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+        h1 { font-family: 'Georgia', serif; font-size: 28px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid #1a1208; padding-bottom: 15px; margin-bottom: 30px; }
+        .day-block { margin-bottom: 40px; page-break-inside: avoid; }
+        h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 2px; color: #c84b31; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-bottom: 20px; }
+        .activity { margin-bottom: 20px; display: flex; flex-direction: column; gap: 6px; }
+        .time { font-size: 10px; font-weight: bold; color: #c84b31; text-transform: uppercase; letter-spacing: 1px; }
+        .details { border-left: 2px solid #ddd; padding-left: 14px; padding-top: 2px; padding-bottom: 2px; }
+        .title { font-weight: bold; font-size: 15px; margin-bottom: 4px; color: #1a1208; }
+        .desc { font-size: 13px; color: #555; }
+        @media print {
+          body { padding: 0; }
+          @page { margin: 2cm; }
+        }
+      </style>
+    </head>
+    <body>
+      <h1>${headerText}</h1>
+  `;
+
+  itinerary.value.forEach((day: any) => {
+    printContent += `
+      <div class="day-block">
+        <h2>${dayText} ${day.day}</h2>
+    `;
+
+    if (day.kegiatan && day.kegiatan.length > 0) {
+      day.kegiatan.forEach((act: any) => {
+        printContent += `
+          <div class="activity">
+            <div class="time">${act.waktu || "-"}</div>
+            <div class="details">
+              <div class="title">${act.kegiatan || ""}</div>
+              ${act.deskripsi ? `<div class="desc">${act.deskripsi}</div>` : ""}
+            </div>
+          </div>
+        `;
+      });
+    } else {
+      printContent += `<p>Data aktivitas tidak tersedia.</p>`;
+    }
+    printContent += `</div>`;
+  });
+
+  printContent += `</body></html>`;
+
+  const printWindow = window.open("", "_blank");
+  if (printWindow) {
+    printWindow.document.write(printContent);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+      printWindow.print();
+    }, 250);
   }
 };
 </script>
@@ -117,7 +270,7 @@ const generatePlan = async () => {
     <transition name="slide-up">
       <div
         v-if="isOpen"
-        class="mb-4 w-[340px] sm:w-[380px] h-[550px] bg-warm-white rounded-2xl shadow-2xl flex flex-col overflow-hidden origin-bottom-right border border-line/30"
+        class="mb-4 w-[340px] sm:w-[400px] h-[580px] bg-warm-white rounded-2xl shadow-2xl flex flex-col overflow-hidden origin-bottom-right border border-line/30"
       >
         <div
           class="bg-ink p-4 flex items-center justify-between text-warm-white"
@@ -127,7 +280,7 @@ const generatePlan = async () => {
               v-if="activeView !== 'menu'"
               @click="activeView = 'menu'"
               class="hover:bg-white/10 p-1.5 rounded-lg transition-colors"
-              aria-label="Kembali ke Menu"
+              :aria-label="locale === 'id' ? 'Kembali ke Menu' : 'Back to Menu'"
             >
               <ArrowLeft class="w-4 h-4" />
             </button>
@@ -141,8 +294,12 @@ const generatePlan = async () => {
                   activeView === "menu"
                     ? "Nexus AI"
                     : activeView === "chat"
-                      ? "Pemandu Digital"
-                      : "Arsitek Perjalanan"
+                      ? locale === "id"
+                        ? "Pemandu Digital"
+                        : "Digital Guide"
+                      : locale === "id"
+                        ? "Arsitek Perjalanan"
+                        : "Trip Architect"
                 }}
               </div>
               <div class="font-lato text-[10px] text-white/50">
@@ -153,7 +310,7 @@ const generatePlan = async () => {
           <button
             @click="isOpen = false"
             class="hover:bg-white/10 p-1.5 rounded-lg transition-colors"
-            aria-label="Tutup Panel"
+            :aria-label="locale === 'id' ? 'Tutup Panel' : 'Close Panel'"
           >
             <X class="w-5 h-5" />
           </button>
@@ -165,10 +322,14 @@ const generatePlan = async () => {
         >
           <div class="text-center mb-6">
             <h3 class="font-libre text-[22px] font-bold text-ink mb-2">
-              Halo, Penjelajah.
+              {{ locale === "id" ? "Halo, Penjelajah." : "Hello, Explorer." }}
             </h3>
             <p class="text-[14px] text-brown font-light">
-              Bagaimana saya bisa membantumu menemukan jiwa Yogyakarta hari ini?
+              {{
+                locale === "id"
+                  ? "Bagaimana saya bisa membantumu menemukan jiwa Yogyakarta hari ini?"
+                  : "How can I help you discover the soul of Yogyakarta today?"
+              }}
             </p>
           </div>
 
@@ -185,11 +346,14 @@ const generatePlan = async () => {
             </div>
             <div>
               <div class="font-libre text-[16px] font-bold text-ink mb-1">
-                Tanya Pemandu
+                {{ locale === "id" ? "Tanya Pemandu" : "Ask the Guide" }}
               </div>
               <div class="text-[12px] text-brown font-light leading-relaxed">
-                Tanya rute, harga tiket, atau sejarah destinasi secara
-                real-time.
+                {{
+                  locale === "id"
+                    ? "Tanya rute, harga tiket, atau sejarah destinasi secara real-time."
+                    : "Ask about routes, ticket prices, or destination history in real-time."
+                }}
               </div>
             </div>
           </button>
@@ -207,10 +371,14 @@ const generatePlan = async () => {
             </div>
             <div>
               <div class="font-libre text-[16px] font-bold text-ink mb-1">
-                Rancang Itinerary
+                {{ locale === "id" ? "Rancang Itinerary" : "Design Itinerary" }}
               </div>
               <div class="text-[12px] text-brown font-light leading-relaxed">
-                AI akan merakit jadwal perjalanan otomatis berdasarkan minatmu.
+                {{
+                  locale === "id"
+                    ? "AI akan merakit jadwal perjalanan otomatis berdasarkan minatmu."
+                    : "AI will automatically assemble a travel schedule based on your interests."
+                }}
               </div>
             </div>
           </button>
@@ -224,6 +392,19 @@ const generatePlan = async () => {
             ref="chatContainer"
             class="flex-grow overflow-y-auto p-5 flex flex-col gap-4"
           >
+            <div
+              class="max-w-[85%] p-3 rounded-2xl text-[14px] font-light leading-relaxed shadow-sm bg-white border border-line text-ink self-start rounded-tl-sm"
+            >
+              <div class="flex gap-2 items-start">
+                <Sparkles class="w-3 h-3 mt-1 flex-shrink-0 text-terra" />
+                <span>{{
+                  locale === "id"
+                    ? "Sugeng rawuh. Saya asisten Jiwa Nusantara. Ingin bertanya tentang Jogja atau merancang itinerary?"
+                    : "Welcome. I am the Jiwa Nusantara assistant. Would you like to ask about Jogja or plan an itinerary?"
+                }}</span>
+              </div>
+            </div>
+
             <div
               v-for="(msg, index) in chatHistory"
               :key="index"
@@ -254,7 +435,9 @@ const generatePlan = async () => {
               class="bg-white border border-line text-ink self-start p-3 rounded-2xl rounded-tl-sm max-w-[85%] flex items-center gap-2 text-[14px]"
             >
               <Sparkles class="w-3 h-3 animate-spin text-terra" />
-              <span class="text-muted italic">Menyusun jawaban...</span>
+              <span class="text-muted italic">{{
+                locale === "id" ? "Menyusun jawaban..." : "Drafting response..."
+              }}</span>
             </div>
           </div>
 
@@ -265,7 +448,11 @@ const generatePlan = async () => {
             <input
               v-model="inputMessage"
               type="text"
-              placeholder="Ketik pertanyaanmu..."
+              :placeholder="
+                locale === 'id'
+                  ? 'Ketik pertanyaanmu...'
+                  : 'Type your question...'
+              "
               class="flex-grow bg-warm-white border border-line rounded-xl px-4 py-2.5 text-[14px] font-light focus:outline-none focus:border-terra transition-colors"
               :disabled="isLoadingChat"
             />
@@ -298,7 +485,9 @@ const generatePlan = async () => {
             class="flex flex-col gap-6 animate-fade-in"
           >
             <div class="font-libre text-[18px] font-bold text-ink">
-              Berapa lama di Jogja?
+              {{
+                locale === "id" ? "Berapa lama di Jogja?" : "How long in Jogja?"
+              }}
             </div>
             <div class="flex gap-2">
               <button
@@ -312,26 +501,30 @@ const generatePlan = async () => {
                     : 'border-line text-muted bg-white hover:border-ink'
                 "
               >
-                {{ d }} Hr
+                {{ d }} {{ locale === "id" ? "Hr" : "Day" }}
               </button>
             </div>
 
             <div class="font-libre text-[18px] font-bold text-ink mt-2">
-              Apa fokus minatmu?
+              {{
+                locale === "id"
+                  ? "Apa fokus minatmu?"
+                  : "What is your interest?"
+              }}
             </div>
             <div class="flex flex-col gap-2">
               <button
                 v-for="int in interests"
-                :key="int"
-                @click="plannerForm.interest = int"
+                :key="int.id"
+                @click="plannerForm.interest = int.id"
                 class="text-left px-4 py-3 rounded-xl border font-josefin text-[12px] tracking-[0.05em] uppercase transition-all"
                 :class="
-                  plannerForm.interest === int
+                  plannerForm.interest === int.id
                     ? 'border-terra bg-ink text-terra shadow-md'
                     : 'border-line text-muted bg-white hover:border-ink'
                 "
               >
-                {{ int }}
+                {{ int.label }}
               </button>
             </div>
 
@@ -339,7 +532,8 @@ const generatePlan = async () => {
               @click="generatePlan"
               class="w-full bg-terra hover:bg-ink text-white rounded-xl py-4 mt-4 font-josefin text-[12px] font-bold tracking-[0.2em] uppercase transition-all shadow-lg flex justify-center gap-2"
             >
-              <Sparkles class="w-4 h-4" /> Rancang Itinerary
+              <Sparkles class="w-4 h-4" />
+              {{ locale === "id" ? "Rancang Itinerary" : "Design Itinerary" }}
             </button>
           </div>
 
@@ -353,81 +547,101 @@ const generatePlan = async () => {
             <div
               class="font-josefin text-[12px] uppercase tracking-[0.2em] text-ink animate-pulse"
             >
-              Menghubungi Nexus AI...
+              {{
+                locale === "id"
+                  ? "Menghubungi Nexus AI..."
+                  : "Contacting Nexus AI..."
+              }}
             </div>
             <div class="text-[12px] text-muted mt-2 px-6">
-              Memproses data spasial dan waktu untuk
-              {{ plannerForm.days }} hari...
+              {{
+                locale === "id"
+                  ? `Memproses data spasial dan waktu untuk ${plannerForm.days} hari...`
+                  : `Processing spatial and temporal data for ${plannerForm.days} days...`
+              }}
             </div>
           </div>
 
           <div
             v-if="itinerary"
-            class="animate-fade-in flex flex-col gap-6 pb-6"
+            class="animate-fade-in flex flex-col gap-5 pb-6"
           >
-            <div class="flex justify-between items-center mb-2">
-              <div class="font-libre text-[20px] font-bold text-ink">
-                Jadwal {{ plannerForm.days }} Hari
+            <div
+              class="flex justify-between items-center mb-2 border-b border-line pb-3"
+            >
+              <div class="font-libre text-[18px] font-bold text-ink">
+                {{
+                  locale === "id"
+                    ? `Jadwal ${plannerForm.days} Hari`
+                    : `${plannerForm.days}-Day Schedule`
+                }}
               </div>
-              <button
-                @click="
-                  itinerary = null;
-                  plannerError = null;
-                "
-                class="font-josefin text-[10px] text-terra uppercase underline tracking-widest"
-              >
-                Ubah Rencana
-              </button>
+              <div class="flex gap-3">
+                <button
+                  @click="downloadPDF"
+                  class="font-josefin flex items-center gap-1.5 text-[10px] text-ink hover:text-terra uppercase tracking-widest transition-colors"
+                  title="Simpan sebagai PDF"
+                >
+                  <Printer class="w-3.5 h-3.5" /> PDF
+                </button>
+                <button
+                  @click="
+                    itinerary = null;
+                    plannerError = null;
+                  "
+                  class="font-josefin text-[10px] text-terra uppercase underline tracking-widest"
+                >
+                  {{ locale === "id" ? "Ubah Rencana" : "Change Plan" }}
+                </button>
+              </div>
             </div>
 
             <div
               v-for="day in itinerary"
               :key="day.day"
-              class="bg-white rounded-xl border border-line p-4 shadow-sm"
+              class="bg-white rounded-xl border border-line p-5 shadow-sm"
             >
               <div
-                class="font-josefin text-[12px] font-bold text-terra uppercase tracking-widest mb-3 border-b border-line pb-2"
+                class="font-josefin text-[13px] font-bold text-terra uppercase tracking-widest mb-5"
               >
-                Hari {{ day.hari || day.day }}
+                {{ locale === "id" ? "Hari" : "Day" }} {{ day.day }}
               </div>
-              <div class="flex flex-col gap-4">
-                <template v-if="typeof day.kegiatan[0] === 'string'">
+
+              <div class="flex flex-col gap-6">
+                <template v-if="day.kegiatan && day.kegiatan.length > 0">
                   <div
                     v-for="(act, idx) in day.kegiatan"
-                    :key="'str-' + idx"
-                    class="flex gap-3"
+                    :key="'act-' + idx"
+                    class="flex flex-col gap-1.5"
                   >
                     <div
-                      class="font-libre text-[14px] font-bold text-ink leading-tight"
+                      class="font-josefin text-[10px] font-bold text-terra uppercase tracking-widest"
                     >
-                      {{ act }}
+                      {{ act.waktu }}
+                    </div>
+                    <div class="border-l-2 border-line pl-3 py-0.5">
+                      <div
+                        class="font-libre text-[14px] font-medium text-ink leading-snug"
+                      >
+                        {{ act.kegiatan }}
+                      </div>
+                      <div
+                        v-if="act.deskripsi"
+                        class="text-[12px] font-light text-brown leading-relaxed mt-1.5"
+                      >
+                        {{ act.deskripsi }}
+                      </div>
                     </div>
                   </div>
                 </template>
+
                 <template v-else>
-                  <div
-                    v-for="(act, idx) in day.kegiatan"
-                    :key="'obj-' + idx"
-                    class="flex gap-3"
-                  >
-                    <div
-                      class="font-josefin text-[10px] font-bold text-ink/40 w-[35px] pt-1 flex-shrink-0"
-                    >
-                      {{ act.waktu || act.time || "-" }}
-                    </div>
-                    <div>
-                      <div
-                        class="font-libre text-[14px] font-bold text-ink leading-tight mb-1"
-                      >
-                        {{ act.kegiatan || act.title }}
-                      </div>
-                      <div
-                        v-if="act.deskripsi || act.desc"
-                        class="text-[12px] font-light text-brown leading-relaxed"
-                      >
-                        {{ act.deskripsi || act.desc }}
-                      </div>
-                    </div>
+                  <div class="text-[12px] text-muted italic">
+                    {{
+                      locale === "id"
+                        ? "Data aktivitas tidak tersedia."
+                        : "Activity data is unavailable."
+                    }}
                   </div>
                 </template>
               </div>
@@ -445,7 +659,7 @@ const generatePlan = async () => {
           ? 'scale-90 opacity-0 pointer-events-none absolute'
           : 'scale-100 opacity-100 relative'
       "
-      aria-label="Buka Nexus AI"
+      :aria-label="locale === 'id' ? 'Buka Nexus AI' : 'Open Nexus AI'"
     >
       <Sparkles class="w-6 h-6 group-hover:scale-110 transition-transform" />
     </button>

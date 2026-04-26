@@ -4,7 +4,7 @@
   >
     <AppNavbar />
 
-    <div class="flex-grow relative w-full pt-[60px] lg:pt-[72px]">
+    <div class="flex-grow relative w-full">
       <slot />
     </div>
 

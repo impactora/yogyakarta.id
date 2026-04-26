@@ -8,7 +8,7 @@
     >
     <span
       class="font-josefin text-[10px] font-light tracking-[0.15em] uppercase text-parchment/35"
-      >Nusantara Digital City 2026 · Media Cloud Indonesia</span
+      >impactora</span
     >
   </footer>
 </template>

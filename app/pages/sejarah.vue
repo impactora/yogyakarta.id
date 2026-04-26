@@ -1,64 +1,109 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useHead, useI18n } from "#imports";
 
-const timeline = [
+const { locale } = useI18n();
+
+const rawTimeline = [
   {
     year: "732",
-    title: "Prasasti Canggal",
-    desc: "Raja Sanjaya mendirikan lingga di Bukit Stirangga, Gunung Wukir. Dokumen tertua keberadaan peradaban Hindu di dataran Kedu — titik nol sejarah tertulis Yogyakarta.",
-    meta: "Awal Peradaban",
+    title: { id: "Prasasti Canggal", en: "Canggal Inscription" },
+    desc: {
+      id: "Raja Sanjaya mendirikan lingga di Bukit Stirangga, Gunung Wukir. Dokumen tertua keberadaan peradaban Hindu di dataran Kedu — titik nol sejarah tertulis Yogyakarta.",
+      en: "King Sanjaya erected a lingam on Stirangga Hill, Mount Wukir. The oldest document of Hindu civilization in the Kedu plain — the zero point of Yogyakarta's written history.",
+    },
+    meta: { id: "Awal Peradaban", en: "Dawn of Civilization" },
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Canggal_inscription.jpg",
   },
   {
     year: "856",
-    title: "Rampungnya Prambanan",
-    desc: "Wangsa Sanjaya merampungkan kompleks candi Hindu terbesar Asia Tenggara. 240 struktur batu andesit dibangun tanpa semen — hanya gravitasi, presisi, dan keyakinan.",
-    meta: "Puncak Wangsa Sanjaya",
+    title: { id: "Rampungnya Prambanan", en: "Completion of Prambanan" },
+    desc: {
+      id: "Wangsa Sanjaya merampungkan kompleks candi Hindu terbesar Asia Tenggara. 240 struktur batu andesit dibangun tanpa semen — hanya gravitasi, presisi, dan keyakinan.",
+      en: "The Sanjaya dynasty completed Southeast Asia's largest Hindu temple complex. 240 andesite stone structures built without cement — only gravity, precision, and faith.",
+    },
+    meta: { id: "Puncak Wangsa Sanjaya", en: "Peak of Sanjaya Dynasty" },
     image: "https://commons.wikimedia.org/wiki/Special:FilePath/Prambanan.jpg",
   },
   {
     year: "1755",
-    title: "Perjanjian Giyanti",
-    desc: "VOC membelah Mataram Islam. Pangeran Mangkubumi menjadi Sultan Hamengku Buwono I dan langsung merancang tata kota berbasis poros kosmologis.",
-    meta: "Kelahiran Kesultanan",
+    title: { id: "Perjanjian Giyanti", en: "Treaty of Giyanti" },
+    desc: {
+      id: "VOC membelah Mataram Islam. Pangeran Mangkubumi menjadi Sultan Hamengku Buwono I dan langsung merancang tata kota berbasis poros kosmologis.",
+      en: "The VOC divided the Islamic Mataram. Prince Mangkubumi became Sultan Hamengku Buwono I and immediately designed a city layout based on a cosmological axis.",
+    },
+    meta: { id: "Kelahiran Kesultanan", en: "Birth of the Sultanate" },
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Keraton_Ngayogyakarta.jpg",
   },
   {
     year: "1825",
-    title: "Perang Diponegoro",
-    desc: "Lima tahun gerilya dari Goa Selarong menguras kas Hindia Belanda hingga Fl 20 juta. Perlawanan terpanjang dan termahal yang pernah dihadapi VOC di Jawa.",
-    meta: "Perlawanan Kolonial",
+    title: { id: "Perang Diponegoro", en: "Java War" },
+    desc: {
+      id: "Lima tahun gerilya dari Goa Selarong menguras kas Hindia Belanda hingga Fl 20 juta. Perlawanan terpanjang dan termahal yang pernah dihadapi VOC di Jawa.",
+      en: "Five years of guerrilla warfare from Selarong Cave drained the Dutch East Indies treasury by 20 million guilders. The longest and most expensive resistance the VOC ever faced in Java.",
+    },
+    meta: { id: "Perlawanan Kolonial", en: "Colonial Resistance" },
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Raden_Saleh_-_Diponegoro_arrest.jpg",
   },
   {
     year: "1946",
-    title: "Yogyakarta: Ibukota Republik",
-    desc: "Sultan HB IX menyerahkan kedaulatan wilayahnya kepada NKRI. Ketika Jakarta jatuh ke NICA, Yogyakarta menjelma menjadi jantung revolusi kemerdekaan.",
-    meta: "Revolusi",
+    title: {
+      id: "Yogyakarta: Ibukota Republik",
+      en: "Yogyakarta: Capital of the Republic",
+    },
+    desc: {
+      id: "Sultan HB IX menyerahkan kedaulatan wilayahnya kepada NKRI. Ketika Jakarta jatuh ke NICA, Yogyakarta menjelma menjadi jantung revolusi kemerdekaan.",
+      en: "Sultan HB IX surrendered his territory's sovereignty to the Republic of Indonesia. When Jakarta fell to NICA, Yogyakarta became the heart of the independence revolution.",
+    },
+    meta: { id: "Revolusi", en: "Revolution" },
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Gedung_Agung.jpg",
   },
   {
     year: "1949",
-    title: "Serangan Umum 1 Maret",
-    desc: "TNI menduduki Yogyakarta selama 6 jam di bawah komando Letkol Soeharto. Serangan simbolis yang membuktikan kepada PBB bahwa RI belum mati.",
-    meta: "Eksistensi Militer",
+    title: { id: "Serangan Umum 1 Maret", en: "March 1st General Attack" },
+    desc: {
+      id: "TNI menduduki Yogyakarta selama 6 jam di bawah komando Letkol Soeharto. Serangan simbolis yang membuktikan kepada PBB bahwa RI belum mati.",
+      en: "The Indonesian National Armed Forces occupied Yogyakarta for 6 hours under the command of Lt. Col. Soeharto. A symbolic attack proving to the UN that Indonesia was not dead.",
+    },
+    meta: { id: "Eksistensi Militer", en: "Military Existence" },
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Monumen_Serangan_Umum_1_Maret_(1_March_General_Attack_Monument).JPG",
   },
   {
     year: "2012",
-    title: "UU Keistimewaan DIY",
-    desc: "UU No. 13 Tahun 2012 mengukuhkan Sultan dan Paku Alam sebagai Gubernur dan Wakil Gubernur seumur hidup — satu-satunya monarki konstitusional diakui negara.",
-    meta: "Era Istimewa",
+    title: { id: "UU Keistimewaan DIY", en: "Special Region Law" },
+    desc: {
+      id: "UU No. 13 Tahun 2012 mengukuhkan Sultan dan Paku Alam sebagai Gubernur dan Wakil Gubernur seumur hidup — satu-satunya monarki konstitusional diakui negara.",
+      en: "Law No. 13 of 2012 confirmed the Sultan and Paku Alam as Governor and Vice Governor for life — the only state-recognized constitutional monarchy.",
+    },
+    meta: { id: "Era Istimewa", en: "Special Era" },
     image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tugu_Jogja.jpg",
   },
 ];
 
+const timeline = computed(() => {
+  const l = locale.value as "id" | "en";
+  return rawTimeline.map((item) => ({
+    ...item,
+    displayTitle: item.title[l],
+    displayDesc: item.desc[l],
+    displayMeta: item.meta[l],
+  }));
+});
+
 const activeIndex = ref(0);
+
+useHead({
+  title: computed(() =>
+    locale.value === "id"
+      ? "Sejarah - Jiwa Nusantara"
+      : "History - Jiwa Nusantara",
+  ),
+});
 </script>
 
 <template>
@@ -68,9 +113,17 @@ const activeIndex = ref(0);
     <CategoryHeader
       v-observe
       class="reveal-up"
-      category="Sejarah"
-      title="Merekam Jejak Waktu"
-      description="Menelusuri linimasa sejarah, dari pendirian Kraton Yogyakarta hingga masa revolusi kemerdekaan."
+      :category="locale === 'id' ? 'Sejarah' : 'History'"
+      :title="
+        locale === 'id'
+          ? 'Merekam Jejak Waktu'
+          : 'Recording the Footprints of Time'
+      "
+      :description="
+        locale === 'id'
+          ? 'Menelusuri linimasa sejarah, dari pendirian Kraton Yogyakarta hingga masa revolusi kemerdekaan.'
+          : 'Tracing the historical timeline, from the founding of the Yogyakarta Palace to the independence revolution.'
+      "
     />
 
     <div
@@ -83,7 +136,7 @@ const activeIndex = ref(0);
           v-for="(item, index) in timeline"
           :key="index"
           @click="activeIndex = index"
-          :aria-label="`Lihat detail peristiwa ${item.title} tahun ${item.year}`"
+          :aria-label="`Lihat detail peristiwa ${item.displayTitle} tahun ${item.year}`"
           v-observe
           class="relative text-left group cursor-pointer reveal-up"
           :style="`transition-delay: ${(index % 5) * 100}ms`"
@@ -114,7 +167,7 @@ const activeIndex = ref(0);
                 : 'text-ink/40 group-hover:text-ink/70'
             "
           >
-            {{ item.title }}
+            {{ item.displayTitle }}
           </h3>
         </button>
       </div>
@@ -129,29 +182,34 @@ const activeIndex = ref(0);
           >
             <img
               :src="timeline[activeIndex].image"
-              :alt="timeline[activeIndex].title"
+              :alt="timeline[activeIndex].displayTitle"
               class="w-full h-full object-cover opacity-90"
             />
             <div
               class="absolute bottom-3 right-3 bg-ink/80 backdrop-blur-sm px-3 py-1 font-lato text-[9px] text-white/50 border border-white/10 uppercase tracking-widest"
             >
-              Arsip Visual · 2026
+              {{
+                locale === "id"
+                  ? "Arsip Visual · 2026"
+                  : "Visual Archive · 2026"
+              }}
             </div>
           </div>
           <div
             class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4"
           >
-            Babak: {{ timeline[activeIndex].meta }}
+            {{ locale === "id" ? "Babak" : "Act" }}:
+            {{ timeline[activeIndex].displayMeta }}
           </div>
           <h2
             class="font-libre text-[28px] lg:text-[36px] font-bold text-ink leading-[1.2] mb-6"
           >
-            {{ timeline[activeIndex].title }}
+            {{ timeline[activeIndex].displayTitle }}
           </h2>
           <p
             class="text-[15px] font-light text-brown leading-[1.9] max-w-[500px]"
           >
-            {{ timeline[activeIndex].desc }}
+            {{ timeline[activeIndex].displayDesc }}
           </p>
         </div>
       </div>

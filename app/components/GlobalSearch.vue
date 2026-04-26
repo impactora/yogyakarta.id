@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import {
   Search,
@@ -12,6 +11,8 @@ import {
 } from "lucide-vue-next";
 import Fuse from "fuse.js";
 
+const { locale } = useI18n();
+
 const props = defineProps({
   isOpen: { type: Boolean, required: true },
 });
@@ -22,142 +23,198 @@ const router = useRouter();
 const searchQuery = ref("");
 const searchInput = ref<HTMLInputElement | null>(null);
 
-const searchIndex = [
+const rawSearchIndex = [
   {
     id: "s1",
-    title: "Prasasti Canggal",
-    category: "Sejarah",
-    desc: "Dokumen tertua keberadaan peradaban Hindu di dataran Kedu (732 M).",
     url: "/sejarah",
     icon: Landmark,
+    category: { id: "Sejarah", en: "History" },
+    title: { id: "Prasasti Canggal", en: "Canggal Inscription" },
+    desc: {
+      id: "Dokumen tertua keberadaan peradaban Hindu di dataran Kedu (732 M).",
+      en: "The oldest document of Hindu civilization in the Kedu plain (732 AD).",
+    },
   },
   {
     id: "s2",
-    title: "Perang Diponegoro",
-    category: "Sejarah",
-    desc: "Perlawanan terpanjang dan termahal yang pernah dihadapi VOC di Jawa.",
     url: "/sejarah",
     icon: Landmark,
+    category: { id: "Sejarah", en: "History" },
+    title: { id: "Perang Diponegoro", en: "Java War" },
+    desc: {
+      id: "Perlawanan terpanjang dan termahal yang pernah dihadapi VOC di Jawa.",
+      en: "The longest and most expensive resistance the VOC ever faced in Java.",
+    },
   },
   {
     id: "s3",
-    title: "Serangan Umum 1 Maret",
-    category: "Sejarah",
-    desc: "Pembuktian eksistensi militer Republik Indonesia kepada dunia.",
     url: "/sejarah",
     icon: Landmark,
+    category: { id: "Sejarah", en: "History" },
+    title: { id: "Serangan Umum 1 Maret", en: "March 1st General Attack" },
+    desc: {
+      id: "Pembuktian eksistensi militer Republik Indonesia kepada dunia.",
+      en: "Proof of the military existence of the Republic of Indonesia to the world.",
+    },
   },
-
   {
     id: "b1",
-    title: "Wayang Kulit Purwa",
-    category: "Budaya",
-    desc: "Seni pertunjukan bayangan semalam suntuk dengan 200 karakter.",
     url: "/budaya",
     icon: Landmark,
+    category: { id: "Budaya", en: "Culture" },
+    title: { id: "Wayang Kulit Purwa", en: "Purwa Shadow Puppets" },
+    desc: {
+      id: "Seni pertunjukan bayangan semalam suntuk dengan 200 karakter.",
+      en: "All-night shadow performance art with 200 characters.",
+    },
   },
   {
     id: "b2",
-    title: "Batik Kraton",
-    category: "Budaya",
-    desc: "Filosofi motif larangan seperti Parang Rusak dan pewarna soga alami.",
     url: "/budaya",
     icon: Landmark,
+    category: { id: "Budaya", en: "Culture" },
+    title: { id: "Batik Kraton", en: "Kraton Batik" },
+    desc: {
+      id: "Filosofi motif larangan seperti Parang Rusak dan pewarna soga alami.",
+      en: "Philosophy of forbidden motifs like Parang Rusak and natural soga dye.",
+    },
   },
   {
     id: "b3",
-    title: "Gamelan Kraton",
-    category: "Budaya",
-    desc: "Demokrasi suara berusia sepuluh abad tanpa instrumen prima donna.",
     url: "/budaya",
     icon: Landmark,
+    category: { id: "Budaya", en: "Culture" },
+    title: { id: "Gamelan Kraton", en: "Kraton Gamelan" },
+    desc: {
+      id: "Demokrasi suara berusia sepuluh abad tanpa instrumen prima donna.",
+      en: "Ten-century-old democracy of sound with no prima donna instrument.",
+    },
   },
-
   {
     id: "k1",
-    title: "Gudeg Kraton",
-    category: "Kuliner",
-    desc: "Nangka muda direbus 12 jam dengan santan dan gula aren.",
     url: "/kuliner",
     icon: Utensils,
+    category: { id: "Kuliner", en: "Culinary" },
+    title: { id: "Gudeg Kraton", en: "Royal Gudeg" },
+    desc: {
+      id: "Nangka muda direbus 12 jam dengan santan dan gula aren.",
+      en: "Young jackfruit boiled for 12 hours with coconut milk and palm sugar.",
+    },
   },
   {
     id: "k2",
-    title: "Oseng Mercon",
-    category: "Kuliner",
-    desc: "Kikil sapi ditumis dengan cabai rawit industrial. Perlawanan pedas.",
     url: "/kuliner",
     icon: Utensils,
+    category: { id: "Kuliner", en: "Culinary" },
+    title: { id: "Oseng Mercon", en: "Firecracker Stir-fry" },
+    desc: {
+      id: "Kikil sapi ditumis dengan cabai rawit industrial. Perlawanan pedas.",
+      en: "Beef tendon stir-fried with industrial bird's eye chili. Spicy resistance.",
+    },
   },
   {
     id: "k3",
-    title: "Sate Klathak",
-    category: "Kuliner",
-    desc: "Daging kambing matang merata di atas jeruji besi sepeda.",
     url: "/kuliner",
     icon: Utensils,
+    category: { id: "Kuliner", en: "Culinary" },
+    title: { id: "Sate Klathak", en: "Klathak Satay" },
+    desc: {
+      id: "Daging kambing matang merata di atas jeruji besi sepeda.",
+      en: "Mutton cooked evenly on bicycle iron spokes.",
+    },
   },
-
   {
     id: "w1",
-    title: "Candi Prambanan",
-    category: "Wisata",
-    desc: "Trilogi candi Trimurti setinggi 47 meter dari wangsa Sanjaya.",
     url: "/wisata",
     icon: MapPin,
+    category: { id: "Wisata", en: "Tourism" },
+    title: { id: "Candi Prambanan", en: "Prambanan Temple" },
+    desc: {
+      id: "Trilogi candi Trimurti setinggi 47 meter dari wangsa Sanjaya.",
+      en: "47-meter high Trimurti temple trilogy from the Sanjaya dynasty.",
+    },
   },
   {
     id: "w2",
-    title: "Jalan Malioboro",
-    category: "Wisata",
-    desc: "Koridor 2 kilometer yang merupakan sumbu filosofis kota.",
     url: "/wisata",
     icon: MapPin,
+    category: { id: "Wisata", en: "Tourism" },
+    title: { id: "Jalan Malioboro", en: "Malioboro Street" },
+    desc: {
+      id: "Koridor 2 kilometer yang merupakan sumbu filosofis kota.",
+      en: "2-kilometer corridor that is the city's philosophical axis.",
+    },
   },
   {
     id: "w3",
-    title: "Gunung Merapi",
-    category: "Wisata",
-    desc: "Stratovolcano paling aktif di Indonesia.",
     url: "/wisata",
     icon: MapPin,
+    category: { id: "Wisata", en: "Tourism" },
+    title: { id: "Gunung Merapi", en: "Mount Merapi" },
+    desc: {
+      id: "Stratovolcano paling aktif di Indonesia.",
+      en: "The most active stratovolcano in Indonesia.",
+    },
   },
   {
     id: "w4",
-    title: "Kawasan Kaliurang",
-    category: "Wisata",
-    desc: "Resor pegunungan bersejarah di lereng selatan Merapi.",
     url: "/wisata",
     icon: MapPin,
+    category: { id: "Wisata", en: "Tourism" },
+    title: { id: "Kawasan Kaliurang", en: "Kaliurang Area" },
+    desc: {
+      id: "Resor pegunungan bersejarah di lereng selatan Merapi.",
+      en: "Historic mountain resort on the southern slopes of Merapi.",
+    },
   },
-
   {
     id: "t1",
-    title: "Silicon Wali",
-    category: "Teknologi",
-    desc: "Koridor ekosistem startup di Ringroad Utara.",
     url: "/teknologi",
     icon: MonitorSmartphone,
+    category: { id: "Teknologi", en: "Technology" },
+    title: { id: "Silicon Wali", en: "Silicon Wali" },
+    desc: {
+      id: "Koridor ekosistem startup di Ringroad Utara.",
+      en: "Startup ecosystem corridor in North Ringroad.",
+    },
   },
   {
     id: "t2",
-    title: "Jogja Smart Province",
-    category: "Teknologi",
-    desc: "Cetak biru digitalisasi layanan publik dan sensor IoT mitigasi bencana.",
     url: "/teknologi",
     icon: MonitorSmartphone,
+    category: { id: "Teknologi", en: "Technology" },
+    title: { id: "Jogja Smart Province", en: "Jogja Smart Province" },
+    desc: {
+      id: "Cetak biru digitalisasi layanan publik dan sensor IoT mitigasi bencana.",
+      en: "Blueprint for public service digitalization and disaster mitigation IoT sensors.",
+    },
   },
 ];
 
-const fuse = new Fuse(searchIndex, {
-  keys: ["title", "desc", "category"],
-  threshold: 0.3,
-  includeScore: true,
+const localizedSearchIndex = computed(() => {
+  const l = locale.value as "id" | "en";
+  return rawSearchIndex.map((item) => ({
+    id: item.id,
+    url: item.url,
+    icon: item.icon,
+    category: item.category[l],
+    title: item.title[l],
+    desc: item.desc[l],
+  }));
 });
+
+const fuse = computed(
+  () =>
+    new Fuse(localizedSearchIndex.value, {
+      keys: ["title", "desc", "category"],
+      threshold: 0.3,
+      includeScore: true,
+    }),
+);
 
 const searchResults = computed(() => {
   if (!searchQuery.value.trim()) return [];
-  const results = fuse.search(searchQuery.value);
+  const results = fuse.value.search(searchQuery.value);
   return results.slice(0, 5).map((r) => r.item);
 });
 
@@ -173,7 +230,6 @@ watch(
     if (newVal) {
       await nextTick();
       searchInput.value?.focus();
-      // Kunci scroll halaman belakang
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -202,7 +258,11 @@ watch(
             ref="searchInput"
             v-model="searchQuery"
             type="text"
-            placeholder="Cari destinasi, kuliner, atau sejarah..."
+            :placeholder="
+              locale === 'id'
+                ? 'Cari destinasi, kuliner, atau sejarah...'
+                : 'Search destinations, culinary, or history...'
+            "
             class="flex-grow bg-transparent border-none outline-none px-4 text-[18px] font-libre text-ink placeholder:text-muted/50"
             @keydown.esc="emit('close')"
           />
@@ -220,7 +280,11 @@ watch(
             v-if="searchQuery && searchResults.length === 0"
             class="p-10 text-center text-brown font-light"
           >
-            Tidak ada dokumen yang cocok dengan
+            {{
+              locale === "id"
+                ? "Tidak ada dokumen yang cocok dengan"
+                : "No documents match"
+            }}
             <span class="font-bold text-ink">"{{ searchQuery }}"</span>.
           </div>
 
@@ -232,7 +296,7 @@ watch(
             <div
               class="font-josefin text-[12px] uppercase tracking-widest text-muted"
             >
-              Mulai Mengetik
+              {{ locale === "id" ? "Mulai Mengetik" : "Start Typing" }}
             </div>
           </div>
 
@@ -274,15 +338,19 @@ watch(
         <div
           class="px-6 py-3 bg-white border-t border-line font-josefin text-[10px] text-muted flex justify-between items-center uppercase tracking-widest"
         >
-          <span>Mesin Pencari Internal</span>
-          <span class="flex items-center gap-2"
-            >Gunakan
+          <span>{{
+            locale === "id"
+              ? "Mesin Pencari Internal"
+              : "Internal Search Engine"
+          }}</span>
+          <span class="flex items-center gap-2">
+            {{ locale === "id" ? "Gunakan" : "Use" }}
             <kbd
               class="px-1.5 py-0.5 border border-line rounded bg-warm-white font-sans text-[9px]"
               >ESC</kbd
             >
-            untuk menutup</span
-          >
+            {{ locale === "id" ? "untuk menutup" : "to close" }}
+          </span>
         </div>
       </div>
     </div>

@@ -1,22 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useHead, useI18n } from "#imports";
-import {
-  Clock,
-  Ticket,
-  Bus,
-  MapPin,
-  Share2,
-  Printer,
-  Globe,
-} from "lucide-vue-next";
+import { Clock, Ticket, Bus, MapPin, Share2, Printer } from "lucide-vue-next";
 
+const { locale } = useI18n();
 const toast = useToast();
-
-const { locale, setLocale } = useI18n();
-const toggleLocale = () => {
-  setLocale(locale.value === "id" ? "en" : "id");
-};
 
 const rawDestinations = [
   {
@@ -151,7 +139,7 @@ const rawDestinations = [
 const destinations = computed(() => {
   return rawDestinations.map((d) => ({
     ...d,
-    displayDesc: d.desc[locale.value],
+    displayDesc: d.desc[locale.value as "id" | "en"],
   }));
 });
 
@@ -182,7 +170,7 @@ const shareDestination = async (item: any) => {
     try {
       await navigator.share(shareData);
     } catch (err) {
-      console.log("Share dibatalkan pengguna atau error internal:", err);
+      console.log("Share dibatalkan pengguna:", err);
     }
   } else {
     try {
@@ -216,27 +204,6 @@ useHead({
       ? "Wisata - Jiwa Nusantara"
       : "Tourism - Jiwa Nusantara",
   ),
-  script: [
-    {
-      type: "application/ld+json",
-      innerHTML: computed(() =>
-        JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          itemListElement: destinations.value.map((dest, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            item: {
-              "@type": "TouristAttraction",
-              name: dest.title,
-              description: dest.displayDesc,
-              publicAccess: true,
-            },
-          })),
-        }),
-      ),
-    },
-  ],
 });
 </script>
 
@@ -262,13 +229,6 @@ useHead({
       />
 
       <div class="flex gap-2 reveal-up delay-100 mt-2 lg:mt-0">
-        <button
-          @click="toggleLocale"
-          class="flex items-center gap-2 px-3 py-2 border border-line bg-white hover:border-terra transition-colors font-josefin text-[10px] font-bold tracking-widest uppercase cursor-pointer"
-        >
-          <Globe class="w-4 h-4 text-terra" />
-          {{ locale === "id" ? "ID -> EN" : "EN -> ID" }}
-        </button>
         <button
           @click="triggerPrint"
           class="hidden md:flex items-center gap-2 px-3 py-2 bg-ink text-white hover:bg-terra transition-colors font-josefin text-[10px] tracking-widest uppercase cursor-pointer"
@@ -312,7 +272,7 @@ useHead({
           v-for="item in destinations"
           :key="item.id"
           @click="activeDestination = item.id"
-          :aria-label="`Tampilkan info destinasi wisata ${item.title}`"
+          :aria-label="`Tampilkan info destinasi ${item.title}`"
           class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden flex flex-col print:border-b-2 print:border-ink print:mb-8 print:p-0 print:break-inside-avoid"
           :class="
             activeDestination === item.id
@@ -430,24 +390,3 @@ useHead({
     </div>
   </main>
 </template>
-
-<style>
-@media print {
-  body {
-    background-color: white !important;
-  }
-  .no-print,
-  nav,
-  footer,
-  .floating-ai-widget {
-    display: none !important;
-  }
-  .reveal-up {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .no-print-bg {
-    background-color: transparent !important;
-  }
-}
-</style>
