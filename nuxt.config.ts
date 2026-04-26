@@ -6,6 +6,18 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
 
+  modules: ["@nuxtjs/i18n"],
+
+  i18n: {
+    strategy: "no_prefix",
+    locales: [
+      { code: "id", name: "Indonesia" },
+      { code: "en", name: "English" },
+    ],
+    defaultLocale: "id",
+    vueI18n: "./i18n.config.ts",
+  },
+
   runtimeConfig: {
     geminiApiKey: process.env.GEMINI_API_KEY,
     groqApiKey: process.env.GROQ_API_KEY,

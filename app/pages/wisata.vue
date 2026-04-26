@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useHead } from "#imports";
+import { useHead, useI18n } from "#imports";
 import {
   Clock,
   Ticket,
@@ -11,11 +11,11 @@ import {
   Globe,
 } from "lucide-vue-next";
 
-const locale = ref<"id" | "en">("id");
 const toast = useToast();
 
+const { locale, setLocale } = useI18n();
 const toggleLocale = () => {
-  locale.value = locale.value === "id" ? "en" : "id";
+  setLocale(locale.value === "id" ? "en" : "id");
 };
 
 const rawDestinations = [
