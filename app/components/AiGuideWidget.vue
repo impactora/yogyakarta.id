@@ -11,11 +11,13 @@ import {
   Compass,
   Map,
   Bot,
+  AlertTriangle,
 } from "lucide-vue-next";
 
 const isOpen = ref(false);
 const activeView = ref<"menu" | "chat" | "planner">("menu");
 
+// AI CHAT (GEMINI API)
 const inputMessage = ref("");
 const isLoadingChat = ref(false);
 const chatContainer = ref<HTMLElement | null>(null);
@@ -43,22 +45,37 @@ const sendMessage = async () => {
   isLoadingChat.value = true;
   await scrollToBottom();
 
-  setTimeout(async () => {
+  try {
+    const response = await $fetch("/api/chat", {
+      method: "POST",
+      body: { message: userText },
+    });
+
+    if (response && response.reply) {
+      chatHistory.value.push({ role: "ai", text: response.reply });
+    } else {
+      throw new Error("Respons API tidak valid");
+    }
+  } catch (error: any) {
+    console.error("Chat API Error:", error);
     chatHistory.value.push({
       role: "ai",
-      text: `Menarik! Untuk pertanyaan "${userText}", saya akan mencari data terbaru setelah API Nitro-mu tersambung.`,
+      text: "Maaf, Pemandu AI sedang mengalami gangguan koneksi ke server pusat. Silakan coba beberapa saat lagi.",
     });
+  } finally {
     isLoadingChat.value = false;
     await scrollToBottom();
-  }, 1500);
+  }
 };
 
+// TRIP PLANNER (GROQ/GEMINI API)
 const plannerForm = ref({
   days: 2,
   interest: "Campuran (Budaya, Alam, Kuliner)",
 });
 const isGeneratingPlanner = ref(false);
 const itinerary = ref<any[] | null>(null);
+const plannerError = ref<string | null>(null);
 
 const interests = [
   "Sejarah & Kraton",
@@ -67,36 +84,31 @@ const interests = [
   "Campuran (Budaya, Alam, Kuliner)",
 ];
 
-const generatePlan = () => {
+const generatePlan = async () => {
   isGeneratingPlanner.value = true;
   itinerary.value = null;
+  plannerError.value = null;
 
-  setTimeout(() => {
-    itinerary.value = Array.from({ length: plannerForm.value.days }).map(
-      (_, i) => ({
-        day: i + 1,
-        activities: [
-          {
-            time: "08:00",
-            title: "Sarapan Pagi",
-            desc: "Soto Kadipiro / Gudeg",
-          },
-          {
-            time: "10:00",
-            title: "Eksplorasi",
-            desc: `Fokus ke: ${plannerForm.value.interest}`,
-          },
-          { time: "15:00", title: "Jeda Sore", desc: "Ngopi di angkringan" },
-          {
-            time: "19:00",
-            title: "Makan Malam",
-            desc: "Jalan santai di Malioboro",
-          },
-        ],
-      }),
-    );
+  try {
+    const response = await $fetch("/api/planner", {
+      method: "POST",
+      body: plannerForm.value,
+    });
+
+    if (response && response.plan && Array.isArray(response.plan)) {
+      itinerary.value = response.plan;
+    } else {
+      throw new Error(
+        "Struktur JSON dari AI tidak sesuai format (bukan Array)",
+      );
+    }
+  } catch (error: any) {
+    console.error("Planner API Error:", error);
+    plannerError.value =
+      "Nexus AI gagal merakit jadwal. Pastikan kunci API telah dikonfigurasi dengan benar di server.";
+  } finally {
     isGeneratingPlanner.value = false;
-  }, 2500);
+  }
 };
 </script>
 
@@ -228,7 +240,12 @@ const generatePlan = () => {
                   class="w-3 h-3 mt-1 flex-shrink-0 text-terra"
                 />
                 <User v-else class="w-3 h-3 mt-1 flex-shrink-0 text-white/70" />
-                <span class="whitespace-pre-wrap">{{ msg.text }}</span>
+                <span
+                  class="whitespace-pre-wrap"
+                  v-html="
+                    msg.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  "
+                ></span>
               </div>
             </div>
 
@@ -237,7 +254,7 @@ const generatePlan = () => {
               class="bg-white border border-line text-ink self-start p-3 rounded-2xl rounded-tl-sm max-w-[85%] flex items-center gap-2 text-[14px]"
             >
               <Sparkles class="w-3 h-3 animate-spin text-terra" />
-              <span class="text-muted italic">Mencari jawaban...</span>
+              <span class="text-muted italic">Menyusun jawaban...</span>
             </div>
           </div>
 
@@ -264,8 +281,18 @@ const generatePlan = () => {
 
         <div
           v-if="activeView === 'planner'"
-          class="flex-grow overflow-y-auto p-5 flex flex-col bg-warm-white"
+          class="flex-grow overflow-y-auto p-5 flex flex-col bg-warm-white relative"
         >
+          <div
+            v-if="plannerError"
+            class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3"
+          >
+            <AlertTriangle class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <div class="text-[13px] text-red-700 leading-relaxed">
+              {{ plannerError }}
+            </div>
+          </div>
+
           <div
             v-if="!itinerary && !isGeneratingPlanner"
             class="flex flex-col gap-6 animate-fade-in"
@@ -318,7 +345,7 @@ const generatePlan = () => {
 
           <div
             v-if="isGeneratingPlanner"
-            class="flex-grow flex flex-col items-center justify-center text-center"
+            class="flex-grow flex flex-col items-center justify-center text-center py-10"
           >
             <div
               class="w-12 h-12 border-4 border-terra border-t-transparent rounded-full animate-spin mb-4"
@@ -328,8 +355,9 @@ const generatePlan = () => {
             >
               Menghubungi Nexus AI...
             </div>
-            <div class="text-[12px] text-muted mt-2">
-              Merakit jadwal perjalananmu...
+            <div class="text-[12px] text-muted mt-2 px-6">
+              Memproses data spasial dan waktu untuk
+              {{ plannerForm.days }} hari...
             </div>
           </div>
 
@@ -342,10 +370,13 @@ const generatePlan = () => {
                 Jadwal {{ plannerForm.days }} Hari
               </div>
               <button
-                @click="itinerary = null"
+                @click="
+                  itinerary = null;
+                  plannerError = null;
+                "
                 class="font-josefin text-[10px] text-terra uppercase underline tracking-widest"
               >
-                Ubah
+                Ubah Rencana
               </button>
             </div>
 
@@ -357,32 +388,48 @@ const generatePlan = () => {
               <div
                 class="font-josefin text-[12px] font-bold text-terra uppercase tracking-widest mb-3 border-b border-line pb-2"
               >
-                Hari {{ day.day }}
+                Hari {{ day.hari || day.day }}
               </div>
               <div class="flex flex-col gap-4">
-                <div
-                  v-for="(act, idx) in day.activities"
-                  :key="idx"
-                  class="flex gap-3"
-                >
+                <template v-if="typeof day.kegiatan[0] === 'string'">
                   <div
-                    class="font-josefin text-[10px] font-bold text-ink/40 w-[35px] pt-1 flex-shrink-0"
+                    v-for="(act, idx) in day.kegiatan"
+                    :key="'str-' + idx"
+                    class="flex gap-3"
                   >
-                    {{ act.time }}
-                  </div>
-                  <div>
                     <div
-                      class="font-libre text-[14px] font-bold text-ink leading-tight mb-1"
+                      class="font-libre text-[14px] font-bold text-ink leading-tight"
                     >
-                      {{ act.title }}
-                    </div>
-                    <div
-                      class="text-[12px] font-light text-brown leading-relaxed"
-                    >
-                      {{ act.desc }}
+                      {{ act }}
                     </div>
                   </div>
-                </div>
+                </template>
+                <template v-else>
+                  <div
+                    v-for="(act, idx) in day.kegiatan"
+                    :key="'obj-' + idx"
+                    class="flex gap-3"
+                  >
+                    <div
+                      class="font-josefin text-[10px] font-bold text-ink/40 w-[35px] pt-1 flex-shrink-0"
+                    >
+                      {{ act.waktu || act.time || "-" }}
+                    </div>
+                    <div>
+                      <div
+                        class="font-libre text-[14px] font-bold text-ink leading-tight mb-1"
+                      >
+                        {{ act.kegiatan || act.title }}
+                      </div>
+                      <div
+                        v-if="act.deskripsi || act.desc"
+                        class="text-[12px] font-light text-brown leading-relaxed"
+                      >
+                        {{ act.deskripsi || act.desc }}
+                      </div>
+                    </div>
+                  </div>
+                </template>
               </div>
             </div>
           </div>
