@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useHead, useI18n } from "#imports";
 
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 
 const rawCulturalHeritage = [
   {
@@ -174,11 +174,7 @@ const festivals = computed(() => {
 });
 
 useHead({
-  title: computed(() =>
-    locale.value === "id"
-      ? "Budaya - Jiwa Nusantara"
-      : "Culture - Jiwa Nusantara",
-  ),
+  title: computed(() => t("budaya.page_title")),
 });
 </script>
 
@@ -189,15 +185,9 @@ useHead({
     <CategoryHeader
       v-observe
       class="reveal-up"
-      :category="locale === 'id' ? 'Budaya' : 'Culture'"
-      :title="
-        locale === 'id' ? 'Denyut Nadi Tradisi' : 'The Pulse of Tradition'
-      "
-      :description="
-        locale === 'id'
-          ? 'Visualisasi mahakarya warisan budaya yang terus hidup dalam keseharian warganya.'
-          : 'Visualizing masterpiece cultural heritages that live on in the daily lives of its citizens.'
-      "
+      :category="$t('budaya.category')"
+      :title="$t('budaya.header_title')"
+      :description="$t('budaya.header_desc')"
     />
 
     <div class="flex flex-col gap-20 lg:gap-32 mt-10">
@@ -209,7 +199,7 @@ useHead({
         :style="`transition-delay: ${index * 100}ms`"
       >
         <div
-          class="relative aspect-[4/5] md:aspect-video lg:aspect-[4/5] bg-ink group overflow-hidden border border-line"
+          class="relative aspect-[4/5] md:aspect-video lg:aspect-[4/5] bg-[#1a1208] group overflow-hidden border border-line"
           :class="item.reverse ? 'lg:order-2' : 'lg:order-1'"
         >
           <img
@@ -222,13 +212,9 @@ useHead({
             class="absolute inset-0 bg-parchment/5 transition-colors duration-700 group-hover:bg-transparent z-10"
           ></div>
           <div
-            class="absolute bottom-4 left-4 z-20 font-josefin text-[8px] tracking-[0.2em] text-white/70 uppercase bg-ink/80 backdrop-blur-sm px-3 py-1 border border-white/10"
+            class="absolute bottom-4 left-4 z-20 font-josefin text-[8px] tracking-[0.2em] text-[#faf7f2]/80 uppercase bg-[#1a1208]/80 backdrop-blur-sm px-3 py-1 border border-[#faf7f2]/10 transition-none"
           >
-            {{
-              locale === "id"
-                ? "Arsip Kebudayaan · 2026"
-                : "Cultural Archive · 2026"
-            }}
+            {{ $t("budaya.cultural_archive") }}
           </div>
         </div>
         <div
@@ -271,19 +257,15 @@ useHead({
         <div
           class="font-josefin text-[10px] tracking-[0.25em] uppercase text-terra mb-6"
         >
-          {{ locale === "id" ? "Kalender Ritual" : "Ritual Calendar" }}
+          {{ $t("budaya.ritual_calendar") }}
         </div>
         <h2
           class="font-libre text-[36px] lg:text-[48px] font-bold text-ink mb-6"
         >
-          {{ locale === "id" ? "Siklus Waktu Mataram" : "Mataram Time Cycle" }}
+          {{ $t("budaya.time_cycle") }}
         </h2>
         <p class="text-[15px] font-light text-brown max-w-[600px] mx-auto">
-          {{
-            locale === "id"
-              ? "Ritual tahunan yang menolak punah. Kapan waktu terbaik untuk menyaksikan wajah asli budaya Yogyakarta?"
-              : "Annual rituals that refuse to go extinct. When is the best time to witness the true face of Yogyakarta culture?"
-          }}
+          {{ $t("budaya.time_cycle_desc") }}
         </p>
       </div>
 
@@ -304,7 +286,7 @@ useHead({
             class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4 flex items-center gap-3"
           >
             <span class="w-2 h-2 rounded-full bg-terra"></span>
-            {{ locale === "id" ? "Bulan" : "Month of" }} {{ fest.displayMonth }}
+            {{ $t("budaya.month_of") }} {{ fest.displayMonth }}
           </div>
           <h3
             class="font-libre text-[22px] lg:text-[26px] font-bold text-ink mb-4"

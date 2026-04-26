@@ -3,24 +3,21 @@ import { ref, computed } from "vue";
 import { useHead, useI18n } from "#imports";
 import { MapPin, Banknote } from "lucide-vue-next";
 
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 
 const categories = computed(() => [
-  { key: "Semua", label: locale.value === "id" ? "Semua" : "All" },
-  {
-    key: "Makanan Berat",
-    label: locale.value === "id" ? "Makanan Berat" : "Main Course",
-  },
-  { key: "Cemilan", label: locale.value === "id" ? "Cemilan" : "Snacks" },
-  { key: "Minuman", label: locale.value === "id" ? "Minuman" : "Drinks" },
+  { key: "all", label: t("kuliner.filters.all") },
+  { key: "main_course", label: t("kuliner.filters.main_course") },
+  { key: "snacks", label: t("kuliner.filters.snacks") },
+  { key: "drinks", label: t("kuliner.filters.drinks") },
 ]);
 
-const activeCategory = ref("Semua");
+const activeCategory = ref("all");
 
 const rawCulinary = [
   {
     id: "gudeg",
-    category: "Makanan Berat",
+    categoryId: "main_course",
     featured: true,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Gudeg_Jogja.jpg",
@@ -35,7 +32,7 @@ const rawCulinary = [
   },
   {
     id: "oseng",
-    category: "Makanan Berat",
+    categoryId: "main_course",
     featured: false,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Oseng_mercon.jpg",
@@ -53,7 +50,7 @@ const rawCulinary = [
   },
   {
     id: "klathak",
-    category: "Makanan Berat",
+    categoryId: "main_course",
     featured: false,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Sate_Klathak.jpg",
@@ -71,7 +68,7 @@ const rawCulinary = [
   },
   {
     id: "bakpia",
-    category: "Cemilan",
+    categoryId: "snacks",
     featured: false,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Bakpia_Pathok.jpg",
@@ -86,7 +83,7 @@ const rawCulinary = [
   },
   {
     id: "kopijos",
-    category: "Minuman",
+    categoryId: "drinks",
     featured: false,
     image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kopi_Joss.jpg",
     title: { id: "Kopi Joss Lek Man", en: "Lek Man's Joss Coffee" },
@@ -100,7 +97,7 @@ const rawCulinary = [
   },
   {
     id: "wedang",
-    category: "Minuman",
+    categoryId: "drinks",
     featured: false,
     image:
       "https://commons.wikimedia.org/wiki/Special:FilePath/Wedang_Uwuh.jpg",
@@ -124,14 +121,7 @@ const culinaryItems = computed(() => {
     displayMeta: item.meta[l],
     displayAddress: item.address[l],
     displayPrice: item.price[l],
-    displayCategory:
-      l === "id"
-        ? item.category
-        : item.category === "Makanan Berat"
-          ? "Main Course"
-          : item.category === "Cemilan"
-            ? "Snacks"
-            : "Drinks",
+    displayCategory: t(`kuliner.filters.${item.categoryId}`),
   }));
 });
 
@@ -140,18 +130,16 @@ const featuredItem = computed(() =>
 );
 
 const filteredItems = computed(() => {
-  if (activeCategory.value === "Semua") {
+  if (activeCategory.value === "all") {
     return culinaryItems.value.filter((i) => !i.featured);
   }
-  return culinaryItems.value.filter((i) => i.category === activeCategory.value);
+  return culinaryItems.value.filter(
+    (i) => i.categoryId === activeCategory.value,
+  );
 });
 
 useHead({
-  title: computed(() =>
-    locale.value === "id"
-      ? "Kuliner - Jiwa Nusantara"
-      : "Culinary - Jiwa Nusantara",
-  ),
+  title: computed(() => t("kuliner.page_title")),
 });
 </script>
 
@@ -162,17 +150,9 @@ useHead({
     <CategoryHeader
       v-observe
       class="reveal-up"
-      :category="locale === 'id' ? 'Kuliner' : 'Culinary'"
-      :title="
-        locale === 'id'
-          ? 'Simfoni Rasa Manis & Gurih'
-          : 'Symphony of Sweet & Savory'
-      "
-      :description="
-        locale === 'id'
-          ? 'Eksplorasi gastronomi lokal. Cerita kesabaran di balik setiap hidangan.'
-          : 'Explore local gastronomy. Stories of patience behind every dish.'
-      "
+      :category="$t('kuliner.category')"
+      :title="$t('kuliner.header_title')"
+      :description="$t('kuliner.header_desc')"
     />
 
     <section
@@ -181,7 +161,7 @@ useHead({
       class="mt-10 mb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center reveal-up delay-100"
     >
       <div
-        class="aspect-[4/3] lg:aspect-video bg-ink relative overflow-hidden group shadow-xl border border-line"
+        class="aspect-[4/3] lg:aspect-video bg-[#1a1208] relative overflow-hidden group shadow-xl border border-line"
       >
         <img
           :src="featuredItem.image"
@@ -190,12 +170,12 @@ useHead({
           loading="lazy"
         />
         <div
-          class="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500 z-10"
+          class="absolute inset-0 bg-gradient-to-t from-[#1a1208]/60 to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500 z-10"
         ></div>
         <div
-          class="absolute top-4 left-4 z-20 font-josefin text-[9px] uppercase tracking-widest text-white/90 bg-ink/80 backdrop-blur-sm px-3 py-1 border border-white/10"
+          class="absolute top-4 left-4 z-20 font-josefin text-[9px] uppercase tracking-widest text-[#faf7f2]/90 bg-[#1a1208]/80 backdrop-blur-sm px-3 py-1 border border-[#faf7f2]/10 transition-none"
         >
-          {{ locale === "id" ? "Khas Mataram" : "Traditional Mataram" }}
+          {{ $t("kuliner.traditional_mataram") }}
         </div>
       </div>
       <div class="flex flex-col justify-center">
@@ -259,7 +239,7 @@ useHead({
           class="group flex flex-col h-full"
         >
           <div
-            class="h-[240px] bg-ink mb-6 overflow-hidden relative border border-line shadow-sm"
+            class="h-[240px] bg-[#1a1208] mb-6 overflow-hidden relative border border-line shadow-sm"
           >
             <img
               :src="item.image"
@@ -268,7 +248,7 @@ useHead({
               loading="lazy"
             />
             <div
-              class="absolute inset-0 bg-ink/10 group-hover:bg-transparent transition-colors duration-500"
+              class="absolute inset-0 bg-[#1a1208]/10 group-hover:bg-transparent transition-colors duration-500"
             ></div>
           </div>
           <div

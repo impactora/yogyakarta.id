@@ -2,7 +2,7 @@
 import { ref, computed } from "vue";
 import { useHead, useI18n } from "#imports";
 
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 
 const rawTimeline = [
   {
@@ -98,11 +98,7 @@ const timeline = computed(() => {
 const activeIndex = ref(0);
 
 useHead({
-  title: computed(() =>
-    locale.value === "id"
-      ? "Sejarah - Jiwa Nusantara"
-      : "History - Jiwa Nusantara",
-  ),
+  title: computed(() => t("sejarah.page_title")),
 });
 </script>
 
@@ -113,21 +109,13 @@ useHead({
     <CategoryHeader
       v-observe
       class="reveal-up"
-      :category="locale === 'id' ? 'Sejarah' : 'History'"
-      :title="
-        locale === 'id'
-          ? 'Merekam Jejak Waktu'
-          : 'Recording the Footprints of Time'
-      "
-      :description="
-        locale === 'id'
-          ? 'Menelusuri linimasa sejarah, dari pendirian Kraton Yogyakarta hingga masa revolusi kemerdekaan.'
-          : 'Tracing the historical timeline, from the founding of the Yogyakarta Palace to the independence revolution.'
-      "
+      :category="$t('sejarah.category')"
+      :title="$t('sejarah.header_title')"
+      :description="$t('sejarah.header_desc')"
     />
 
     <div
-      class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-16 lg:gap-24 mt-10 lg:mt-20 items-start"
+      class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-16 lg:gap-24 mt-10 lg:mt-20"
     >
       <div
         class="relative border-l border-line ml-3 pl-8 flex flex-col gap-12 lg:gap-16"
@@ -172,45 +160,40 @@ useHead({
         </button>
       </div>
 
-      <div
-        v-observe
-        class="lg:sticky lg:top-[120px] flex flex-col reveal-up delay-300"
-      >
-        <div :key="activeIndex" class="animate-fade-in">
-          <div
-            class="h-[240px] md:h-[320px] lg:h-[400px] bg-ink relative overflow-hidden mb-8 border border-line shadow-xl"
-          >
-            <img
-              :src="timeline[activeIndex].image"
-              :alt="timeline[activeIndex].displayTitle"
-              class="w-full h-full object-cover opacity-90"
-            />
+      <div class="relative h-full w-full">
+        <div class="lg:sticky lg:top-[120px] flex flex-col pt-4 pb-20">
+          <div :key="activeIndex" class="animate-fade-in">
             <div
-              class="absolute bottom-3 right-3 bg-ink/80 backdrop-blur-sm px-3 py-1 font-lato text-[9px] text-white/50 border border-white/10 uppercase tracking-widest"
+              class="h-[240px] md:h-[320px] lg:h-[400px] bg-[#1a1208] relative overflow-hidden mb-8 border border-line shadow-xl"
             >
-              {{
-                locale === "id"
-                  ? "Arsip Visual · 2026"
-                  : "Visual Archive · 2026"
-              }}
+              <img
+                :src="timeline[activeIndex].image"
+                :alt="timeline[activeIndex].displayTitle"
+                class="w-full h-full object-cover opacity-90"
+              />
+              <div
+                class="absolute bottom-3 right-3 bg-[#1a1208]/80 backdrop-blur-sm px-3 py-1 font-lato text-[9px] text-[#faf7f2]/80 border border-[#faf7f2]/10 uppercase tracking-widest transition-none"
+              >
+                {{ $t("sejarah.visual_archive") }}
+              </div>
             </div>
+            <div
+              class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4"
+            >
+              {{ $t("sejarah.act") }}:
+              {{ timeline[activeIndex].displayMeta }}
+            </div>
+            <h2
+              class="font-libre text-[28px] lg:text-[36px] font-bold text-ink leading-[1.2] mb-6"
+            >
+              {{ timeline[activeIndex].displayTitle }}
+            </h2>
+            <p
+              class="text-[15px] font-light text-brown leading-[1.9] max-w-[500px]"
+            >
+              {{ timeline[activeIndex].displayDesc }}
+            </p>
           </div>
-          <div
-            class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-terra mb-4"
-          >
-            {{ locale === "id" ? "Babak" : "Act" }}:
-            {{ timeline[activeIndex].displayMeta }}
-          </div>
-          <h2
-            class="font-libre text-[28px] lg:text-[36px] font-bold text-ink leading-[1.2] mb-6"
-          >
-            {{ timeline[activeIndex].displayTitle }}
-          </h2>
-          <p
-            class="text-[15px] font-light text-brown leading-[1.9] max-w-[500px]"
-          >
-            {{ timeline[activeIndex].displayDesc }}
-          </p>
         </div>
       </div>
     </div>

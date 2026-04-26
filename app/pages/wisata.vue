@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import { useHead, useI18n } from "#imports";
 import { Clock, Ticket, Bus, MapPin, Share2, Printer } from "lucide-vue-next";
 
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 const toast = useToast();
 
 const rawDestinations = [
@@ -69,7 +69,7 @@ const rawDestinations = [
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.357,-7.811,110.361,-7.808&layer=mapnik",
     image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Tamansari_Water_Castle.jpg",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Taman_Sari_Water_Castle,_Yogyakarta.jpg",
   },
   {
     id: "kaliurang",
@@ -84,7 +84,8 @@ const rawDestinations = [
     transport: "Bus DAMRI / Jeep Wisata",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.42,-7.6,110.43,-7.59&layer=mapnik",
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kaliurang.jpg",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Gunong_Merapi_from_Kaliurang_Q0S7942_-_Flickr_-_Lip_Kee.jpg",
   },
   {
     id: "sambisari",
@@ -100,7 +101,7 @@ const rawDestinations = [
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.445,-7.763,110.448,-7.761&layer=mapnik",
     image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Sambisari_Kalasan_Sleman_Yogyakarta.jpg",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Sambisari_2013-11-14_01.jpg",
   },
   {
     id: "merapi",
@@ -176,20 +177,10 @@ const shareDestination = async (item: any) => {
     try {
       const clipboardText = `${shareData.title}\n${shareData.text}\n\nPelajari lebih lanjut: ${shareData.url}`;
       await navigator.clipboard.writeText(clipboardText);
-      toast.show(
-        locale.value === "id"
-          ? "Tautan berhasil disalin ke papan klip!"
-          : "Link copied to clipboard!",
-        "success",
-      );
+      toast.show(t("wisata.share_success"), "success");
     } catch (err) {
       console.error("Clipboard API gagal:", err);
-      toast.show(
-        locale.value === "id"
-          ? "Gagal menyalin tautan. Izin peramban ditolak."
-          : "Failed to copy. Browser permission denied.",
-        "error",
-      );
+      toast.show(t("wisata.share_failed"), "error");
     }
   }
 };
@@ -199,11 +190,7 @@ const triggerPrint = () => {
 };
 
 useHead({
-  title: computed(() =>
-    locale.value === "id"
-      ? "Wisata - Jiwa Nusantara"
-      : "Tourism - Jiwa Nusantara",
-  ),
+  title: computed(() => t("wisata.page_title")),
 });
 </script>
 
@@ -215,33 +202,25 @@ useHead({
       <CategoryHeader
         v-observe
         class="reveal-up"
-        :category="locale === 'id' ? 'Wisata' : 'Tourism'"
-        :title="
-          locale === 'id'
-            ? 'Sudut Keajaiban Mataram'
-            : 'Mataram Corners of Wonder'
-        "
-        :description="
-          locale === 'id'
-            ? 'Navigasi destinasi ikonik Yogyakarta. Klik lokasi di bawah untuk menjelajahi peta.'
-            : 'Navigate iconic destinations. Click locations below to explore the map.'
-        "
+        :category="$t('wisata.category')"
+        :title="$t('wisata.header_title')"
+        :description="$t('wisata.header_desc')"
       />
 
       <div class="flex gap-2 reveal-up delay-100 mt-2 lg:mt-0">
         <button
           @click="triggerPrint"
-          class="hidden md:flex items-center gap-2 px-3 py-2 bg-ink text-white hover:bg-terra transition-colors font-josefin text-[10px] tracking-widest uppercase cursor-pointer"
+          class="hidden md:flex items-center gap-2 px-3 py-2 bg-ink text-warm-white hover:bg-terra transition-colors font-josefin text-[10px] tracking-widest uppercase cursor-pointer"
         >
           <Printer class="w-4 h-4" />
-          {{ locale === "id" ? "Cetak PDF" : "Print PDF" }}
+          {{ $t("wisata.print_pdf") }}
         </button>
       </div>
     </div>
 
     <div
       v-observe
-      class="w-full h-[30vh] lg:h-[40vh] mb-16 relative overflow-hidden reveal-up delay-100 border border-line shadow-xl no-print"
+      class="w-full h-[30vh] lg:h-[40vh] mb-16 relative overflow-hidden reveal-up delay-100 border border-line shadow-xl no-print bg-[#1a1208]"
     >
       <img
         :key="activeDestination"
@@ -250,11 +229,11 @@ useHead({
         class="w-full h-full object-cover opacity-90 transition-opacity duration-500"
         loading="lazy"
       />
-      <div class="absolute inset-0 bg-ink/10"></div>
+      <div class="absolute inset-0 bg-[#1a1208]/10 transition-none"></div>
       <div
-        class="absolute bottom-4 right-4 z-20 font-josefin text-[8px] tracking-[0.2em] text-white/70 uppercase bg-ink/80 backdrop-blur-sm px-3 py-1 border border-white/10"
+        class="absolute bottom-4 right-4 z-20 font-josefin text-[8px] tracking-[0.2em] text-[#faf7f2]/80 uppercase bg-[#1a1208]/80 backdrop-blur-sm px-3 py-1 border border-[#faf7f2]/10 transition-none"
       >
-        {{ locale === "id" ? "Pratinjau Lokasi" : "Location Preview" }}
+        {{ $t("wisata.location_preview") }}
       </div>
     </div>
 
@@ -277,7 +256,7 @@ useHead({
           :class="
             activeDestination === item.id
               ? 'bg-ink no-print-bg'
-              : 'hover:bg-white/40'
+              : 'hover:bg-ink/5'
           "
         >
           <div
@@ -314,17 +293,13 @@ useHead({
             <div class="no-print">
               <div
                 @click.stop="shareDestination(item)"
-                class="p-2 border border-line rounded-full hover:bg-terra hover:text-white hover:border-terra transition-all cursor-pointer text-muted"
+                class="p-2 border rounded-full hover:bg-terra hover:text-warm-white hover:border-terra transition-all cursor-pointer"
                 :class="
                   activeDestination === item.id
-                    ? 'border-white/20 text-white/70 hover:border-terra'
-                    : ''
+                    ? 'border-parchment text-parchment'
+                    : 'border-line text-muted'
                 "
-                :title="
-                  locale === 'id'
-                    ? 'Bagikan destinasi ini'
-                    : 'Share this destination'
-                "
+                :title="$t('wisata.share_title')"
               >
                 <Share2 class="w-4 h-4" />
               </div>
@@ -334,18 +309,18 @@ useHead({
           <p
             class="text-[14px] font-light leading-[1.8] transition-colors duration-300 mb-5 max-w-[800px] print:text-black"
             :class="
-              activeDestination === item.id ? 'text-parchment/70' : 'text-brown'
+              activeDestination === item.id ? 'text-parchment/80' : 'text-brown'
             "
           >
             {{ item.displayDesc }}
           </p>
 
           <div
-            class="flex flex-col gap-3 pt-4 border-t border-line/30 font-josefin text-[9px] tracking-[0.15em] transition-colors duration-300 w-full print:text-black print:border-black"
+            class="flex flex-col gap-3 pt-4 border-t font-josefin text-[9px] tracking-[0.15em] transition-colors duration-300 w-full print:text-black print:border-black"
             :class="
               activeDestination === item.id
-                ? 'text-parchment/60 border-white/10'
-                : 'text-muted border-line'
+                ? 'text-parchment/80 border-parchment/20'
+                : 'text-muted border-line/30'
             "
           >
             <div class="flex items-center gap-3">
@@ -369,13 +344,9 @@ useHead({
           class="lg:sticky lg:top-[120px] h-[400px] lg:h-[600px] w-full bg-ink border border-line shadow-2xl overflow-hidden p-2"
         >
           <div
-            class="absolute inset-0 flex items-center justify-center font-josefin text-[10px] tracking-[0.2em] text-muted uppercase z-0"
+            class="absolute inset-0 flex items-center justify-center font-josefin text-[10px] tracking-[0.2em] text-parchment/50 uppercase z-0"
           >
-            {{
-              locale === "id"
-                ? "Memuat Data Spasial..."
-                : "Loading Spatial Data..."
-            }}
+            {{ $t("wisata.loading_map") }}
           </div>
           <iframe
             :key="activeDestination"
