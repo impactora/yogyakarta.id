@@ -218,7 +218,7 @@ const generatePlan = async () => {
 
         <div
           v-if="activeView === 'chat'"
-          class="flex-grow flex flex-col h-full bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"
+          class="flex-grow flex flex-col min-h-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"
         >
           <div
             ref="chatContainer"
@@ -260,7 +260,7 @@ const generatePlan = async () => {
 
           <form
             @submit.prevent="sendMessage"
-            class="p-4 bg-white border-t border-line flex gap-2"
+            class="p-4 bg-white border-t border-line flex gap-2 flex-shrink-0"
           >
             <input
               v-model="inputMessage"
