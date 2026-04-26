@@ -174,5 +174,13 @@
       "sejarah": "History",
       "teknologi": "Technology"
     }
+  },
+  "error": {
+    "not_found": "Archive Not Found",
+    "internal_error": "Internal System Anomaly",
+    "critical_status": "Critical Status",
+    "description": "The path you seek has been disconnected from our digital cosmological axis. The document may have been permanently moved or was never registered in this archive.",
+    "back_to_home": "Return to Homepage",
+    "footer_stamp": "Yogyakarta · Digital · 2026"
   }
 }

@@ -174,5 +174,13 @@
       "sejarah": "Sejarah",
       "teknologi": "Teknologi"
     }
+  },
+  "error": {
+    "not_found": "Arsip Tidak Ditemukan",
+    "internal_error": "Anomali Sistem Internal",
+    "critical_status": "Status Kritis",
+    "description": "Jalur yang Anda tuju telah terputus dari sumbu kosmologis digital kami. Dokumen mungkin telah dipindahkan secara permanen atau tidak pernah terdaftar dalam arsip ini.",
+    "back_to_home": "Kembali ke Beranda",
+    "footer_stamp": "Yogyakarta · Digital · 2026"
   }
 }
