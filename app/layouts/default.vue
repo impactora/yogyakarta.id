@@ -1,10 +1,16 @@
 <template>
-  <div>
+  <div
+    class="bg-parchment text-ink font-sans min-h-screen selection:bg-terra selection:text-white flex flex-col relative overflow-x-hidden"
+  >
     <AppNavbar />
-    <slot />
+
+    <div class="flex-grow relative w-full pt-[60px] lg:pt-[72px]">
+      <slot />
+    </div>
+
     <AppFooter />
-    <ClientOnly>
-      <AiGuideWidget />
-    </ClientOnly>
+
+    <AiGuideWidget />
+    <AppToast />
   </div>
 </template>
