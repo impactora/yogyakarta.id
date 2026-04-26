@@ -1,7 +1,10 @@
 <template>
   <div>
     <AppNavbar />
-    <slot /> <AppFooter />
-    <AiGuideWidget />
+    <slot />
+    <AppFooter />
+    <ClientOnly>
+      <AiGuideWidget />
+    </ClientOnly>
   </div>
 </template>

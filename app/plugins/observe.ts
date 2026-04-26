@@ -1,5 +1,8 @@
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive("observe", {
+    getSSRProps() {
+      return {};
+    },
     mounted(el) {
       const observer = new IntersectionObserver(
         (entries) => {
