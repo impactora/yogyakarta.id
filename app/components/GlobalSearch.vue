@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, computed, watch, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import {
   Search,
@@ -10,6 +11,7 @@ import {
   MonitorSmartphone,
 } from "lucide-vue-next";
 import Fuse from "fuse.js";
+import { useI18n } from "#imports";
 
 const { locale } = useI18n();
 
@@ -252,39 +254,35 @@ watch(
       <div
         class="relative w-full max-w-[700px] bg-warm-white shadow-2xl rounded-xl overflow-hidden border border-line"
       >
-        <div class="flex items-center px-6 py-5 border-b border-line bg-white">
+        <div
+          class="flex items-center px-6 py-5 border-b border-line bg-parchment transition-colors duration-300"
+        >
           <Search class="w-6 h-6 text-muted flex-shrink-0" />
           <input
             ref="searchInput"
             v-model="searchQuery"
             type="text"
-            :placeholder="
-              locale === 'id'
-                ? 'Cari destinasi, kuliner, atau sejarah...'
-                : 'Search destinations, culinary, or history...'
-            "
+            :placeholder="$t('search.placeholder')"
             class="flex-grow bg-transparent border-none outline-none px-4 text-[18px] font-libre text-ink placeholder:text-muted/50"
             @keydown.esc="emit('close')"
           />
           <button
             @click="emit('close')"
-            class="p-2 hover:bg-line/50 rounded-lg transition-colors"
+            class="p-2 hover:bg-ink/5 rounded-lg transition-colors"
             aria-label="Tutup pencarian"
           >
             <X class="w-5 h-5 text-ink" />
           </button>
         </div>
 
-        <div class="max-h-[50vh] overflow-y-auto bg-warm-white">
+        <div
+          class="max-h-[50vh] overflow-y-auto bg-warm-white transition-colors duration-300"
+        >
           <div
             v-if="searchQuery && searchResults.length === 0"
             class="p-10 text-center text-brown font-light"
           >
-            {{
-              locale === "id"
-                ? "Tidak ada dokumen yang cocok dengan"
-                : "No documents match"
-            }}
+            {{ $t("search.no_results") }}
             <span class="font-bold text-ink">"{{ searchQuery }}"</span>.
           </div>
 
@@ -296,7 +294,7 @@ watch(
             <div
               class="font-josefin text-[12px] uppercase tracking-widest text-muted"
             >
-              {{ locale === "id" ? "Mulai Mengetik" : "Start Typing" }}
+              {{ $t("search.start_typing") }}
             </div>
           </div>
 
@@ -304,7 +302,7 @@ watch(
             <li v-for="item in searchResults" :key="item.id">
               <button
                 @click="handleNavigate(item.url)"
-                class="w-full text-left px-6 py-4 hover:bg-white flex items-start gap-4 transition-colors border-b border-line last:border-b-0 group cursor-pointer"
+                class="w-full text-left px-6 py-4 hover:bg-parchment flex items-start gap-4 transition-colors border-b border-line last:border-b-0 group cursor-pointer"
               >
                 <div
                   class="mt-1 bg-ink/5 p-2 rounded-lg text-ink group-hover:bg-terra/10 group-hover:text-terra transition-colors flex-shrink-0"
@@ -318,8 +316,9 @@ watch(
                     }}</span>
                     <span
                       class="font-josefin text-[9px] uppercase tracking-widest text-terra px-2 py-0.5 border border-terra/20 rounded bg-terra/5"
-                      >{{ item.category }}</span
                     >
+                      {{ item.category }}
+                    </span>
                   </div>
                   <p
                     class="text-[13px] text-brown font-light leading-relaxed line-clamp-1"
@@ -336,20 +335,16 @@ watch(
         </div>
 
         <div
-          class="px-6 py-3 bg-white border-t border-line font-josefin text-[10px] text-muted flex justify-between items-center uppercase tracking-widest"
+          class="px-6 py-3 bg-parchment border-t border-line font-josefin text-[10px] text-muted flex justify-between items-center uppercase tracking-widest transition-colors duration-300"
         >
-          <span>{{
-            locale === "id"
-              ? "Mesin Pencari Internal"
-              : "Internal Search Engine"
-          }}</span>
+          <span>{{ $t("search.internal_engine") }}</span>
           <span class="flex items-center gap-2">
-            {{ locale === "id" ? "Gunakan" : "Use" }}
+            {{ $t("search.use") }}
             <kbd
-              class="px-1.5 py-0.5 border border-line rounded bg-warm-white font-sans text-[9px]"
+              class="px-1.5 py-0.5 border border-line rounded bg-warm-white font-sans text-[9px] text-ink"
               >ESC</kbd
             >
-            {{ locale === "id" ? "untuk menutup" : "to close" }}
+            {{ $t("search.to_close") }}
           </span>
         </div>
       </div>

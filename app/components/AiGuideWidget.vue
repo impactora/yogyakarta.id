@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { ref, computed, nextTick } from "vue";
+import { useI18n } from "#imports";
 import {
-  MessageSquare,
   X,
   Send,
   Sparkles,
   User,
   ArrowLeft,
-  Calendar,
-  Compass,
   Map,
   Bot,
   AlertTriangle,
   Printer,
 } from "lucide-vue-next";
 
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 const isOpen = ref(false);
 const activeView = ref<"menu" | "chat" | "planner">("menu");
 
@@ -55,10 +53,7 @@ const sendMessage = async () => {
   } catch (error: any) {
     chatHistory.value.push({
       role: "ai",
-      text:
-        locale.value === "id"
-          ? "Maaf, Pemandu AI sedang mengalami gangguan koneksi. Silakan coba beberapa saat lagi."
-          : "Sorry, the AI Guide is experiencing a connection issue. Please try again later.",
+      text: t("ai_guide.error_connection"),
     });
   } finally {
     isLoadingChat.value = false;
@@ -74,23 +69,12 @@ const isGeneratingPlanner = ref(false);
 const itinerary = ref<any[] | null>(null);
 const plannerError = ref<string | null>(null);
 
-const rawInterests = [
-  { id: "sejarah", label: { id: "Sejarah & Kraton", en: "History & Palace" } },
-  { id: "alam", label: { id: "Alam & Pantai", en: "Nature & Beaches" } },
-  { id: "kuliner", label: { id: "Kuliner", en: "Culinary" } },
-  {
-    id: "campuran",
-    label: {
-      id: "Campuran (Budaya, Alam, Kuliner)",
-      en: "Mixed (Culture, Nature, Culinary)",
-    },
-  },
-];
-
-const interests = computed(() => {
-  const l = locale.value as "id" | "en";
-  return rawInterests.map((i) => ({ id: i.id, label: i.label[l] }));
-});
+const interests = computed(() => [
+  { id: "sejarah", label: t("ai_guide.interests.sejarah") },
+  { id: "alam", label: t("ai_guide.interests.alam") },
+  { id: "kuliner", label: t("ai_guide.interests.kuliner") },
+  { id: "campuran", label: t("ai_guide.interests.campuran") },
+]);
 
 const generatePlan = async () => {
   isGeneratingPlanner.value = true;
@@ -179,10 +163,7 @@ const generatePlan = async () => {
       throw new Error("JSON structure mismatch");
     }
   } catch (error: any) {
-    plannerError.value =
-      locale.value === "id"
-        ? "Nexus AI gagal merakit jadwal. Pastikan kunci API telah dikonfigurasi dengan benar."
-        : "Nexus AI failed to assemble the schedule. Ensure the API key is configured correctly.";
+    plannerError.value = t("ai_guide.planner_error");
   } finally {
     isGeneratingPlanner.value = false;
   }
@@ -191,15 +172,9 @@ const generatePlan = async () => {
 const downloadPDF = () => {
   if (!itinerary.value) return;
 
-  const docTitle =
-    locale.value === "id"
-      ? `Jadwal_${plannerForm.value.days}_Hari_Jiwa_Nusantara`
-      : `Itinerary_${plannerForm.value.days}_Days_Jiwa_Nusantara`;
-  const headerText =
-    locale.value === "id"
-      ? `Jadwal Perjalanan ${plannerForm.value.days} Hari`
-      : `${plannerForm.value.days}-Day Travel Itinerary`;
-  const dayText = locale.value === "id" ? "Hari" : "Day";
+  const docTitle = t("ai_guide.pdf_filename", { days: plannerForm.value.days });
+  const headerText = t("ai_guide.pdf_title", { days: plannerForm.value.days });
+  const dayText = t("ai_guide.day");
 
   let printContent = `
     <!DOCTYPE html>
@@ -246,7 +221,7 @@ const downloadPDF = () => {
         `;
       });
     } else {
-      printContent += `<p>Data aktivitas tidak tersedia.</p>`;
+      printContent += `<p>${t("ai_guide.no_activity")}</p>`;
     }
     printContent += `</div>`;
   });
@@ -270,17 +245,17 @@ const downloadPDF = () => {
     <transition name="slide-up">
       <div
         v-if="isOpen"
-        class="mb-4 w-[340px] sm:w-[400px] h-[580px] bg-warm-white rounded-2xl shadow-2xl flex flex-col overflow-hidden origin-bottom-right border border-line/30"
+        class="mb-4 w-[340px] sm:w-[400px] h-[580px] bg-warm-white rounded-2xl shadow-2xl flex flex-col overflow-hidden origin-bottom-right border border-line/30 transition-colors duration-300"
       >
         <div
-          class="bg-ink p-4 flex items-center justify-between text-warm-white"
+          class="bg-ink p-4 flex items-center justify-between text-warm-white transition-colors duration-300"
         >
           <div class="flex items-center gap-3">
             <button
               v-if="activeView !== 'menu'"
               @click="activeView = 'menu'"
-              class="hover:bg-white/10 p-1.5 rounded-lg transition-colors"
-              :aria-label="locale === 'id' ? 'Kembali ke Menu' : 'Back to Menu'"
+              class="hover:bg-warm-white/10 p-1.5 rounded-lg transition-colors"
+              :aria-label="$t('ai_guide.back_to_menu')"
             >
               <ArrowLeft class="w-4 h-4" />
             </button>
@@ -294,23 +269,19 @@ const downloadPDF = () => {
                   activeView === "menu"
                     ? "Nexus AI"
                     : activeView === "chat"
-                      ? locale === "id"
-                        ? "Pemandu Digital"
-                        : "Digital Guide"
-                      : locale === "id"
-                        ? "Arsitek Perjalanan"
-                        : "Trip Architect"
+                      ? $t("ai_guide.digital_guide")
+                      : $t("ai_guide.trip_architect")
                 }}
               </div>
-              <div class="font-lato text-[10px] text-white/50">
+              <div class="font-lato text-[10px] text-warm-white/50">
                 Jiwa Nusantara (Beta)
               </div>
             </div>
           </div>
           <button
             @click="isOpen = false"
-            class="hover:bg-white/10 p-1.5 rounded-lg transition-colors"
-            :aria-label="locale === 'id' ? 'Tutup Panel' : 'Close Panel'"
+            class="hover:bg-warm-white/10 p-1.5 rounded-lg transition-colors"
+            :aria-label="$t('ai_guide.close_panel')"
           >
             <X class="w-5 h-5" />
           </button>
@@ -318,24 +289,20 @@ const downloadPDF = () => {
 
         <div
           v-if="activeView === 'menu'"
-          class="flex-grow p-5 flex flex-col justify-center gap-4 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"
+          class="flex-grow p-5 flex flex-col justify-center gap-4 bg-parchment border-b border-line transition-colors duration-300"
         >
           <div class="text-center mb-6">
             <h3 class="font-libre text-[22px] font-bold text-ink mb-2">
-              {{ locale === "id" ? "Halo, Penjelajah." : "Hello, Explorer." }}
+              {{ $t("ai_guide.hello") }}
             </h3>
             <p class="text-[14px] text-brown font-light">
-              {{
-                locale === "id"
-                  ? "Bagaimana saya bisa membantumu menemukan jiwa Yogyakarta hari ini?"
-                  : "How can I help you discover the soul of Yogyakarta today?"
-              }}
+              {{ $t("ai_guide.help_prompt") }}
             </p>
           </div>
 
           <button
             @click="activeView = 'chat'"
-            class="group bg-white border border-line p-5 rounded-xl hover:border-terra hover:shadow-md transition-all text-left flex items-start gap-4"
+            class="group bg-parchment border border-line p-5 rounded-xl hover:border-terra hover:shadow-md transition-all text-left flex items-start gap-4"
           >
             <div
               class="bg-ink/5 p-3 rounded-lg group-hover:bg-terra/10 transition-colors"
@@ -346,21 +313,17 @@ const downloadPDF = () => {
             </div>
             <div>
               <div class="font-libre text-[16px] font-bold text-ink mb-1">
-                {{ locale === "id" ? "Tanya Pemandu" : "Ask the Guide" }}
+                {{ $t("ai_guide.ask_guide") }}
               </div>
               <div class="text-[12px] text-brown font-light leading-relaxed">
-                {{
-                  locale === "id"
-                    ? "Tanya rute, harga tiket, atau sejarah destinasi secara real-time."
-                    : "Ask about routes, ticket prices, or destination history in real-time."
-                }}
+                {{ $t("ai_guide.ask_guide_desc") }}
               </div>
             </div>
           </button>
 
           <button
             @click="activeView = 'planner'"
-            class="group bg-white border border-line p-5 rounded-xl hover:border-terra hover:shadow-md transition-all text-left flex items-start gap-4"
+            class="group bg-parchment border border-line p-5 rounded-xl hover:border-terra hover:shadow-md transition-all text-left flex items-start gap-4"
           >
             <div
               class="bg-ink/5 p-3 rounded-lg group-hover:bg-terra/10 transition-colors"
@@ -371,14 +334,10 @@ const downloadPDF = () => {
             </div>
             <div>
               <div class="font-libre text-[16px] font-bold text-ink mb-1">
-                {{ locale === "id" ? "Rancang Itinerary" : "Design Itinerary" }}
+                {{ $t("ai_guide.design_itinerary") }}
               </div>
               <div class="text-[12px] text-brown font-light leading-relaxed">
-                {{
-                  locale === "id"
-                    ? "AI akan merakit jadwal perjalanan otomatis berdasarkan minatmu."
-                    : "AI will automatically assemble a travel schedule based on your interests."
-                }}
+                {{ $t("ai_guide.design_itinerary_desc") }}
               </div>
             </div>
           </button>
@@ -386,33 +345,29 @@ const downloadPDF = () => {
 
         <div
           v-if="activeView === 'chat'"
-          class="flex-grow flex flex-col min-h-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"
+          class="flex-grow flex flex-col min-h-0 bg-parchment transition-colors duration-300"
         >
           <div
             ref="chatContainer"
             class="flex-grow overflow-y-auto p-5 flex flex-col gap-4"
           >
             <div
-              class="max-w-[85%] p-3 rounded-2xl text-[14px] font-light leading-relaxed shadow-sm bg-white border border-line text-ink self-start rounded-tl-sm"
+              class="max-w-[85%] p-3 rounded-2xl text-[14px] font-light leading-relaxed shadow-sm bg-warm-white border border-line text-ink self-start rounded-tl-sm transition-colors duration-300"
             >
               <div class="flex gap-2 items-start">
                 <Sparkles class="w-3 h-3 mt-1 flex-shrink-0 text-terra" />
-                <span>{{
-                  locale === "id"
-                    ? "Sugeng rawuh. Saya asisten Jiwa Nusantara. Ingin bertanya tentang Jogja atau merancang itinerary?"
-                    : "Welcome. I am the Jiwa Nusantara assistant. Would you like to ask about Jogja or plan an itinerary?"
-                }}</span>
+                <span>{{ $t("ai_guide.welcome_chat") }}</span>
               </div>
             </div>
 
             <div
               v-for="(msg, index) in chatHistory"
               :key="index"
-              class="max-w-[85%] p-3 rounded-2xl text-[14px] font-light leading-relaxed shadow-sm"
+              class="max-w-[85%] p-3 rounded-2xl text-[14px] font-light leading-relaxed shadow-sm transition-colors duration-300"
               :class="
                 msg.role === 'ai'
-                  ? 'bg-white border border-line text-ink self-start rounded-tl-sm'
-                  : 'bg-terra text-white self-end rounded-tr-sm'
+                  ? 'bg-warm-white border border-line text-ink self-start rounded-tl-sm'
+                  : 'bg-terra text-warm-white self-end rounded-tr-sm'
               "
             >
               <div class="flex gap-2 items-start">
@@ -420,7 +375,10 @@ const downloadPDF = () => {
                   v-if="msg.role === 'ai'"
                   class="w-3 h-3 mt-1 flex-shrink-0 text-terra"
                 />
-                <User v-else class="w-3 h-3 mt-1 flex-shrink-0 text-white/70" />
+                <User
+                  v-else
+                  class="w-3 h-3 mt-1 flex-shrink-0 text-warm-white/70"
+                />
                 <span
                   class="whitespace-pre-wrap"
                   v-html="
@@ -432,33 +390,29 @@ const downloadPDF = () => {
 
             <div
               v-if="isLoadingChat"
-              class="bg-white border border-line text-ink self-start p-3 rounded-2xl rounded-tl-sm max-w-[85%] flex items-center gap-2 text-[14px]"
+              class="bg-warm-white border border-line text-ink self-start p-3 rounded-2xl rounded-tl-sm max-w-[85%] flex items-center gap-2 text-[14px] transition-colors duration-300"
             >
               <Sparkles class="w-3 h-3 animate-spin text-terra" />
               <span class="text-muted italic">{{
-                locale === "id" ? "Menyusun jawaban..." : "Drafting response..."
+                $t("ai_guide.drafting")
               }}</span>
             </div>
           </div>
 
           <form
             @submit.prevent="sendMessage"
-            class="p-4 bg-white border-t border-line flex gap-2 flex-shrink-0"
+            class="p-4 bg-parchment border-t border-line flex gap-2 flex-shrink-0 transition-colors duration-300"
           >
             <input
               v-model="inputMessage"
               type="text"
-              :placeholder="
-                locale === 'id'
-                  ? 'Ketik pertanyaanmu...'
-                  : 'Type your question...'
-              "
-              class="flex-grow bg-warm-white border border-line rounded-xl px-4 py-2.5 text-[14px] font-light focus:outline-none focus:border-terra transition-colors"
+              :placeholder="$t('ai_guide.type_question')"
+              class="flex-grow bg-warm-white border border-line rounded-xl px-4 py-2.5 text-[14px] font-light text-ink focus:outline-none focus:border-terra transition-colors"
               :disabled="isLoadingChat"
             />
             <button
               type="submit"
-              class="bg-ink hover:bg-terra text-white w-11 h-11 rounded-xl transition-colors flex items-center justify-center disabled:opacity-50"
+              class="bg-ink hover:bg-terra text-warm-white w-11 h-11 rounded-xl transition-colors flex items-center justify-center disabled:opacity-50"
               :disabled="isLoadingChat || !inputMessage.trim()"
             >
               <Send class="w-4 h-4" />
@@ -468,14 +422,14 @@ const downloadPDF = () => {
 
         <div
           v-if="activeView === 'planner'"
-          class="flex-grow overflow-y-auto p-5 flex flex-col bg-warm-white relative"
+          class="flex-grow overflow-y-auto p-5 flex flex-col bg-warm-white relative transition-colors duration-300"
         >
           <div
             v-if="plannerError"
-            class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3"
+            class="mb-6 p-4 bg-terra/10 border border-terra/20 rounded-xl flex items-start gap-3 transition-colors duration-300"
           >
-            <AlertTriangle class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-            <div class="text-[13px] text-red-700 leading-relaxed">
+            <AlertTriangle class="w-5 h-5 text-terra flex-shrink-0 mt-0.5" />
+            <div class="text-[13px] text-terra leading-relaxed">
               {{ plannerError }}
             </div>
           </div>
@@ -485,9 +439,7 @@ const downloadPDF = () => {
             class="flex flex-col gap-6 animate-fade-in"
           >
             <div class="font-libre text-[18px] font-bold text-ink">
-              {{
-                locale === "id" ? "Berapa lama di Jogja?" : "How long in Jogja?"
-              }}
+              {{ $t("ai_guide.how_long") }}
             </div>
             <div class="flex gap-2">
               <button
@@ -497,20 +449,16 @@ const downloadPDF = () => {
                 class="flex-1 py-3 rounded-xl border font-josefin text-[14px] transition-all"
                 :class="
                   plannerForm.days === d
-                    ? 'border-terra bg-terra text-white shadow-md'
-                    : 'border-line text-muted bg-white hover:border-ink'
+                    ? 'border-terra bg-terra text-warm-white shadow-md'
+                    : 'border-line text-muted bg-parchment hover:border-ink'
                 "
               >
-                {{ d }} {{ locale === "id" ? "Hr" : "Day" }}
+                {{ d }} {{ $t("ai_guide.day_short") }}
               </button>
             </div>
 
             <div class="font-libre text-[18px] font-bold text-ink mt-2">
-              {{
-                locale === "id"
-                  ? "Apa fokus minatmu?"
-                  : "What is your interest?"
-              }}
+              {{ $t("ai_guide.interest_prompt") }}
             </div>
             <div class="flex flex-col gap-2">
               <button
@@ -521,7 +469,7 @@ const downloadPDF = () => {
                 :class="
                   plannerForm.interest === int.id
                     ? 'border-terra bg-ink text-terra shadow-md'
-                    : 'border-line text-muted bg-white hover:border-ink'
+                    : 'border-line text-muted bg-parchment hover:border-ink'
                 "
               >
                 {{ int.label }}
@@ -530,10 +478,10 @@ const downloadPDF = () => {
 
             <button
               @click="generatePlan"
-              class="w-full bg-terra hover:bg-ink text-white rounded-xl py-4 mt-4 font-josefin text-[12px] font-bold tracking-[0.2em] uppercase transition-all shadow-lg flex justify-center gap-2"
+              class="w-full bg-terra hover:bg-ink text-warm-white rounded-xl py-4 mt-4 font-josefin text-[12px] font-bold tracking-[0.2em] uppercase transition-all shadow-lg flex justify-center gap-2"
             >
               <Sparkles class="w-4 h-4" />
-              {{ locale === "id" ? "Rancang Itinerary" : "Design Itinerary" }}
+              {{ $t("ai_guide.design_itinerary") }}
             </button>
           </div>
 
@@ -547,18 +495,10 @@ const downloadPDF = () => {
             <div
               class="font-josefin text-[12px] uppercase tracking-[0.2em] text-ink animate-pulse"
             >
-              {{
-                locale === "id"
-                  ? "Menghubungi Nexus AI..."
-                  : "Contacting Nexus AI..."
-              }}
+              {{ $t("ai_guide.contacting_ai") }}
             </div>
             <div class="text-[12px] text-muted mt-2 px-6">
-              {{
-                locale === "id"
-                  ? `Memproses data spasial dan waktu untuk ${plannerForm.days} hari...`
-                  : `Processing spatial and temporal data for ${plannerForm.days} days...`
-              }}
+              {{ $t("ai_guide.processing_data", { days: plannerForm.days }) }}
             </div>
           </div>
 
@@ -570,11 +510,7 @@ const downloadPDF = () => {
               class="flex justify-between items-center mb-2 border-b border-line pb-3"
             >
               <div class="font-libre text-[18px] font-bold text-ink">
-                {{
-                  locale === "id"
-                    ? `Jadwal ${plannerForm.days} Hari`
-                    : `${plannerForm.days}-Day Schedule`
-                }}
+                {{ $t("ai_guide.schedule_title", { days: plannerForm.days }) }}
               </div>
               <div class="flex gap-3">
                 <button
@@ -591,7 +527,7 @@ const downloadPDF = () => {
                   "
                   class="font-josefin text-[10px] text-terra uppercase underline tracking-widest"
                 >
-                  {{ locale === "id" ? "Ubah Rencana" : "Change Plan" }}
+                  {{ $t("ai_guide.change_plan") }}
                 </button>
               </div>
             </div>
@@ -599,12 +535,12 @@ const downloadPDF = () => {
             <div
               v-for="day in itinerary"
               :key="day.day"
-              class="bg-white rounded-xl border border-line p-5 shadow-sm"
+              class="bg-parchment rounded-xl border border-line p-5 shadow-sm transition-colors duration-300"
             >
               <div
                 class="font-josefin text-[13px] font-bold text-terra uppercase tracking-widest mb-5"
               >
-                {{ locale === "id" ? "Hari" : "Day" }} {{ day.day }}
+                {{ $t("ai_guide.day") }} {{ day.day }}
               </div>
 
               <div class="flex flex-col gap-6">
@@ -634,14 +570,9 @@ const downloadPDF = () => {
                     </div>
                   </div>
                 </template>
-
                 <template v-else>
                   <div class="text-[12px] text-muted italic">
-                    {{
-                      locale === "id"
-                        ? "Data aktivitas tidak tersedia."
-                        : "Activity data is unavailable."
-                    }}
+                    {{ $t("ai_guide.no_activity") }}
                   </div>
                 </template>
               </div>
@@ -653,13 +584,13 @@ const downloadPDF = () => {
 
     <button
       @click="isOpen = !isOpen"
-      class="w-14 h-14 bg-terra text-white rounded-full shadow-[0_10px_25px_-5px_rgba(200,75,49,0.5)] hover:bg-ink hover:shadow-[0_10px_25px_-5px_rgba(26,18,8,0.5)] transition-all duration-300 flex items-center justify-center group z-50"
+      class="w-14 h-14 bg-terra text-warm-white rounded-full shadow-[0_10px_25px_-5px_rgba(200,75,49,0.5)] hover:bg-ink hover:shadow-[0_10px_25px_-5px_rgba(26,18,8,0.5)] transition-all duration-300 flex items-center justify-center group z-50"
       :class="
         isOpen
           ? 'scale-90 opacity-0 pointer-events-none absolute'
           : 'scale-100 opacity-100 relative'
       "
-      :aria-label="locale === 'id' ? 'Buka Nexus AI' : 'Open Nexus AI'"
+      :aria-label="$t('ai_guide.open_ai')"
     >
       <Sparkles class="w-6 h-6 group-hover:scale-110 transition-transform" />
     </button>

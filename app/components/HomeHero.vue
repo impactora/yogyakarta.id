@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useI18n } from "#imports";
+
 const { locale } = useI18n();
 
 const rawFeatures = [
@@ -71,31 +74,21 @@ const features = computed(() => {
       >
         Nusantara Digital City 2026
       </div>
+
       <h1
-        v-if="locale === 'id'"
         class="font-libre text-[clamp(40px,10vw,52px)] lg:text-[clamp(52px,6vw,80px)] font-bold leading-[1.08] text-ink mb-6 lg:mb-8"
       >
-        Kota yang<br />Tak Pernah<br /><em class="italic text-terra block"
-          >Berhenti</em
-        >
+        {{ $t("hero.title_line1") }}<br />
+        {{ $t("hero.title_line2") }}<br />
+        <em class="italic text-terra block">{{ $t("hero.title_line3") }}</em>
       </h1>
-      <h1
-        v-else
-        class="font-libre text-[clamp(40px,10vw,52px)] lg:text-[clamp(52px,6vw,80px)] font-bold leading-[1.08] text-ink mb-6 lg:mb-8"
-      >
-        The City<br />That Never<br /><em class="italic text-terra block"
-          >Stops</em
-        >
-      </h1>
+
       <p
         class="font-libre text-base italic text-muted leading-[1.7] border-l-[3px] border-terra pl-5 mb-12"
       >
-        {{
-          locale === "id"
-            ? '"Yogyakarta bukan tempat yang kamu kunjungi — ini tempat yang kamu pulang kepadanya, sekalipun baru pertama kali datang."'
-            : '"Yogyakarta is not a place you visit — it is a place you return to, even if it is your first time coming."'
-        }}
+        "{{ $t("hero.quote") }}"
       </p>
+
       <div
         class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-muted flex items-center gap-5 before:content-[''] before:block before:w-5 before:h-px before:bg-current"
       >
@@ -104,35 +97,34 @@ const features = computed(() => {
     </div>
 
     <div
-      class="bg-ink flex flex-col justify-center p-5 py-10 lg:p-[60px] relative overflow-hidden before:content-[''] before:absolute before:top-10 before:right-10 before:w-[200px] before:h-[200px] before:border before:border-gold-warm/15 before:rotate-45 after:content-[''] after:absolute after:top-[70px] after:right-[70px] after:w-[140px] after:h-[140px] after:border after:border-gold-warm/10 after:rotate-45"
+      class="bg-[#1a1208] flex flex-col justify-center p-5 py-10 lg:p-[60px] relative overflow-hidden before:content-[''] before:absolute before:z-10 before:pointer-events-none before:top-10 before:right-10 before:w-[200px] before:h-[200px] before:border before:border-gold-warm/30 before:rotate-45 after:content-[''] after:absolute after:z-10 after:pointer-events-none after:top-[70px] after:right-[70px] after:w-[140px] after:h-[140px] after:border after:border-gold-warm/20 after:rotate-45"
     >
       <div
-        class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-gold-warm/80 mb-6"
+        class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-gold-warm mb-6"
       >
-        {{
-          locale === "id" ? "Enam Dimensi Kota" : "Six Dimensions of the City"
-        }}
+        {{ $t("hero.dimensions") }}
       </div>
+
       <div
-        class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5"
+        class="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#faf7f2]/10 border border-[#faf7f2]/10"
       >
         <NuxtLink
           v-for="item in features"
           :key="item.id"
           :to="item.path"
-          class="p-[28px_24px] bg-ink cursor-pointer transition-colors duration-200 relative hover:bg-white/5 block group"
+          class="p-[28px_24px] bg-[#1a1208] cursor-pointer transition-all duration-300 relative hover:bg-[#faf7f2]/5 block group"
         >
           <div
-            class="font-josefin text-[9px] font-light tracking-[0.15em] text-white/30 mb-5 group-hover:text-terra transition-colors duration-200"
+            class="font-josefin text-[9px] font-light tracking-[0.15em] text-[#faf7f2]/40 mb-5 group-hover:text-terra transition-colors duration-200"
           >
             {{ item.id }}
           </div>
           <div
-            class="font-libre text-base text-parchment/90 leading-[1.3] mb-2 group-hover:text-white transition-colors duration-200"
+            class="font-libre text-base text-[#faf7f2]/90 leading-[1.3] mb-2 group-hover:text-[#faf7f2] transition-colors duration-200"
           >
             {{ item.displayTitle }}
           </div>
-          <div class="text-xs font-light text-white/35 leading-[1.6]">
+          <div class="text-xs font-light text-[#faf7f2]/40 leading-[1.6]">
             {{ item.displaySub }}
           </div>
         </NuxtLink>
