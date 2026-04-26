@@ -27,6 +27,13 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  const INVENTORY = `
+DAFTAR DESTINASI & KULINER RESMI (WAJIB DIGUNAKAN, DILARANG MEREKOMENDASIKAN TEMPAT SELAIN INI):
+- Wisata/Alam: Candi Prambanan, Keraton Ngayogyakarta, Jalan Malioboro, Taman Sari, Kawasan Kaliurang, Candi Sambisari, Gunung Merapi, Pantai Parangtritis.
+- Kuliner: Gudeg Kraton (Wijilan), Oseng Mercon Bu Narti, Sate Klathak Pak Pong, Bakpia Pathok 75, Kopi Joss Lek Man, Wedang Uwuh, Sego Kucing Angkringan, Tiwul Gunungkidul, Jadah Tempe Mbah Carik.
+- Budaya/Sejarah: Kawasan Kotagede, Pertunjukan Wayang Kulit, Kerajinan Batik Kraton, Gamelan.
+- Teknologi: Kawasan Silicon Wali, Jogja Smart Province.`;
+
   try {
     const groq = new Groq({ apiKey: config.groqApiKey });
 
@@ -34,13 +41,17 @@ export default defineEventHandler(async (event) => {
 ATURAN MUTLAK:
 1. Gunakan BAHASA INDONESIA.
 2. Keluarkan HASIL MURNI DALAM FORMAT JSON array of objects TANPA teks pembuka, penutup, atau markdown (jangan gunakan \`\`\`json).
-3. Struktur JSON wajib persis seperti ini: [{ "hari": 1, "kegiatan": ["Pagi: ...", "Siang: ...", "Malam: ..."] }]`;
+3. Struktur JSON wajib persis seperti ini: [{ "hari": 1, "kegiatan": ["Pagi: ...", "Siang: ...", "Malam: ..."] }]
+4. HANYA gunakan destinasi dan kuliner dari DAFTAR RESMI di bawah ini. Jangan pernah mengarang tempat di luar daftar ini.
+${INVENTORY}`;
 
     const promptEn = `Create a Yogyakarta holiday itinerary for ${days} days focusing on ${interest}.
 ABSOLUTE RULES:
 1. Use ENGLISH strictly.
 2. Output PURE JSON array of objects ONLY, NO introductory text, NO markdown code blocks (do not use \`\`\`json).
-3. The JSON structure MUST be exactly like this: [{ "day": 1, "kegiatan": ["Morning: ...", "Afternoon: ...", "Evening: ..."] }]`;
+3. The JSON structure MUST be exactly like this: [{ "day": 1, "kegiatan": ["Morning: ...", "Afternoon: ...", "Evening: ..."] }]
+4. ONLY use destinations and culinary from the OFFICIAL LIST below. Do not invent or recommend places outside this list.
+${INVENTORY}`;
 
     const prompt = locale === "en" ? promptEn : promptId;
 

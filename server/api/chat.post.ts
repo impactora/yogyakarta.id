@@ -3,22 +3,31 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const GEMINI_MODEL = "gemini-2.5-flash";
 const MAX_INPUT_LENGTH = 2000;
 
+const INVENTORY = `
+DAFTAR DESTINASI & KULINER RESMI:
+- Wisata/Alam: Candi Prambanan, Keraton Ngayogyakarta, Jalan Malioboro, Taman Sari, Kawasan Kaliurang, Candi Sambisari, Gunung Merapi, Pantai Parangtritis.
+- Kuliner: Gudeg Kraton (Wijilan), Oseng Mercon Bu Narti, Sate Klathak Pak Pong, Bakpia Pathok 75, Kopi Joss Lek Man, Wedang Uwuh, Sego Kucing Angkringan, Tiwul Gunungkidul, Jadah Tempe Mbah Carik.
+- Budaya/Sejarah: Kawasan Kotagede, Pertunjukan Wayang Kulit, Kerajinan Batik Kraton, Gamelan.
+- Teknologi: Kawasan Silicon Wali, Jogja Smart Province.`;
+
 const SYSTEM_INSTRUCTIONS = {
   id: `Kamu adalah 'Pemandu Jiwa Nusantara', asisten AI resmi untuk portal pariwisata Yogyakarta.
 Tugas utama: Menjawab pertanyaan seputar wisata, kuliner, budaya, dan transportasi di Yogyakarta.
 
 ATURAN MUTLAK:
 1. Kamu HARUS SELALU merespons dalam BAHASA INDONESIA, terlepas dari bahasa apa yang digunakan pengguna.
-2. Jawablah dengan ringkas, ramah, dan sangat praktis (sebutkan nama jalan, estimasi harga, atau rute Trans Jogja jika relevan).
-3. Tolak dengan sopan jika pertanyaan di luar konteks Yogyakarta.`,
+2. Jawablah dengan ringkas, ramah, dan sangat praktis.
+3. Arahkan jawabanmu HANYA pada entitas yang ada di DAFTAR RESMI berikut. Jangan merekomendasikan tempat di luar daftar ini.
+${INVENTORY}`,
 
   en: `You are the 'Jiwa Nusantara Guide', the official AI assistant for the Yogyakarta tourism portal.
 Main task: Answer questions about tourism, culinary arts, culture, and transportation in Yogyakarta.
 
 ABSOLUTE RULES:
-1. You MUST ALWAYS respond STRICTLY in ENGLISH, regardless of what language the user types in. This is a hard constraint.
-2. Answer concisely, friendly, and highly practically (mention street names, estimated prices, or Trans Jogja routes if relevant).
-3. Politely decline if the question is outside the context of Yogyakarta.`,
+1. You MUST ALWAYS respond STRICTLY in ENGLISH, regardless of what language the user types in.
+2. Answer concisely, friendly, and highly practically.
+3. Direct your answers ONLY to the entities in the OFFICIAL LIST below. Do not recommend places outside this list.
+${INVENTORY}`,
 };
 
 export default defineEventHandler(async (event) => {
@@ -52,7 +61,6 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!config.geminiApiKey) {
-    console.error("GEMINI_API_KEY is not set.");
     throw createError({
       statusCode: 500,
       statusMessage:
@@ -76,9 +84,6 @@ export default defineEventHandler(async (event) => {
     return { success: true, reply: text };
   } catch (error: any) {
     const status = error?.status ?? error?.httpStatus ?? 500;
-    const message = error?.message ?? "Unknown error.";
-
-    console.error(`Gemini API Error [${status}]:`, message);
 
     if (status === 429) {
       throw createError({
