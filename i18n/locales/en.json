@@ -6,5 +6,173 @@
     "wisata": "Tourism",
     "teknologi": "Technology",
     "peta": "Map"
+  },
+  "hero": {
+    "title_line1": "The City",
+    "title_line2": "That Never",
+    "title_line3": "Stops",
+    "quote": "Yogyakarta is not a place you visit — it is a place you return to, even if it is your first time coming.",
+    "dimensions": "Six Dimensions of the City"
+  },
+  "footer": {
+    "portal_tagline": "Yogyakarta Digital Portal",
+    "description": "Exploration of Yogyakarta city dimensions through the 2026 interactive digital portal."
+  },
+  "editorial": {
+    "label": "Main Report",
+    "title_line1": "Preserving the Past,",
+    "title_line2": "Building the Future",
+    "description": "A multidimensional exploration of Yogyakarta. From the philosophical axis to the technology cluster, every corner of the city is a manuscript waiting to be read.",
+    "read_more": "Learn More",
+    "pillars": {
+      "sejarah": {
+        "metric_label": "Prambanan",
+        "title": "1,200 Years of Narrative",
+        "desc": "From the Canggal Inscription to the modern monarchy, this city's history is the foundation of civilization."
+      },
+      "budaya": {
+        "metric_label": "UNESCO Heritage",
+        "title": "Pulse of Tradition",
+        "desc": "UNESCO-recognized crafts, puppetry, and gamelan, coexisting without being crushed by time."
+      },
+      "kuliner": {
+        "metric_label": "Hours Cooked",
+        "title": "Symphony of Flavors",
+        "desc": "Local gastronomy recording the traces of patience. From the sweet Gudeg to the extreme Klathak Satay."
+      },
+      "wisata": {
+        "metric_label": "Cosmological Axis",
+        "title": "Destination Navigation",
+        "desc": "Exploring the spatial space from the peak of Merapi in the north to the Parangtritis coast in the south."
+      },
+      "teknologi": {
+        "metric_label": "Active Startups",
+        "title": "Digital Leap",
+        "desc": "Innovator printing machine. Thousands of STEM graduates per year building the startup ecosystem."
+      },
+      "peta": {
+        "metric_label": "Digital Canvas",
+        "title": "Interactive Map",
+        "desc": "Interactive spatial navigation to map all dimensions of the city in one screen."
+      }
+    }
+  },
+  "search": {
+    "placeholder": "Search destinations, culinary, or history...",
+    "no_results": "No documents match",
+    "start_typing": "Start Typing",
+    "internal_engine": "Internal Search Engine",
+    "use": "Use",
+    "to_close": "to close"
+  },
+  "ai_guide": {
+    "error_connection": "Sorry, the AI Guide is experiencing a connection issue. Please try again later.",
+    "planner_error": "Nexus AI failed to assemble the schedule. Ensure the API key is configured correctly.",
+    "pdf_filename": "Itinerary_{days}_Days_Jiwa_Nusantara",
+    "pdf_title": "{days}-Day Travel Itinerary",
+    "day": "Day",
+    "day_short": "Day",
+    "back_to_menu": "Back to Menu",
+    "digital_guide": "Digital Guide",
+    "trip_architect": "Trip Architect",
+    "close_panel": "Close Panel",
+    "hello": "Hello, Explorer.",
+    "help_prompt": "How can I help you discover the soul of Yogyakarta today?",
+    "ask_guide": "Ask the Guide",
+    "ask_guide_desc": "Ask about routes, ticket prices, or destination history in real-time.",
+    "design_itinerary": "Design Itinerary",
+    "design_itinerary_desc": "AI will automatically assemble a travel schedule based on your interests.",
+    "welcome_chat": "Welcome. I am the Jiwa Nusantara assistant. Would you like to ask about Jogja or plan an itinerary?",
+    "drafting": "Drafting response...",
+    "type_question": "Type your question...",
+    "how_long": "How long in Jogja?",
+    "interest_prompt": "What is your interest?",
+    "contacting_ai": "Contacting Nexus AI...",
+    "processing_data": "Processing spatial and temporal data for {days} days...",
+    "schedule_title": "{days}-Day Schedule",
+    "change_plan": "Change Plan",
+    "no_activity": "Activity data is unavailable.",
+    "open_ai": "Open Nexus AI",
+    "interests": {
+      "sejarah": "History & Palace",
+      "alam": "Nature & Beaches",
+      "kuliner": "Culinary",
+      "campuran": "Mixed (Culture, Nature, Culinary)"
+    }
+  },
+  "sejarah": {
+    "page_title": "History - Jiwa Nusantara",
+    "category": "History",
+    "header_title": "Recording the Footprints of Time",
+    "header_desc": "Tracing the historical timeline, from the founding of the Yogyakarta Palace to the independence revolution.",
+    "visual_archive": "Visual Archive · 2026",
+    "act": "Act"
+  },
+  "budaya": {
+    "page_title": "Culture - Jiwa Nusantara",
+    "category": "Culture",
+    "header_title": "The Pulse of Tradition",
+    "header_desc": "Visualizing masterpiece cultural heritages that live on in the daily lives of its citizens.",
+    "cultural_archive": "Cultural Archive · 2026",
+    "ritual_calendar": "Ritual Calendar",
+    "time_cycle": "Mataram Time Cycle",
+    "time_cycle_desc": "Annual rituals that refuse to go extinct. When is the best time to witness the true face of Yogyakarta culture?",
+    "month_of": "Month of"
+  },
+  "kuliner": {
+    "page_title": "Culinary - Jiwa Nusantara",
+    "category": "Culinary",
+    "header_title": "Symphony of Sweet & Savory",
+    "header_desc": "Explore local gastronomy. Stories of patience behind every dish.",
+    "traditional_mataram": "Traditional Mataram",
+    "filters": {
+      "all": "All",
+      "main_course": "Main Course",
+      "snacks": "Snacks",
+      "drinks": "Drinks"
+    }
+  },
+  "wisata": {
+    "page_title": "Tourism - Jiwa Nusantara",
+    "category": "Tourism",
+    "header_title": "Mataram Corners of Wonder",
+    "header_desc": "Navigate iconic destinations. Click locations below to explore the map.",
+    "print_pdf": "Print PDF",
+    "location_preview": "Location Preview",
+    "share_title": "Share this destination",
+    "share_success": "Link copied to clipboard!",
+    "share_failed": "Failed to copy. Browser permission denied.",
+    "loading_map": "Loading Spatial Data..."
+  },
+  "teknologi": {
+    "page_title": "Technology - Jiwa Nusantara",
+    "category": "Technology",
+    "header_title": "Digital Leap",
+    "header_desc": "Higher education infrastructure, the Silicon Wali startup ecosystem, and the blueprint for future smart city governance.",
+    "ecosystem_node": "Ecosystem Node",
+    "talent_pool": "Talent Pool",
+    "graduates_title": "Quality STEM Graduates",
+    "graduates_desc": "The City of Students is not just a nickname. It is the largest printing machine for engineers and tech innovators in Indonesia outside the capital.",
+    "graduates_source": "Cumulative estimate of PTN/PTS consortium (BPS)",
+    "connectivity": "Connectivity",
+    "internet_penetration": "Internet Penetration",
+    "internet_source": "APJII Penetration Index Data for DIY Region",
+    "business_infrastructure": "Business Infrastructure",
+    "active_startups": "Active Startups & Studios",
+    "business_desc": "Growing organically with high capital efficiency.",
+    "business_source": "Diskominfo DIY Curation Data"
+  },
+  "peta": {
+    "page_title": "Mataram Map - Jiwa Nusantara",
+    "category": "Cosmological Map",
+    "header_title": "One Mataram",
+    "header_desc": "Spatial exploration of all tourism, culinary, tech, historical, and cultural entities in one interactive digital canvas.",
+    "filters": {
+      "wisata": "Tourism",
+      "kuliner": "Culinary",
+      "budaya": "Culture",
+      "sejarah": "History",
+      "teknologi": "Technology"
+    }
   }
 }

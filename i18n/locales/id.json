@@ -6,5 +6,173 @@
     "wisata": "Wisata",
     "teknologi": "Teknologi",
     "peta": "Peta"
+  },
+  "hero": {
+    "title_line1": "Kota yang",
+    "title_line2": "Tak Pernah",
+    "title_line3": "Berhenti",
+    "quote": "Yogyakarta bukan tempat yang kamu kunjungi — ini tempat yang kamu pulang kepadanya, sekalipun baru pertama kali datang.",
+    "dimensions": "Enam Dimensi Kota"
+  },
+  "footer": {
+    "portal_tagline": "Portal Digital Yogyakarta",
+    "description": "Eksplorasi dimensi kota Yogyakarta melalui portal digital interaktif 2026."
+  },
+  "editorial": {
+    "label": "Laporan Utama",
+    "title_line1": "Menjaga Masa Lalu,",
+    "title_line2": "Membangun Masa Depan",
+    "description": "Sebuah eksplorasi multidimensi Yogyakarta. Dari sumbu filosofis hingga klaster teknologi, setiap sudut kota adalah naskah yang menunggu untuk dibaca.",
+    "read_more": "Pelajari Selengkapnya",
+    "pillars": {
+      "sejarah": {
+        "metric_label": "Prambanan",
+        "title": "1.200 Tahun Narasi",
+        "desc": "Dari Prasasti Canggal hingga monarki modern, sejarah kota ini adalah fondasi peradaban."
+      },
+      "budaya": {
+        "metric_label": "Warisan UNESCO",
+        "title": "Denyut Tradisi",
+        "desc": "Seni kriya, wayang, dan gamelan yang diakui UNESCO, hidup berdampingan tanpa tergilas zaman."
+      },
+      "kuliner": {
+        "metric_label": "Jam Dimasak",
+        "title": "Simfoni Rasa",
+        "desc": "Gastronomi lokal yang merekam jejak kesabaran. Dari manisnya Gudeg hingga ekstremnya Sate Klathak."
+      },
+      "wisata": {
+        "metric_label": "Sumbu Kosmologis",
+        "title": "Navigasi Destinasi",
+        "desc": "Menjelajahi ruang spasial dari puncak Merapi di utara hingga pesisir Parangtritis di selatan."
+      },
+      "teknologi": {
+        "metric_label": "Startup Aktif",
+        "title": "Lompatan Digital",
+        "desc": "Mesin pencetak inovator. Ribuan lulusan STEM per tahun membangun ekosistem startup."
+      },
+      "peta": {
+        "metric_label": "Kanvas Digital",
+        "title": "Peta Interaktif",
+        "desc": "Navigasi spasial interaktif untuk memetakan seluruh dimensi kota dalam satu layar."
+      }
+    }
+  },
+  "search": {
+    "placeholder": "Cari destinasi, kuliner, atau sejarah...",
+    "no_results": "Tidak ada dokumen yang cocok dengan",
+    "start_typing": "Mulai Mengetik",
+    "internal_engine": "Mesin Pencari Internal",
+    "use": "Gunakan",
+    "to_close": "untuk menutup"
+  },
+  "ai_guide": {
+    "error_connection": "Maaf, Pemandu AI sedang mengalami gangguan koneksi. Silakan coba beberapa saat lagi.",
+    "planner_error": "Nexus AI gagal merakit jadwal. Pastikan kunci API telah dikonfigurasi dengan benar.",
+    "pdf_filename": "Jadwal_{days}_Hari_Jiwa_Nusantara",
+    "pdf_title": "Jadwal Perjalanan {days} Hari",
+    "day": "Hari",
+    "day_short": "Hr",
+    "back_to_menu": "Kembali ke Menu",
+    "digital_guide": "Pemandu Digital",
+    "trip_architect": "Arsitek Perjalanan",
+    "close_panel": "Tutup Panel",
+    "hello": "Halo, Penjelajah.",
+    "help_prompt": "Bagaimana saya bisa membantumu menemukan jiwa Yogyakarta hari ini?",
+    "ask_guide": "Tanya Pemandu",
+    "ask_guide_desc": "Tanya rute, harga tiket, atau sejarah destinasi secara real-time.",
+    "design_itinerary": "Rancang Itinerary",
+    "design_itinerary_desc": "AI akan merakit jadwal perjalanan otomatis berdasarkan minatmu.",
+    "welcome_chat": "Sugeng rawuh. Saya asisten Jiwa Nusantara. Ingin bertanya tentang Jogja atau merancang itinerary?",
+    "drafting": "Menyusun jawaban...",
+    "type_question": "Ketik pertanyaanmu...",
+    "how_long": "Berapa lama di Jogja?",
+    "interest_prompt": "Apa fokus minatmu?",
+    "contacting_ai": "Menghubungi Nexus AI...",
+    "processing_data": "Memproses data spasial dan waktu untuk {days} hari...",
+    "schedule_title": "Jadwal {days} Hari",
+    "change_plan": "Ubah Rencana",
+    "no_activity": "Data aktivitas tidak tersedia.",
+    "open_ai": "Buka Nexus AI",
+    "interests": {
+      "sejarah": "Sejarah & Kraton",
+      "alam": "Alam & Pantai",
+      "kuliner": "Kuliner",
+      "campuran": "Campuran (Budaya, Alam, Kuliner)"
+    }
+  },
+  "sejarah": {
+    "page_title": "Sejarah - Jiwa Nusantara",
+    "category": "Sejarah",
+    "header_title": "Merekam Jejak Waktu",
+    "header_desc": "Menelusuri linimasa sejarah, dari pendirian Kraton Yogyakarta hingga masa revolusi kemerdekaan.",
+    "visual_archive": "Arsip Visual · 2026",
+    "act": "Babak"
+  },
+  "budaya": {
+    "page_title": "Budaya - Jiwa Nusantara",
+    "category": "Budaya",
+    "header_title": "Denyut Nadi Tradisi",
+    "header_desc": "Visualisasi mahakarya warisan budaya yang terus hidup dalam keseharian warganya.",
+    "cultural_archive": "Arsip Kebudayaan · 2026",
+    "ritual_calendar": "Kalender Ritual",
+    "time_cycle": "Siklus Waktu Mataram",
+    "time_cycle_desc": "Ritual tahunan yang menolak punah. Kapan waktu terbaik untuk menyaksikan wajah asli budaya Yogyakarta?",
+    "month_of": "Bulan"
+  },
+  "kuliner": {
+    "page_title": "Kuliner - Jiwa Nusantara",
+    "category": "Kuliner",
+    "header_title": "Simfoni Rasa Manis & Gurih",
+    "header_desc": "Eksplorasi gastronomi lokal. Cerita kesabaran di balik setiap hidangan.",
+    "traditional_mataram": "Khas Mataram",
+    "filters": {
+      "all": "Semua",
+      "main_course": "Makanan Berat",
+      "snacks": "Cemilan",
+      "drinks": "Minuman"
+    }
+  },
+  "wisata": {
+    "page_title": "Wisata - Jiwa Nusantara",
+    "category": "Wisata",
+    "header_title": "Sudut Keajaiban Mataram",
+    "header_desc": "Navigasi destinasi ikonik Yogyakarta. Klik lokasi di bawah untuk menjelajahi peta.",
+    "print_pdf": "Cetak PDF",
+    "location_preview": "Pratinjau Lokasi",
+    "share_title": "Bagikan destinasi ini",
+    "share_success": "Tautan berhasil disalin ke papan klip!",
+    "share_failed": "Gagal menyalin tautan. Izin peramban ditolak.",
+    "loading_map": "Memuat Data Spasial..."
+  },
+  "teknologi": {
+    "page_title": "Teknologi - Jiwa Nusantara",
+    "category": "Teknologi",
+    "header_title": "Lompatan Digital",
+    "header_desc": "Infrastruktur pendidikan tinggi, ekosistem startup Silicon Wali, dan cetak biru tata kota cerdas masa depan.",
+    "ecosystem_node": "Simpul Ekosistem",
+    "talent_pool": "Talent Pool",
+    "graduates_title": "Lulusan STEM Berkualitas",
+    "graduates_desc": "Kota Pelajar bukan sekadar julukan. Ini adalah mesin pencetak engineer dan inovator teknologi terbesar di Indonesia di luar ibukota.",
+    "graduates_source": "Estimasi kumulatif konsorsium PTN/PTS (BPS)",
+    "connectivity": "Konektivitas",
+    "internet_penetration": "Penetrasi Internet",
+    "internet_source": "Data Indeks Penetrasi APJII Wilayah DIY",
+    "business_infrastructure": "Infrastruktur Bisnis",
+    "active_startups": "Startup & Studio Aktif",
+    "business_desc": "Berkembang organik dengan efisiensi modal yang tinggi.",
+    "business_source": "Data Kurasi Diskominfo DIY"
+  },
+  "peta": {
+    "page_title": "Peta Mataram - Jiwa Nusantara",
+    "category": "Peta Kosmologis",
+    "header_title": "Satu Mataram",
+    "header_desc": "Eksplorasi spasial seluruh entitas wisata, kuliner, teknologi, sejarah, dan budaya dalam satu kanvas digital interaktif.",
+    "filters": {
+      "wisata": "Wisata",
+      "kuliner": "Kuliner",
+      "budaya": "Budaya",
+      "sejarah": "Sejarah",
+      "teknologi": "Teknologi"
+    }
   }
 }
