@@ -202,7 +202,7 @@ useHead({
           class="relative aspect-[4/5] md:aspect-video lg:aspect-[4/5] bg-[#1a1208] group overflow-hidden border border-line"
           :class="item.reverse ? 'lg:order-2' : 'lg:order-1'"
         >
-          <img
+          <AppImage
             :src="item.image"
             :alt="item.displayTitle"
             class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"

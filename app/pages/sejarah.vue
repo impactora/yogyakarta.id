@@ -166,7 +166,7 @@ useHead({
             <div
               class="h-[240px] md:h-[320px] lg:h-[400px] bg-[#1a1208] relative overflow-hidden mb-8 border border-line shadow-xl"
             >
-              <img
+              <AppImage
                 :src="timeline[activeIndex].image"
                 :alt="timeline[activeIndex].displayTitle"
                 class="w-full h-full object-cover opacity-90"

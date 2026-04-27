@@ -163,7 +163,7 @@ useHead({
       <div
         class="aspect-[4/3] lg:aspect-video bg-[#1a1208] relative overflow-hidden group shadow-xl border border-line"
       >
-        <img
+        <AppImage
           :src="featuredItem.image"
           :alt="featuredItem.displayTitle"
           class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
@@ -241,7 +241,7 @@ useHead({
           <div
             class="h-[240px] bg-[#1a1208] mb-6 overflow-hidden relative border border-line shadow-sm"
           >
-            <img
+            <AppImage
               :src="item.image"
               :alt="item.displayTitle"
               class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"

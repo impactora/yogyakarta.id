@@ -95,7 +95,7 @@ useHead({
       v-observe
       class="w-full h-[30vh] lg:h-[40vh] mt-10 mb-16 relative overflow-hidden reveal-up delay-100 border border-line shadow-xl bg-[#1a1208]"
     >
-      <img
+      <AppImage
         src="https://commons.wikimedia.org/wiki/Special:FilePath/Gedung_Pusat_(Rektorat)_UGM.jpg"
         alt="Pusat Pendidikan UGM"
         class="w-full h-full object-cover grayscale-[20%] opacity-90 transition-none"

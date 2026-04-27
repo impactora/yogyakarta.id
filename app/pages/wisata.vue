@@ -222,7 +222,7 @@ useHead({
       v-observe
       class="w-full h-[30vh] lg:h-[40vh] mb-16 relative overflow-hidden reveal-up delay-100 border border-line shadow-xl bg-[#1a1208] print:hidden"
     >
-      <img
+      <AppImage
         :key="activeDestination"
         :src="activeImage"
         alt="Visual Destinasi"
