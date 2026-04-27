@@ -5,11 +5,11 @@
       class="overscroll-none bg-warm-white text-ink font-lato antialiased transition-colors duration-300"
     >
       <NuxtLayout>
-        <ScrollProgress />
+        <ScrollProgress class="print:hidden" />
         <NuxtRouteAnnouncer />
         <NuxtPage />
         <ClientOnly>
-          <PwaPrompt />
+          <PwaPrompt class="print:hidden" />
         </ClientOnly>
       </NuxtLayout>
     </Body>

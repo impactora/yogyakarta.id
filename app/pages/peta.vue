@@ -367,7 +367,10 @@ onUnmounted(() => {
       :description="$t('peta.header_desc')"
     />
 
-    <div v-observe class="mb-6 flex flex-wrap gap-4 reveal-up delay-100">
+    <div
+      v-observe
+      class="mb-6 flex flex-wrap gap-4 reveal-up delay-100 print:hidden"
+    >
       <button
         @click="toggleFilter('wisata')"
         class="flex items-center gap-2 px-4 py-2 border font-josefin text-[10px] uppercase tracking-widest transition-all"
@@ -456,7 +459,7 @@ onUnmounted(() => {
     >
       <div id="unified-map" class="absolute inset-0 z-10"></div>
     </div>
-    <WeatherTelemetry />
+    <WeatherTelemetry class="print:hidden" />
   </main>
 </template>
 

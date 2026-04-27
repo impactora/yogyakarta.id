@@ -212,7 +212,7 @@ useHead({
 
     <div
       v-observe
-      class="mb-12 flex flex-wrap gap-4 border-b border-line pb-8 reveal-up delay-200"
+      class="mb-12 flex flex-wrap gap-4 border-b border-line pb-8 reveal-up delay-200 print:hidden"
     >
       <button
         v-for="cat in categories"

@@ -198,7 +198,7 @@ useHead({
   <main
     class="min-h-screen pt-[120px] lg:pt-[180px] px-5 md:px-6 lg:px-[60px] pb-32 relative z-10 print:pt-0 print:px-0"
   >
-    <div class="flex justify-between items-start mb-8 no-print">
+    <div class="flex justify-between items-start mb-8 print:hidden">
       <CategoryHeader
         v-observe
         class="reveal-up"
@@ -220,7 +220,7 @@ useHead({
 
     <div
       v-observe
-      class="w-full h-[30vh] lg:h-[40vh] mb-16 relative overflow-hidden reveal-up delay-100 border border-line shadow-xl no-print bg-[#1a1208]"
+      class="w-full h-[30vh] lg:h-[40vh] mb-16 relative overflow-hidden reveal-up delay-100 border border-line shadow-xl bg-[#1a1208] print:hidden"
     >
       <img
         :key="activeDestination"
@@ -253,14 +253,10 @@ useHead({
           @click="activeDestination = item.id"
           :aria-label="`Tampilkan info destinasi ${item.title}`"
           class="text-left p-6 lg:p-8 border-b border-line last:border-b-0 transition-all duration-300 group relative overflow-hidden flex flex-col print:border-b-2 print:border-ink print:mb-8 print:p-0 print:break-inside-avoid"
-          :class="
-            activeDestination === item.id
-              ? 'bg-ink no-print-bg'
-              : 'hover:bg-ink/5'
-          "
+          :class="activeDestination === item.id ? 'bg-ink' : 'hover:bg-ink/5'"
         >
           <div
-            class="absolute left-0 top-0 bottom-0 w-1 bg-terra transition-transform duration-300 origin-top no-print"
+            class="absolute left-0 top-0 bottom-0 w-1 bg-terra transition-transform duration-300 origin-top print:hidden"
             :class="
               activeDestination === item.id
                 ? 'scale-y-100'
@@ -290,7 +286,7 @@ useHead({
               </h2>
             </div>
 
-            <div class="no-print">
+            <div class="print:hidden">
               <div
                 @click.stop="shareDestination(item)"
                 class="p-2 border rounded-full hover:bg-terra hover:text-warm-white hover:border-terra transition-all cursor-pointer"
@@ -339,7 +335,7 @@ useHead({
         </button>
       </div>
 
-      <div v-observe class="relative reveal-up delay-200 no-print">
+      <div v-observe class="relative reveal-up delay-200 print:hidden">
         <div
           class="lg:sticky lg:top-[120px] h-[400px] lg:h-[600px] w-full bg-ink border border-line shadow-2xl overflow-hidden p-2"
         >
