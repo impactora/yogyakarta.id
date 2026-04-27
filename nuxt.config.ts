@@ -30,7 +30,7 @@ export default defineNuxtConfig({
   },
 
   pwa: {
-    registerType: "autoUpdate",
+    registerType: "prompt",
     manifest: {
       name: "Jiwa Nusantara — Yogyakarta",
       short_name: "Yogyakarta.id",
