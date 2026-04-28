@@ -7,12 +7,13 @@
     "teknologi": "Technology",
     "peta": "Map"
   },
-  "hero": {
-    "title_line1": "The City",
-    "title_line2": "That Never",
-    "title_line3": "Stops",
-    "quote": "Yogyakarta is not a place you visit — it is a place you return to, even if it is your first time coming.",
-    "dimensions": "Six Dimensions of the City"
+  "home": {
+    "hero": {
+      "javanese_script": "ꦔꦪꦺꦴꦒꦾꦏꦂꦠ",
+      "title": "Yogyakarta",
+      "subtitle": "Soul of Mataram",
+      "cta": "Explore"
+    }
   },
   "footer": {
     "portal_tagline": "Yogyakarta Digital Portal",

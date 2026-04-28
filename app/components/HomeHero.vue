@@ -1,134 +1,101 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useI18n } from "#imports";
 
-const { locale } = useI18n();
+const { t } = useI18n();
+const phase = ref(0);
+let timer1: ReturnType<typeof setTimeout>;
+let timer2: ReturnType<typeof setTimeout>;
 
-const rawFeatures = [
-  {
-    id: "01",
-    title: { id: "Sejarah", en: "History" },
-    sub: { id: "1.200 tahun perjalanan", en: "1,200 years of journey" },
-    path: "/sejarah",
-  },
-  {
-    id: "02",
-    title: { id: "Budaya", en: "Culture" },
-    sub: { id: "Wayang · Batik · Gamelan", en: "Puppetry · Batik · Gamelan" },
-    path: "/budaya",
-  },
-  {
-    id: "03",
-    title: { id: "Kuliner", en: "Culinary" },
-    sub: {
-      id: "Gudeg · Bakpia · Kopi Joss",
-      en: "Gudeg · Bakpia · Joss Coffee",
-    },
-    path: "/kuliner",
-  },
-  {
-    id: "04",
-    title: { id: "Wisata", en: "Tourism" },
-    sub: {
-      id: "Prambanan · Keraton · Merapi",
-      en: "Prambanan · Palace · Merapi",
-    },
-    path: "/wisata",
-  },
-  {
-    id: "05",
-    title: { id: "Teknologi", en: "Technology" },
-    sub: {
-      id: "21 Universitas · 300+ Startup",
-      en: "21 Universities · 300+ Startups",
-    },
-    path: "/teknologi",
-  },
-  {
-    id: "06",
-    title: { id: "Peta", en: "Map" },
-    sub: { id: "Navigasi interaktif kota", en: "Interactive city navigation" },
-    path: "/peta",
-  },
-];
+onMounted(() => {
+  timer1 = setTimeout(() => {
+    phase.value = 1;
+  }, 500);
+  timer2 = setTimeout(() => {
+    phase.value = 2;
+  }, 2000);
+});
 
-const features = computed(() => {
-  const l = locale.value as "id" | "en";
-  return rawFeatures.map((feat) => ({
-    ...feat,
-    displayTitle: feat.title[l],
-    displaySub: feat.sub[l],
-  }));
+onUnmounted(() => {
+  clearTimeout(timer1);
+  clearTimeout(timer2);
 });
 </script>
 
 <template>
   <section
-    class="relative min-h-screen grid grid-cols-1 lg:grid-cols-2 pt-[60px] lg:pt-[72px] z-10"
+    class="relative h-screen w-full bg-parchment overflow-hidden flex items-center justify-center select-none"
   >
     <div
-      class="bg-parchment px-5 py-[60px] pb-10 lg:p-[120px_60px] flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-line relative before:content-['01'] before:absolute before:top-10 before:right-5 lg:before:top-20 lg:before:right-10 before:font-josefin before:text-[11px] before:font-light before:tracking-[0.15em] before:text-muted before:[writing-mode:vertical-rl] before:rotate-180"
-    >
+      class="absolute inset-0 w-full h-full bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tugu_Yogyakarta.jpg/1920px-Tugu_Yogyakarta.jpg')] bg-cover bg-center transition-all duration-[3000ms] ease-out grayscale scale-110 opacity-0"
+      :class="{ '!opacity-30 !scale-100': phase === 2 }"
+    ></div>
+
+    <div class="relative z-10 flex flex-col items-center w-full">
       <div
-        class="font-josefin text-[10px] font-semibold tracking-[0.25em] uppercase text-terra mb-7 flex items-center gap-4 before:content-[''] before:block before:w-8 before:h-px before:bg-terra"
+        class="text-[15vw] md:text-[12vw] text-ink/30 leading-none transition-all duration-[1500ms] ease-[cubic-bezier(0.8,0,0.2,1)] scale-150 opacity-0 blur-xl whitespace-nowrap"
+        :class="{
+          '!scale-100 !opacity-100 !blur-0': phase >= 1,
+          '-translate-y-16 lg:-translate-y-20': phase === 2,
+        }"
+        style="font-family: &quot;Noto Sans Javanese&quot;, sans-serif"
       >
-        Nusantara Digital City 2026
+        {{ $t("home.hero.javanese_script") }}
       </div>
 
-      <h1
-        class="font-libre text-[clamp(40px,10vw,52px)] lg:text-[clamp(52px,6vw,80px)] font-bold leading-[1.08] text-ink mb-6 lg:mb-8"
-      >
-        {{ $t("hero.title_line1") }}<br />
-        {{ $t("hero.title_line2") }}<br />
-        <em class="italic text-terra block">{{ $t("hero.title_line3") }}</em>
-      </h1>
-
-      <p
-        class="font-libre text-base italic text-muted leading-[1.7] border-l-[3px] border-terra pl-5 mb-12"
-      >
-        "{{ $t("hero.quote") }}"
-      </p>
-
       <div
-        class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-muted flex items-center gap-5 before:content-[''] before:block before:w-5 before:h-px before:bg-current"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none"
       >
-        Yogyakarta · Java · Indonesia
+        <h1
+          class="font-libre text-6xl md:text-8xl lg:text-[10rem] text-terra font-bold italic tracking-tighter flex justify-center"
+        >
+          <span
+            v-for="(char, index) in String($t('home.hero.title'))"
+            :key="index"
+            class="inline-block opacity-0 translate-y-10 transition-all duration-700"
+            :style="{ transitionDelay: `${500 + index * 50}ms` }"
+            :class="{ '!opacity-100 !translate-y-0': phase === 2 }"
+          >
+            {{ char === " " ? "\u00A0" : char }}
+          </span>
+        </h1>
+        <div
+          class="font-josefin text-[10px] md:text-xs uppercase tracking-[0.6em] text-ink mt-12 lg:mt-16 opacity-0 transition-all duration-1000 delay-700"
+          :class="{ '!opacity-100': phase === 2 }"
+        >
+          {{ $t("home.hero.subtitle") }}
+        </div>
       </div>
     </div>
 
     <div
-      class="bg-[#1a1208] flex flex-col justify-center p-5 py-10 lg:p-[60px] relative overflow-hidden before:content-[''] before:absolute before:z-10 before:pointer-events-none before:top-10 before:right-10 before:w-[200px] before:h-[200px] before:border before:border-gold-warm/30 before:rotate-45 after:content-[''] after:absolute after:z-10 after:pointer-events-none after:top-[70px] after:right-[70px] after:w-[140px] after:h-[140px] after:border after:border-gold-warm/20 after:rotate-45"
+      class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-0 transition-opacity duration-1000 delay-1000"
+      :class="{ '!opacity-100': phase === 2 }"
     >
-      <div
-        class="font-josefin text-[10px] font-semibold tracking-[0.2em] uppercase text-gold-warm mb-6"
+      <span
+        class="font-josefin text-[9px] uppercase tracking-[0.4em] text-ink/60"
       >
-        {{ $t("hero.dimensions") }}
-      </div>
-
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#faf7f2]/10 border border-[#faf7f2]/10"
-      >
-        <NuxtLink
-          v-for="item in features"
-          :key="item.id"
-          :to="item.path"
-          class="p-[28px_24px] bg-[#1a1208] cursor-pointer transition-all duration-300 relative hover:bg-[#faf7f2]/5 block group"
-        >
-          <div
-            class="font-josefin text-[9px] font-light tracking-[0.15em] text-[#faf7f2]/40 mb-5 group-hover:text-terra transition-colors duration-200"
-          >
-            {{ item.id }}
-          </div>
-          <div
-            class="font-libre text-base text-[#faf7f2]/90 leading-[1.3] mb-2 group-hover:text-[#faf7f2] transition-colors duration-200"
-          >
-            {{ item.displayTitle }}
-          </div>
-          <div class="text-xs font-light text-[#faf7f2]/40 leading-[1.6]">
-            {{ item.displaySub }}
-          </div>
-        </NuxtLink>
+        {{ $t("home.hero.cta") }}
+      </span>
+      <div class="w-[1px] h-12 bg-ink/20 relative overflow-hidden">
+        <div
+          class="absolute top-0 left-0 w-full h-full bg-terra animate-[scroll_2s_ease-in-out_infinite]"
+        ></div>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+@keyframes scroll {
+  0% {
+    transform: translateY(-100%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+</style>
