@@ -1,10 +1,44 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import { useHead, useI18n } from "#imports";
+
+interface LocalizedText {
+  id: string;
+  en: string;
+}
+
+interface LocalizedArray {
+  id: string[];
+  en: string[];
+}
+
+interface CulturalHeritageItem {
+  id: string;
+  image: string;
+  category: string;
+  title: LocalizedText;
+  subtitle: LocalizedText;
+  description: LocalizedText;
+  highlights: LocalizedArray;
+  reverse: boolean;
+}
+
+interface FestivalItem {
+  id: string;
+  name: LocalizedText;
+  month: LocalizedText;
+  desc: LocalizedText;
+}
+
+interface HanacarakaChar {
+  script: string;
+  latin: string;
+  philosophy: LocalizedText;
+}
 
 const { t, locale } = useI18n();
 
-const rawCulturalHeritage = [
+const rawCulturalHeritage: CulturalHeritageItem[] = [
   {
     id: "batik",
     image:
@@ -120,16 +154,47 @@ const rawCulturalHeritage = [
     },
     reverse: true,
   },
+  {
+    id: "baju-adat",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Prajurit_Keraton_Yogyakarta.jpg",
+    category: "Busana Tradisional",
+    title: {
+      id: "Busana Adat Gagrag Ngayogyakarta",
+      en: "Ngayogyakarta Traditional Attire",
+    },
+    subtitle: {
+      id: "Manifestasi Tata Krama dan Stratifikasi Sosial",
+      en: "Manifestation of Etiquette and Social Stratification",
+    },
+    description: {
+      id: "Baju adat Jogja bukan sekadar penutup tubuh. Surjan, kebaya, hingga wiron jarik adalah bahasa visual yang meneriakkan status, sopan santun, dan kepatuhan kosmik.",
+      en: "Jogja's traditional attire is not merely clothing. Surjan, kebaya, and jarik pleats are a visual language screaming status, manners, and cosmic obedience.",
+    },
+    highlights: {
+      id: [
+        "Filosofi Surjan & Blangkon",
+        "Pakem Wiron Engkol",
+        "Simbolisme Kebaya Kuthubaru",
+      ],
+      en: [
+        "Surjan & Blangkon Philosophy",
+        "Engkol Pleating Rules",
+        "Kuthubaru Kebaya Symbolism",
+      ],
+    },
+    reverse: false,
+  },
 ];
 
-const rawFestivals = [
+const rawFestivals: FestivalItem[] = [
   {
     id: "sekaten",
     name: { id: "Sekaten & Pasar Malam", en: "Sekaten & Night Market" },
     month: { id: "Maulud (Rabiul Awal)", en: "Mawlid (Rabi' al-Awwal)" },
     desc: {
-      id: "Perayaan kelahiran Nabi Muhammad SAW yang ditandai dengan dibunyikannya gamelan pusaka selama 7 hari penuh di halaman Masjid Gedhe Kauman, diiringi pasar raya rakyat.",
-      en: "A celebration of the Prophet Muhammad's birth marked by the playing of heirloom gamelan for 7 full days in the courtyard of the Great Kauman Mosque, accompanied by a folk market.",
+      id: "Perayaan kelahiran Nabi Muhammad SAW yang ditandai dengan dibunyikannya gamelan pusaka selama 7 hari penuh di halaman Masjid Gedhe Kauman.",
+      en: "A celebration of the Prophet Muhammad's birth marked by the playing of heirloom gamelan for 7 full days in the courtyard of the Great Kauman Mosque.",
     },
   },
   {
@@ -137,8 +202,8 @@ const rawFestivals = [
     name: { id: "Grebeg Syawal & Besar", en: "Grebeg Syawal & Besar" },
     month: { id: "Syawal & Dzulhijjah", en: "Shawwal & Dhu al-Hijjah" },
     desc: {
-      id: "Sultan membagikan sedekah bumi berupa 'Gunungan' hasil panen yang diarak oleh prajurit keraton untuk diperebutkan rakyat sebagai wujud berkah (ngalap berkah).",
-      en: "The Sultan distributes earth's alms in the form of a 'Gunungan' of harvest yields, paraded by palace guards for the people to fight over as a manifestation of blessing (ngalap berkah).",
+      id: "Sultan membagikan sedekah bumi berupa 'Gunungan' hasil panen yang diarak oleh prajurit keraton untuk diperebutkan rakyat.",
+      en: "The Sultan distributes earth's alms in the form of a 'Gunungan' of harvest yields, paraded by palace guards for the people.",
     },
   },
   {
@@ -149,6 +214,109 @@ const rawFestivals = [
       id: "Upacara persembahan Kraton di Pantai Parangtritis, Gunung Merapi, dan Gunung Lawu untuk menjaga keseimbangan spiritual antara manusia, alam, dan Tuhan.",
       en: "A Kraton offering ceremony at Parangtritis Beach, Mount Merapi, and Mount Lawu to maintain spiritual balance between humans, nature, and God.",
     },
+  },
+];
+
+const hanacaraka: HanacarakaChar[] = [
+  {
+    script: "ꦲ",
+    latin: "Ha",
+    philosophy: { id: "Utusan hidup", en: "Messenger of life" },
+  },
+  {
+    script: "ꦤ",
+    latin: "Na",
+    philosophy: { id: "Tanda keberadaan", en: "Sign of existence" },
+  },
+  {
+    script: "ꦕ",
+    latin: "Ca",
+    philosophy: { id: "Utusan rahasia", en: "Secret messenger" },
+  },
+  {
+    script: "ꦫ",
+    latin: "Ra",
+    philosophy: { id: "Sesuatu yang agung", en: "Something noble" },
+  },
+  {
+    script: "ꦏ",
+    latin: "Ka",
+    philosophy: { id: "Kekuatan mutlak", en: "Absolute power" },
+  },
+  {
+    script: "ꦢ",
+    latin: "Da",
+    philosophy: { id: "Zat yang suci", en: "Sacred essence" },
+  },
+  {
+    script: "ꦠ",
+    latin: "Ta",
+    philosophy: { id: "Kehendak ilahi", en: "Divine will" },
+  },
+  {
+    script: "ꦱ",
+    latin: "Sa",
+    philosophy: { id: "Satu tujuan", en: "Single purpose" },
+  },
+  {
+    script: "ꦮ",
+    latin: "Wa",
+    philosophy: { id: "Wujud nyata", en: "Physical form" },
+  },
+  {
+    script: "ꦭ",
+    latin: "La",
+    philosophy: { id: "Langkah hidup", en: "Path of life" },
+  },
+  {
+    script: "ꦥ",
+    latin: "Pa",
+    philosophy: { id: "Pilar jiwa", en: "Soul pillar" },
+  },
+  {
+    script: "ꦝ",
+    latin: "Dha",
+    philosophy: { id: "Dasar kebenaran", en: "Foundation of truth" },
+  },
+  {
+    script: "ꦗ",
+    latin: "Ja",
+    philosophy: { id: "Jalan cahaya", en: "Path of light" },
+  },
+  {
+    script: "ꦪ",
+    latin: "Ya",
+    philosophy: { id: "Yakin akan asal", en: "Faith in origin" },
+  },
+  {
+    script: "ꦚ",
+    latin: "Nya",
+    philosophy: { id: "Nyata adanya", en: "Truly exists" },
+  },
+  {
+    script: "ꦩ",
+    latin: "Ma",
+    philosophy: { id: "Menerima takdir", en: "Accepting destiny" },
+  },
+  {
+    script: "ꦒ",
+    latin: "Ga",
+    philosophy: { id: "Garis hidup", en: "Lifeline" },
+  },
+  {
+    script: "ꦧ",
+    latin: "Ba",
+    philosophy: { id: "Bekal abadi", en: "Eternal provision" },
+  },
+  {
+    script: "ꦛ",
+    latin: "Tha",
+    philosophy: { id: "Titik temu", en: "Meeting point" },
+  },
+  {
+    script: "ꦔ",
+    latin: "Nga",
+    philosophy: { id: "Ngalap berkah", en: "Seeking blessing" },
   },
 ];
 
@@ -172,6 +340,29 @@ const festivals = computed(() => {
     displayDesc: fest.desc[l],
   }));
 });
+
+const sourceText = ref("");
+const translatedText = ref("");
+const isTranslating = ref(false);
+
+const handleTranslate = async () => {
+  if (!sourceText.value.trim() || isTranslating.value) return;
+  isTranslating.value = true;
+  try {
+    const response = await $fetch("/api/chat", {
+      method: "POST",
+      body: {
+        message: `Bantu saya menerjemahkan atau menuliskan teks ini ke/dari Aksara Jawa: "${sourceText.value}"`,
+        locale: locale.value,
+      },
+    });
+    translatedText.value = response.reply;
+  } catch {
+    translatedText.value = t("budaya.translator_error");
+  } finally {
+    isTranslating.value = false;
+  }
+};
 
 useHead({
   title: computed(() => t("budaya.page_title")),
@@ -199,23 +390,14 @@ useHead({
         :style="`transition-delay: ${index * 100}ms`"
       >
         <div
-          class="relative aspect-[4/5] md:aspect-video lg:aspect-[4/5] bg-[#1a1208] group overflow-hidden border border-line"
+          class="relative aspect-[4/5] md:aspect-video lg:aspect-[4/5] bg-ink group overflow-hidden border border-line"
           :class="item.reverse ? 'lg:order-2' : 'lg:order-1'"
         >
           <AppImage
             :src="item.image"
             :alt="item.displayTitle"
             class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
-            loading="lazy"
           />
-          <div
-            class="absolute inset-0 bg-parchment/5 transition-colors duration-700 group-hover:bg-transparent z-10"
-          ></div>
-          <div
-            class="absolute bottom-4 left-4 z-20 font-josefin text-[8px] tracking-[0.2em] text-[#faf7f2]/80 uppercase bg-[#1a1208]/80 backdrop-blur-sm px-3 py-1 border border-[#faf7f2]/10 transition-none"
-          >
-            {{ $t("budaya.cultural_archive") }}
-          </div>
         </div>
         <div
           class="flex flex-col justify-center"
@@ -243,7 +425,7 @@ useHead({
             <li
               v-for="highlight in item.displayHighlights"
               :key="highlight"
-              class="font-josefin text-[11px] font-semibold tracking-[0.15em] uppercase text-ink flex items-center gap-4 before:content-[''] before:block before:w-3 before:h-[1px] before:bg-terra"
+              class="font-josefin text-[11px] font-semibold tracking-[0.15em] uppercase text-ink flex items-center gap-4 before:w-3 before:h-[1px] before:bg-terra"
             >
               {{ highlight }}
             </li>
@@ -297,6 +479,116 @@ useHead({
             {{ fest.displayDesc }}
           </p>
         </article>
+      </div>
+    </section>
+
+    <section class="mt-32 pt-24 border-t border-line">
+      <div v-observe class="reveal-up mb-16 text-center">
+        <div
+          class="font-josefin text-[10px] tracking-[0.25em] uppercase text-terra mb-6"
+        >
+          {{ $t("budaya.aksara_category") }}
+        </div>
+        <h2
+          class="font-libre text-[36px] lg:text-[48px] font-bold text-ink mb-6"
+        >
+          Hanacaraka
+        </h2>
+        <p
+          class="text-[14px] font-light text-brown max-w-[600px] mx-auto italic leading-relaxed"
+        >
+          {{ $t("budaya.aksara_desc") }}
+        </p>
+      </div>
+
+      <div
+        class="grid grid-cols-5 gap-2 lg:gap-3 max-w-4xl mx-auto reveal-up"
+        v-observe
+      >
+        <div
+          v-for="char in hanacaraka"
+          :key="char.latin"
+          class="group relative aspect-[1/1.1] bg-warm-white border border-line flex flex-col items-center justify-center transition-all duration-300 hover:border-terra overflow-hidden shadow-sm"
+        >
+          <div
+            class="text-[32px] lg:text-[42px] text-ink transition-all duration-500 group-hover:-translate-y-3"
+            style="font-family: &quot;Noto Sans Javanese&quot;, sans-serif"
+          >
+            {{ char.script }}
+          </div>
+          <div
+            class="font-josefin text-[10px] uppercase tracking-widest text-muted transition-opacity duration-300 group-hover:opacity-0"
+          >
+            {{ char.latin }}
+          </div>
+          <div
+            class="absolute inset-0 p-3 flex flex-col items-center justify-end pb-4 text-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500"
+          >
+            <div
+              class="font-josefin text-[9px] text-terra uppercase tracking-[0.2em] mb-1"
+            >
+              {{ char.latin }}
+            </div>
+            <p
+              class="text-[10px] text-ink font-semibold leading-tight bg-warm-white/90 px-2 py-1 rounded"
+            >
+              {{ char.philosophy[locale as "id" | "en"] }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-16 max-w-4xl mx-auto reveal-up" v-observe>
+        <div
+          class="bg-parchment border border-line p-8 lg:p-10 relative overflow-hidden"
+        >
+          <div class="relative z-10">
+            <h3
+              class="font-libre text-[20px] font-bold text-ink mb-6 flex items-center gap-4"
+            >
+              <span class="w-8 h-[1px] bg-terra"></span>
+              {{ $t("budaya.translator_title") }}
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col gap-3">
+                <label
+                  class="font-josefin text-[9px] uppercase tracking-[0.2em] text-muted"
+                  >Input</label
+                >
+                <textarea
+                  v-model="sourceText"
+                  class="w-full h-28 bg-warm-white border border-line p-4 text-[13px] font-light focus:outline-none focus:border-terra transition-colors resize-none"
+                  :placeholder="$t('budaya.translator_placeholder')"
+                ></textarea>
+                <button
+                  @click="handleTranslate"
+                  :disabled="isTranslating || !sourceText.trim()"
+                  class="bg-ink text-warm-white py-3 font-josefin text-[10px] uppercase tracking-[0.2em] hover:bg-terra transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  <span
+                    v-if="isTranslating"
+                    class="w-3 h-3 border-2 border-warm-white border-t-transparent animate-spin rounded-full"
+                  ></span>
+                  {{ $t("budaya.translate_btn") }}
+                </button>
+              </div>
+              <div class="flex flex-col gap-3">
+                <label
+                  class="font-josefin text-[9px] uppercase tracking-[0.2em] text-muted"
+                  >Nexus AI Output</label
+                >
+                <div
+                  class="w-full h-28 bg-warm-white/50 border border-line p-4 text-[13px] font-light italic text-brown overflow-y-auto"
+                  style="
+                    font-family: &quot;Noto Sans Javanese&quot;, sans-serif;
+                  "
+                >
+                  {{ translatedText || $t("budaya.translator_waiting") }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>

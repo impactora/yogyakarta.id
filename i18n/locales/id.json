@@ -109,15 +109,21 @@
     "act": "Babak"
   },
   "budaya": {
-    "page_title": "Budaya - Jiwa Nusantara",
+    "page_title": "Budaya — Yogyakarta.id",
     "category": "Budaya",
-    "header_title": "Denyut Nadi Tradisi",
-    "header_desc": "Visualisasi mahakarya warisan budaya yang terus hidup dalam keseharian warganya.",
-    "cultural_archive": "Arsip Kebudayaan · 2026",
+    "header_title": "Pusaka Jiwa Mataram",
+    "header_desc": "Menelusuri jejak peradaban yang tertulis dalam filosofi, gerak, dan bunyi di tanah Yogyakarta.",
+    "cultural_archive": "Arsip Budaya",
     "ritual_calendar": "Kalender Ritual",
-    "time_cycle": "Siklus Waktu Mataram",
-    "time_cycle_desc": "Ritual tahunan yang menolak punah. Kapan waktu terbaik untuk menyaksikan wajah asli budaya Yogyakarta?",
-    "month_of": "Bulan"
+    "time_cycle": "Siklus Waktu Keraton",
+    "month_of": "Bulan",
+    "aksara_category": "Warisan Intelektual",
+    "aksara_desc": "Hanacaraka adalah simbol filosofis perjalanan hidup manusia yang lahir di tanah Mataram.",
+    "translator_title": "Script & AI Recognition",
+    "translator_placeholder": "Ketik teks Latin atau Aksara...",
+    "translator_waiting": "Hasil terjemahan akan muncul di sini...",
+    "translator_error": "Gagal menghubungi Pemandu AI.",
+    "translate_btn": "Proses dengan AI"
   },
   "kuliner": {
     "page_title": "Kuliner - Jiwa Nusantara",

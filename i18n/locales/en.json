@@ -109,15 +109,21 @@
     "act": "Act"
   },
   "budaya": {
-    "page_title": "Culture - Jiwa Nusantara",
+    "page_title": "Culture — Yogyakarta.id",
     "category": "Culture",
-    "header_title": "The Pulse of Tradition",
-    "header_desc": "Visualizing masterpiece cultural heritages that live on in the daily lives of its citizens.",
-    "cultural_archive": "Cultural Archive · 2026",
+    "header_title": "Soul of Mataram",
+    "header_desc": "Exploring the traces of civilization etched in philosophy, movement, and sound of Yogyakarta.",
+    "cultural_archive": "Cultural Archive",
     "ritual_calendar": "Ritual Calendar",
-    "time_cycle": "Mataram Time Cycle",
-    "time_cycle_desc": "Annual rituals that refuse to go extinct. When is the best time to witness the true face of Yogyakarta culture?",
-    "month_of": "Month of"
+    "time_cycle": "Palace Time Cycle",
+    "month_of": "Month of",
+    "aksara_category": "Intellectual Heritage",
+    "aksara_desc": "Hanacaraka is a philosophical symbol of the human life journey born in the land of Mataram.",
+    "translator_title": "Script & AI Recognition",
+    "translator_placeholder": "Type Latin text or Script...",
+    "translator_waiting": "Translation result will appear here...",
+    "translator_error": "Failed to contact AI Guide.",
+    "translate_btn": "Process with AI"
   },
   "kuliner": {
     "page_title": "Culinary - Jiwa Nusantara",
