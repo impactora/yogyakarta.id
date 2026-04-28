@@ -1,363 +1,268 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, shallowRef, watch, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useHead, useI18n } from "#imports";
-import { MapPin, Utensils, Landmark, BookOpen, Cpu } from "lucide-vue-next";
 
 const { t, locale } = useI18n();
 
-useHead({
-  title: computed(() => t("peta.page_title")),
-  link: [
-    {
-      rel: "stylesheet",
-      href: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css",
-      crossorigin: "",
-      referrerpolicy: "no-referrer",
-    },
-  ],
-  script: [
-    {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js",
-      crossorigin: "",
-      referrerpolicy: "no-referrer",
-    },
-  ],
-});
+interface MapLocation {
+  id: string;
+  name: { id: string; en: string };
+  category: "wisata" | "kuliner" | "budaya" | "teknologi";
+  coords: [number, number];
+  image: string;
+}
 
-const filters = ref({
-  wisata: true,
-  kuliner: true,
-  budaya: true,
-  sejarah: true,
-  teknologi: true,
-});
-
-const mapInstance = shallowRef<any>(null);
-const markersGroup = shallowRef<any>(null);
-
-const rawPoints = [
+const locations: MapLocation[] = [
   {
-    id: "w1",
-    category: "wisata",
-    lat: -7.752,
-    lng: 110.4914,
-    title: { id: "Candi Prambanan", en: "Prambanan Temple" },
-    desc: {
-      id: "Trilogi Candi Hindu abad ke-9.",
-      en: "9th-century Hindu temple trilogy.",
-    },
-  },
-  {
-    id: "w2",
-    category: "wisata",
-    lat: -7.8052,
-    lng: 110.3642,
-    title: { id: "Keraton Yogyakarta", en: "Yogyakarta Palace" },
-    desc: {
-      id: "Pusat monarki Mataram Islam.",
-      en: "Center of the Islamic Mataram monarchy.",
-    },
-  },
-  {
-    id: "w3",
-    category: "wisata",
-    lat: -7.5407,
-    lng: 110.4457,
-    title: { id: "Gunung Merapi", en: "Mount Merapi" },
-    desc: {
-      id: "Stratovolcano paling aktif.",
-      en: "The most active stratovolcano.",
-    },
-  },
-  {
-    id: "w4",
-    category: "wisata",
-    lat: -7.8099,
-    lng: 110.359,
-    title: { id: "Taman Sari", en: "Taman Sari" },
-    desc: {
-      id: "Istana air peninggalan abad ke-18.",
-      en: "18th-century water palace ruins.",
-    },
-  },
-  {
-    id: "w5",
-    category: "wisata",
-    lat: -7.595,
-    lng: 110.4225,
-    title: { id: "Kawasan Kaliurang", en: "Kaliurang Area" },
-    desc: {
-      id: "Resor pegunungan di lereng Merapi.",
-      en: "Mountain resort on Merapi's slopes.",
-    },
-  },
-  {
-    id: "w6",
-    category: "wisata",
-    lat: -7.7621,
-    lng: 110.447,
-    title: { id: "Candi Sambisari", en: "Sambisari Temple" },
-    desc: {
-      id: "Candi Hindu di bawah permukaan tanah.",
-      en: "Subterranean Hindu temple.",
-    },
-  },
-  {
-    id: "w7",
-    category: "wisata",
-    lat: -8.0205,
-    lng: 110.315,
-    title: { id: "Pantai Parangtritis", en: "Parangtritis Beach" },
-    desc: {
-      id: "Kutub selatan sumbu kosmologis.",
-      en: "Southern pole of the cosmological axis.",
-    },
-  },
-  {
-    id: "w8",
-    category: "wisata",
-    lat: -7.7926,
-    lng: 110.3658,
-    title: { id: "Jalan Malioboro", en: "Malioboro Street" },
-    desc: {
-      id: "Koridor utama jantung kota.",
-      en: "The main corridor of the city's heart.",
-    },
-  },
-  {
-    id: "k1",
-    category: "kuliner",
-    lat: -7.8058,
-    lng: 110.3664,
-    title: { id: "Gudeg Wijilan", en: "Wijilan Gudeg" },
-    desc: {
-      id: "Sentra legendaris masakan nangka manis.",
-      en: "Legendary center for sweet jackfruit dish.",
-    },
-  },
-  {
-    id: "k2",
-    category: "kuliner",
-    lat: -7.8732,
-    lng: 110.3846,
-    title: { id: "Sate Klathak Pak Pong", en: "Pak Pong Klathak Satay" },
-    desc: {
-      id: "Sate kambing jeruji sepeda di Bantul.",
-      en: "Bicycle-spoke mutton satay in Bantul.",
-    },
-  },
-  {
-    id: "k3",
-    category: "kuliner",
-    lat: -7.8005,
-    lng: 110.361,
-    title: { id: "Oseng Mercon Bu Narti", en: "Bu Narti's Oseng Mercon" },
-    desc: {
-      id: "Tumis kikil sapi pedas ekstrem.",
-      en: "Extremely spicy beef tendon stir-fry.",
-    },
-  },
-  {
-    id: "k4",
-    category: "kuliner",
-    lat: -7.7981,
-    lng: 110.3582,
-    title: { id: "Bakpia Pathok 75", en: "Bakpia Pathok 75" },
-    desc: {
-      id: "Kue kacang hijau akulturasi Tionghoa-Jawa.",
-      en: "Chinese-Javanese mung bean pastry.",
-    },
-  },
-  {
-    id: "k5",
-    category: "kuliner",
-    lat: -7.7885,
-    lng: 110.366,
-    title: { id: "Kopi Joss Lek Man", en: "Lek Man's Joss Coffee" },
-    desc: {
-      id: "Kopi arang panas khas angkringan.",
-      en: "Hot charcoal coffee typical of angkringan.",
-    },
-  },
-  {
-    id: "k6",
-    category: "kuliner",
-    lat: -7.925,
-    lng: 110.3888,
-    title: { id: "Wedang Uwuh Imogiri", en: "Imogiri Wedang Uwuh" },
-    desc: {
-      id: "Minuman rempah daun palawija hangat.",
-      en: "Warm spice drink with palawija leaves.",
-    },
-  },
-  {
-    id: "b1",
+    id: "keraton",
+    name: { id: "Keraton Ngayogyakarta", en: "The Palace of Yogyakarta" },
     category: "budaya",
-    lat: -7.8286,
-    lng: 110.3954,
-    title: { id: "Kotagede", en: "Kotagede" },
-    desc: {
-      id: "Bekas ibukota dan pusat pengrajin perak.",
-      en: "Former capital and silversmith center.",
-    },
+    coords: [-7.8052845, 110.3642031],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kraton_Yogyakarta.jpg/800px-Kraton_Yogyakarta.jpg",
   },
   {
-    id: "s1",
-    category: "sejarah",
-    lat: -7.7829,
-    lng: 110.367,
-    title: { id: "Tugu Yogyakarta", en: "Yogyakarta Monument" },
-    desc: {
-      id: "Simbol Manunggaling Kawula Gusti.",
-      en: "Symbol of Manunggaling Kawula Gusti.",
-    },
+    id: "tugu",
+    name: { id: "Tugu Yogyakarta", en: "Tugu Monument" },
+    category: "budaya",
+    coords: [-7.782884, 110.36706],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tugu_Yogyakarta.jpg/800px-Tugu_Yogyakarta.jpg",
   },
   {
-    id: "s2",
-    category: "sejarah",
-    lat: -7.868,
-    lng: 110.319,
-    title: { id: "Goa Selarong", en: "Selarong Cave" },
-    desc: {
-      id: "Markas gerilya Pangeran Diponegoro.",
-      en: "Prince Diponegoro's guerrilla base.",
-    },
+    id: "prambanan",
+    name: { id: "Candi Prambanan", en: "Prambanan Temple" },
+    category: "wisata",
+    coords: [-7.75202, 110.491467],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Prambanan_Temple%2C_Yogyakarta.jpg/800px-Prambanan_Temple%2C_Yogyakarta.jpg",
   },
   {
-    id: "s3",
-    category: "sejarah",
-    lat: -7.8003,
-    lng: 110.365,
-    title: { id: "Gedung Agung", en: "Gedung Agung" },
-    desc: {
-      id: "Bekas Istana Kepresidenan RI era revolusi.",
-      en: "Former RI Presidential Palace during revolution.",
-    },
+    id: "malioboro",
+    name: { id: "Jalan Malioboro", en: "Malioboro Street" },
+    category: "wisata",
+    coords: [-7.792651, 110.365844],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Jalan_Malioboro_Yogyakarta.jpg/800px-Jalan_Malioboro_Yogyakarta.jpg",
   },
   {
-    id: "s4",
-    category: "sejarah",
-    lat: -7.8016,
-    lng: 110.3648,
-    title: { id: "Monumen Serangan Umum", en: "General Attack Monument" },
-    desc: {
-      id: "Saksi pendudukan 6 jam TNI 1949.",
-      en: "Witness of the 6-hour TNI occupation in 1949.",
-    },
+    id: "wijilan",
+    name: { id: "Gudeg Wijilan", en: "Wijilan Gudeg Center" },
+    category: "kuliner",
+    coords: [-7.804389, 110.366408],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Gudeg_Yogyakarta.jpg/800px-Gudeg_Yogyakarta.jpg",
   },
   {
-    id: "t1",
+    id: "tamansari",
+    name: { id: "Taman Sari", en: "Taman Sari Water Castle" },
+    category: "wisata",
+    coords: [-7.81, 110.3585],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Taman_Sari_Yogyakarta.jpg/800px-Taman_Sari_Yogyakarta.jpg",
+  },
+  {
+    id: "merapi",
+    name: { id: "Gunung Merapi", en: "Mount Merapi" },
+    category: "wisata",
+    coords: [-7.5407, 110.4457],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Mount_Merapi_from_Ketep_Pass.jpg/800px-Mount_Merapi_from_Ketep_Pass.jpg",
+  },
+  {
+    id: "parangtritis",
+    name: { id: "Pantai Parangtritis", en: "Parangtritis Beach" },
+    category: "wisata",
+    coords: [-8.0244, 110.332],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Parangtritis_Beach.jpg/800px-Parangtritis_Beach.jpg",
+  },
+  {
+    id: "kotagede",
+    name: { id: "Kawasan Kotagede", en: "Kotagede Area" },
+    category: "budaya",
+    coords: [-7.8286, 110.3956],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Kotagede_Mosque.jpg/800px-Kotagede_Mosque.jpg",
+  },
+  {
+    id: "pakpong",
+    name: { id: "Sate Klathak Pak Pong", en: "Sate Klathak Pak Pong" },
+    category: "kuliner",
+    coords: [-7.8732, 110.3808],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Sate_Klatak_Pak_Pong.jpg/800px-Sate_Klatak_Pak_Pong.jpg",
+  },
+  {
+    id: "smartprovince",
+    name: { id: "Jogja Smart Province", en: "Jogja Smart Province" },
     category: "teknologi",
-    lat: -7.767,
-    lng: 110.3786,
-    title: { id: "Universitas Gadjah Mada", en: "Gadjah Mada University" },
-    desc: {
-      id: "Pencetak talenta engineer utama nasional.",
-      en: "The main national engineering talent creator.",
-    },
-  },
-  {
-    id: "t2",
-    category: "teknologi",
-    lat: -7.7595,
-    lng: 110.409,
-    title: { id: "Silicon Wali / Block71", en: "Silicon Wali / Block71" },
-    desc: {
-      id: "Koridor ekosistem inkubator startup digital.",
-      en: "Digital startup incubator ecosystem corridor.",
-    },
+    coords: [-7.7981, 110.3888],
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Balaikota_Yogyakarta.jpg/800px-Balaikota_Yogyakarta.jpg",
   },
 ];
 
-const renderMap = () => {
-  if (typeof window === "undefined" || !(window as any).L) return;
+const diyBoundary: any = {
+  type: "Feature",
+  properties: {},
+  geometry: {
+    type: "Polygon",
+    coordinates: [
+      [
+        [110.01, -7.67],
+        [110.45, -7.54],
+        [110.84, -7.65],
+        [110.84, -8.21],
+        [110.51, -8.26],
+        [110.01, -7.99],
+        [110.01, -7.67],
+      ],
+    ],
+  },
+};
 
-  if (!mapInstance.value) {
-    mapInstance.value = (window as any).L.map("unified-map", {
-      zoomControl: false,
-    }).setView([-7.7829, 110.367], 11);
+const philosophicalAxis: [number, number][] = [
+  [-7.5407, 110.4457],
+  [-7.782884, 110.36706],
+  [-7.8052845, 110.3642031],
+  [-7.8252, 110.3633],
+  [-8.0244, 110.332],
+];
 
-    (window as any).L.tileLayer(
+const mapContainer = ref<HTMLElement | null>(null);
+const INITIAL_VIEW: [number, number] = [-7.7956, 110.3695];
+const INITIAL_ZOOM = 10;
+const IDLE_TIME = 8000;
+let idleTimer: ReturnType<typeof setTimeout> | null = null;
+
+onMounted(async () => {
+  if (process.client) {
+    const leafletModule = await import("leaflet");
+    const L = leafletModule.default || leafletModule;
+
+    await import("leaflet.markercluster");
+    await import("leaflet/dist/leaflet.css");
+    await import("leaflet.markercluster/dist/MarkerCluster.css");
+    await import("leaflet.markercluster/dist/MarkerCluster.Default.css");
+
+    const map = L.map(mapContainer.value!).setView(INITIAL_VIEW, INITIAL_ZOOM);
+
+    L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
       {
-        attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       },
-    ).addTo(mapInstance.value);
+    ).addTo(map);
 
-    (window as any).L.control
-      .zoom({ position: "bottomright" })
-      .addTo(mapInstance.value);
-    markersGroup.value = (window as any).L.layerGroup().addTo(
-      mapInstance.value,
-    );
-  }
+    L.geoJSON(diyBoundary, {
+      style: {
+        color: "#c84b31",
+        weight: 3,
+        opacity: 0.8,
+        fillColor: "#c84b31",
+        fillOpacity: 0.1,
+      },
+    }).addTo(map);
 
-  markersGroup.value.clearLayers();
+    L.polyline(philosophicalAxis, {
+      color: "#c84b31",
+      weight: 2,
+      opacity: 0.5,
+      dashArray: "10, 10",
+      lineJoin: "round",
+    }).addTo(map);
 
-  const getMarkerColor = (cat: string) => {
-    if (cat === "wisata") return "#c84b31";
-    if (cat === "kuliner") return "#1a1208";
-    if (cat === "budaya") return "#8a7560";
-    if (cat === "sejarah") return "#4a3f35";
-    if (cat === "teknologi") return "#3b4252";
-    return "#8a735a";
-  };
+    const markers = (L as any).markerClusterGroup({
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      spiderfyOnMaxZoom: true,
+      iconCreateFunction: (cluster: any) => {
+        return L.divIcon({
+          html: `<div class="bg-ink text-warm-white w-10 h-10 rounded-full flex items-center justify-center font-josefin text-[12px] border-2 border-terra shadow-xl">${cluster.getChildCount()}</div>`,
+          className: "custom-cluster-icon",
+          iconSize: L.point(40, 40),
+        });
+      },
+    });
 
-  const l = locale.value as "id" | "en";
-
-  rawPoints.forEach((p) => {
-    if (filters.value[p.category as keyof typeof filters.value]) {
-      const svgPin = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${getMarkerColor(p.category)}" stroke="#faf7f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px; drop-shadow(0px 4px 6px rgba(0,0,0,0.3)); transform: translate(-50%, -100%);">
-          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
-          <circle cx="12" cy="10" r="3" fill="#faf7f2"></circle>
-        </svg>
-      `;
-
-      const customIcon = (window as any).L.divIcon({
-        className: "custom-map-pin bg-transparent border-none",
-        html: svgPin,
+    locations.forEach((loc) => {
+      const customIcon = L.divIcon({
+        className: "custom-div-icon",
+        html: `
+          <div class="relative group">
+            <div class="w-8 h-8 bg-warm-white border-2 border-ink rounded-lg rotate-45 flex items-center justify-center transition-all duration-300 group-hover:bg-terra group-hover:border-terra group-hover:-translate-y-1 shadow-lg">
+              <div class="-rotate-45">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-ink group-hover:text-warm-white transition-colors"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+            </div>
+          </div>
+        `,
         iconSize: [32, 32],
-        iconAnchor: [0, 0],
+        iconAnchor: [16, 32],
       });
 
-      const marker = (window as any).L.marker([p.lat, p.lng], {
-        icon: customIcon,
-      }).addTo(markersGroup.value);
+      const popupContent = `
+        <div class="w-64 overflow-hidden rounded-xl bg-warm-white font-lato shadow-2xl border border-line">
+          <img src="${loc.image}" onerror="this.onerror=null;this.src='/images/placeholder.jpg';" class="h-32 w-full object-cover grayscale hover:grayscale-0 transition-all duration-500" alt="${loc.name.id}" />
+          <div class="p-4">
+            <div class="text-[9px] uppercase tracking-[0.2em] text-terra font-josefin font-bold mb-1">${loc.category}</div>
+            <h4 class="text-ink font-libre font-bold text-[16px] mb-2">${locale.value === "en" ? loc.name.en : loc.name.id}</h4>
+            <div class="h-[1px] w-8 bg-line mb-3"></div>
+            <a href="/${loc.category}" class="block w-full bg-ink text-warm-white py-2 font-josefin text-[10px] text-center uppercase tracking-widest hover:bg-terra transition-colors decoration-none">
+              ${locale.value === "en" ? "Explore Details" : "Lihat Detail"}
+            </a>
+          </div>
+        </div>
+      `;
 
-      marker.bindPopup(
-        `<div style="font-family: 'Libre Baskerville', serif; font-weight: bold; font-size: 14px; margin-bottom: 4px; color: #1a1208;">${p.title[l]}</div><div style="font-family: 'Josefin Sans', sans-serif; font-size: 11px; line-height: 1.4; color: #4a3f35;">${p.desc[l]}</div>`,
+      const marker = L.marker(loc.coords, { icon: customIcon }).bindPopup(
+        popupContent,
+        {
+          closeButton: false,
+          className: "immersive-popup",
+          offset: [0, -20],
+        },
       );
-    }
-  });
-};
 
-watch(locale, () => renderMap());
+      markers.addLayer(marker);
+    });
 
-const toggleFilter = (cat: keyof typeof filters.value) => {
-  filters.value[cat] = !filters.value[cat];
-  renderMap();
-};
+    map.addLayer(markers);
 
-onMounted(() => {
-  const checkLeaflet = setInterval(() => {
-    if ((window as any).L) {
-      clearInterval(checkLeaflet);
-      renderMap();
-    }
-  }, 100);
+    const startIdleTimer = () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        map.flyTo(INITIAL_VIEW, INITIAL_ZOOM, {
+          duration: 2,
+          easeLinearity: 0.25,
+        });
+      }, IDLE_TIME);
+    };
+
+    map.on("movestart", () => {
+      if (idleTimer) clearTimeout(idleTimer);
+    });
+
+    map.on("moveend", startIdleTimer);
+
+    startIdleTimer();
+  }
 });
 
 onUnmounted(() => {
-  if (mapInstance.value) {
-    mapInstance.value.remove();
-  }
+  if (idleTimer) clearTimeout(idleTimer);
+});
+
+useHead({
+  title: computed(() => t("peta.page_title")),
 });
 </script>
 
 <template>
   <main
-    class="min-h-screen pt-[120px] lg:pt-[180px] px-5 md:px-6 lg:px-[60px] pb-32 relative z-10 flex flex-col"
+    class="min-h-screen pt-[120px] lg:pt-[160px] px-5 md:px-6 lg:px-[60px] pb-20 relative z-10 flex flex-col h-screen"
   >
     <CategoryHeader
       v-observe
@@ -368,120 +273,91 @@ onUnmounted(() => {
     />
 
     <div
-      v-observe
-      class="mb-6 flex flex-wrap gap-4 reveal-up delay-100 print:hidden"
+      class="flex-grow relative rounded-2xl overflow-hidden border border-line shadow-2xl bg-parchment group"
     >
-      <button
-        @click="toggleFilter('wisata')"
-        class="flex items-center gap-2 px-4 py-2 border font-josefin text-[10px] uppercase tracking-widest transition-all"
-        :style="
-          filters.wisata
-            ? 'background-color: #c84b31; color: #faf7f2; border-color: #c84b31;'
-            : ''
-        "
-        :class="
-          !filters.wisata
-            ? 'bg-transparent text-muted border-line hover:border-ink'
-            : ''
-        "
-      >
-        <MapPin class="w-3 h-3" /> {{ $t("peta.filters.wisata") }}
-      </button>
-      <button
-        @click="toggleFilter('kuliner')"
-        class="flex items-center gap-2 px-4 py-2 border font-josefin text-[10px] uppercase tracking-widest transition-all"
-        :style="
-          filters.kuliner
-            ? 'background-color: #1a1208; color: #faf7f2; border-color: #1a1208;'
-            : ''
-        "
-        :class="
-          !filters.kuliner
-            ? 'bg-transparent text-muted border-line hover:border-ink'
-            : ''
-        "
-      >
-        <Utensils class="w-3 h-3" /> {{ $t("peta.filters.kuliner") }}
-      </button>
-      <button
-        @click="toggleFilter('budaya')"
-        class="flex items-center gap-2 px-4 py-2 border font-josefin text-[10px] uppercase tracking-widest transition-all"
-        :style="
-          filters.budaya
-            ? 'background-color: #8a7560; color: #faf7f2; border-color: #8a7560;'
-            : ''
-        "
-        :class="
-          !filters.budaya
-            ? 'bg-transparent text-muted border-line hover:border-ink'
-            : ''
-        "
-      >
-        <Landmark class="w-3 h-3" /> {{ $t("peta.filters.budaya") }}
-      </button>
-      <button
-        @click="toggleFilter('sejarah')"
-        class="flex items-center gap-2 px-4 py-2 border font-josefin text-[10px] uppercase tracking-widest transition-all"
-        :style="
-          filters.sejarah
-            ? 'background-color: #4a3f35; color: #faf7f2; border-color: #4a3f35;'
-            : ''
-        "
-        :class="
-          !filters.sejarah
-            ? 'bg-transparent text-muted border-line hover:border-ink'
-            : ''
-        "
-      >
-        <BookOpen class="w-3 h-3" /> {{ $t("peta.filters.sejarah") }}
-      </button>
-      <button
-        @click="toggleFilter('teknologi')"
-        class="flex items-center gap-2 px-4 py-2 border font-josefin text-[10px] uppercase tracking-widest transition-all"
-        :style="
-          filters.teknologi
-            ? 'background-color: #3b4252; color: #faf7f2; border-color: #3b4252;'
-            : ''
-        "
-        :class="
-          !filters.teknologi
-            ? 'bg-transparent text-muted border-line hover:border-ink'
-            : ''
-        "
-      >
-        <Cpu class="w-3 h-3" /> {{ $t("peta.filters.teknologi") }}
-      </button>
-    </div>
+      <div ref="mapContainer" class="absolute inset-0 z-0 map-sepia"></div>
 
-    <div
-      v-observe
-      class="w-full flex-grow min-h-[60vh] bg-[#1a1208] border border-line shadow-2xl relative reveal-up delay-200 z-0"
-    >
-      <div id="unified-map" class="absolute inset-0 z-10"></div>
+      <div class="absolute top-6 right-6 z-20 flex flex-col gap-3">
+        <div
+          class="bg-warm-white/90 backdrop-blur-md border border-line p-4 rounded-xl shadow-xl flex flex-col gap-3 max-w-[200px]"
+        >
+          <div
+            class="font-josefin text-[10px] font-bold uppercase tracking-widest text-ink flex items-center gap-2"
+          >
+            <span class="w-2 h-2 rounded-full bg-terra animate-pulse"></span>
+            {{ $t("peta.legend_title") }}
+          </div>
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-3">
+              <div class="w-3 h-[1px] bg-terra border-dashed border-t"></div>
+              <span
+                class="text-[10px] text-brown font-light uppercase tracking-tighter"
+                >{{ $t("peta.legend_axis") }}</span
+              >
+            </div>
+            <div class="flex items-center gap-3">
+              <div
+                class="w-3 h-3 bg-warm-white border border-ink rotate-45"
+              ></div>
+              <span
+                class="text-[10px] text-brown font-light uppercase tracking-tighter"
+                >{{ $t("peta.legend_poi") }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="absolute bottom-6 left-6 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+      >
+        <div
+          class="font-libre text-[48px] text-ink/5 font-bold uppercase select-none tracking-tighter"
+        >
+          Ngarso Dalem
+        </div>
+      </div>
     </div>
-    <WeatherTelemetry class="print:hidden" />
   </main>
 </template>
 
 <style>
-.leaflet-pane {
-  z-index: 10 !important;
+.map-sepia .leaflet-tile-pane {
+  filter: sepia(0.4) contrast(0.9) brightness(1.05);
 }
-.leaflet-top,
-.leaflet-bottom {
-  z-index: 10 !important;
+
+.immersive-popup .leaflet-popup-content-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
-.leaflet-popup-content-wrapper {
-  border-radius: 0;
-  background: #faf7f2;
-  border: 1px solid #1a1208;
+
+.immersive-popup .leaflet-popup-tip-container {
+  display: none;
 }
-.leaflet-popup-tip {
-  background: #faf7f2;
-  border: 1px solid #1a1208;
+
+.immersive-popup .leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
 }
-.custom-map-pin {
+
+.custom-div-icon {
   background: transparent !important;
   border: none !important;
+}
+
+.leaflet-container {
+  background: #faf7f2 !important;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

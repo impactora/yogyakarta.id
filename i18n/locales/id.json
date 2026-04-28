@@ -169,17 +169,14 @@
     "business_source": "Data Kurasi Diskominfo DIY"
   },
   "peta": {
-    "page_title": "Peta Mataram - Jiwa Nusantara",
-    "category": "Peta Kosmologis",
-    "header_title": "Satu Mataram",
-    "header_desc": "Eksplorasi spasial seluruh entitas wisata, kuliner, teknologi, sejarah, dan budaya dalam satu kanvas digital interaktif.",
-    "filters": {
-      "wisata": "Wisata",
-      "kuliner": "Kuliner",
-      "budaya": "Budaya",
-      "sejarah": "Sejarah",
-      "teknologi": "Teknologi"
-    }
+    "page_title": "Peta — Yogyakarta.id",
+    "category": "Peta Interaktif",
+    "header_title": "Jejak Spasial Mataram",
+    "header_desc": "Eksplorasi titik-titik krusial yang membentuk denyut nadi wisata, kuliner, budaya, dan teknologi Yogyakarta.",
+    "legend_title": "Legenda Peta",
+    "legend_axis": "Sumbu Filosofis",
+    "legend_poi": "Titik Lokasi",
+    "explore_btn": "Lihat Detail"
   },
   "error": {
     "not_found": "Arsip Tidak Ditemukan",

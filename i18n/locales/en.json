@@ -169,17 +169,14 @@
     "business_source": "Diskominfo DIY Curation Data"
   },
   "peta": {
-    "page_title": "Mataram Map - Jiwa Nusantara",
-    "category": "Cosmological Map",
-    "header_title": "One Mataram",
-    "header_desc": "Spatial exploration of all tourism, culinary, tech, historical, and cultural entities in one interactive digital canvas.",
-    "filters": {
-      "wisata": "Tourism",
-      "kuliner": "Culinary",
-      "budaya": "Culture",
-      "sejarah": "History",
-      "teknologi": "Technology"
-    }
+    "page_title": "Map — Yogyakarta.id",
+    "category": "Interactive Map",
+    "header_title": "Mataram Spatial Traces",
+    "header_desc": "Explore the crucial points that shape the pulse of Yogyakarta's tourism, culinary, culture, and technology.",
+    "legend_title": "Map Legend",
+    "legend_axis": "Philosophical Axis",
+    "legend_poi": "Point of Interest",
+    "explore_btn": "Explore Details"
   },
   "error": {
     "not_found": "Archive Not Found",
