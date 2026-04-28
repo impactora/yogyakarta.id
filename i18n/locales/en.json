@@ -13,50 +13,37 @@
       "title": "Yogyakarta",
       "subtitle": "Soul of Mataram",
       "cta": "Explore"
+    },
+    "editorial": {
+      "sejarah": {
+        "title": "History",
+        "desc": "Footprints of the past that shape the present."
+      },
+      "budaya": {
+        "title": "Culture",
+        "desc": "The soul and philosophy of Mataram."
+      },
+      "wisata": {
+        "title": "Tourism",
+        "desc": "Traces of nature and civilization's majesty."
+      },
+      "kuliner": {
+        "title": "Culinary",
+        "desc": "The art of blending longing and spices."
+      },
+      "teknologi": {
+        "title": "Technology",
+        "desc": "Leaps of innovation toward the future."
+      },
+      "peta": {
+        "title": "Map",
+        "desc": "Explore spatial points and the philosophical axis."
+      }
     }
   },
   "footer": {
     "portal_tagline": "Yogyakarta Digital Portal",
     "description": "Exploration of Yogyakarta city dimensions through the 2026 interactive digital portal."
-  },
-  "editorial": {
-    "label": "Main Report",
-    "title_line1": "Preserving the Past,",
-    "title_line2": "Building the Future",
-    "description": "A multidimensional exploration of Yogyakarta. From the philosophical axis to the technology cluster, every corner of the city is a manuscript waiting to be read.",
-    "read_more": "Learn More",
-    "pillars": {
-      "sejarah": {
-        "metric_label": "Prambanan",
-        "title": "1,200 Years of Narrative",
-        "desc": "From the Canggal Inscription to the modern monarchy, this city's history is the foundation of civilization."
-      },
-      "budaya": {
-        "metric_label": "UNESCO Heritage",
-        "title": "Pulse of Tradition",
-        "desc": "UNESCO-recognized crafts, puppetry, and gamelan, coexisting without being crushed by time."
-      },
-      "kuliner": {
-        "metric_label": "Hours Cooked",
-        "title": "Symphony of Flavors",
-        "desc": "Local gastronomy recording the traces of patience. From the sweet Gudeg to the extreme Klathak Satay."
-      },
-      "wisata": {
-        "metric_label": "Cosmological Axis",
-        "title": "Destination Navigation",
-        "desc": "Exploring the spatial space from the peak of Merapi in the north to the Parangtritis coast in the south."
-      },
-      "teknologi": {
-        "metric_label": "Active Startups",
-        "title": "Digital Leap",
-        "desc": "Innovator printing machine. Thousands of STEM graduates per year building the startup ecosystem."
-      },
-      "peta": {
-        "metric_label": "Digital Canvas",
-        "title": "Interactive Map",
-        "desc": "Interactive spatial navigation to map all dimensions of the city in one screen."
-      }
-    }
   },
   "search": {
     "placeholder": "Search destinations, culinary, or history...",

@@ -1,120 +1,149 @@
 <script setup lang="ts">
-const pillars = [
-  { id: "sejarah", link: "/sejarah", metric: "856 M" },
-  { id: "budaya", link: "/budaya", metric: "3" },
-  { id: "kuliner", link: "/kuliner", metric: "12+" },
-  { id: "wisata", link: "/wisata", metric: "33 KM" },
-  { id: "teknologi", link: "/teknologi", metric: "300+" },
-  { id: "peta", link: "/peta", metric: "1" },
+import { useI18n } from "#imports";
+
+const { t } = useI18n();
+
+const editorials = [
+  {
+    id: "sejarah",
+    titleKey: "home.editorial.sejarah.title",
+    descKey: "home.editorial.sejarah.desc",
+    script: "ꦱꦼꦗꦫꦃ",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Kotagede_Mosque.jpg/1920px-Kotagede_Mosque.jpg",
+    link: "/sejarah",
+  },
+  {
+    id: "budaya",
+    titleKey: "home.editorial.budaya.title",
+    descKey: "home.editorial.budaya.desc",
+    script: "ꦧꦸꦢꦪ",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kraton_Yogyakarta.jpg/1920px-Kraton_Yogyakarta.jpg",
+    link: "/budaya",
+  },
+  {
+    id: "wisata",
+    titleKey: "home.editorial.wisata.title",
+    descKey: "home.editorial.wisata.desc",
+    script: "ꦮꦶꦱꦠ",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Prambanan_Temple%2C_Yogyakarta.jpg/1920px-Prambanan_Temple%2C_Yogyakarta.jpg",
+    link: "/wisata",
+  },
+  {
+    id: "kuliner",
+    titleKey: "home.editorial.kuliner.title",
+    descKey: "home.editorial.kuliner.desc",
+    script: "ꦏꦸꦭꦶꦤꦺꦂ",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Gudeg_Yogyakarta.jpg/1920px-Gudeg_Yogyakarta.jpg",
+    link: "/kuliner",
+  },
+  {
+    id: "teknologi",
+    titleKey: "home.editorial.teknologi.title",
+    descKey: "home.editorial.teknologi.desc",
+    script: "ꦠꦺꦏ꧀ꦤꦺꦴꦭꦺꦴꦒꦶ",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Balaikota_Yogyakarta.jpg/1920px-Balaikota_Yogyakarta.jpg",
+    link: "/teknologi",
+  },
+  {
+    id: "peta",
+    titleKey: "home.editorial.peta.title",
+    descKey: "home.editorial.peta.desc",
+    script: "ꦥꦺꦠ",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Jalan_Malioboro_Yogyakarta.jpg/1920px-Jalan_Malioboro_Yogyakarta.jpg",
+    link: "/peta",
+  },
 ];
 </script>
 
 <template>
   <section
-    id="editorial-section"
-    class="relative z-10 px-5 pt-[160px] pb-24 lg:pt-[240px] lg:px-[60px] lg:pb-[180px] bg-warm-white border-t border-line"
+    class="w-full h-screen flex flex-col lg:flex-row bg-[#1a1208] overflow-hidden"
   >
-    <div
-      class="absolute inset-0 opacity-[0.03] pointer-events-none"
-      style="
-        background-image: radial-gradient(var(--color-ink) 1px, transparent 0);
-        background-size: 40px 40px;
-      "
-    ></div>
-
-    <div class="relative max-w-[1440px] mx-auto">
-      <div
-        v-observe
-        class="mb-20 lg:mb-32 reveal-up grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-10 items-end"
-      >
-        <div>
-          <div
-            class="font-josefin text-[10px] font-semibold tracking-[0.3em] uppercase text-terra mb-8 flex items-center gap-4"
-          >
-            <span class="w-12 h-[1px] bg-terra"></span>
-            {{ $t("editorial.label") }}
-          </div>
-          <h2
-            class="font-libre text-[clamp(36px,6vw,64px)] font-bold leading-[1.05] text-ink italic"
-          >
-            {{ $t("editorial.title_line1") }}<br />
-            <span class="not-italic text-terra">{{
-              $t("editorial.title_line2")
-            }}</span>
-          </h2>
-        </div>
+    <NuxtLink
+      v-for="(item, index) in editorials"
+      :key="item.id"
+      :to="item.link"
+      class="group relative flex-1 flex items-end overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.7,0,0.3,1)] hover:flex-[3] lg:hover:flex-[4] border-b lg:border-b-0 lg:border-r border-white/10"
+    >
+      <div class="absolute inset-0 w-full h-full bg-[#1a1208]">
+        <img
+          :src="item.image"
+          :alt="t(item.titleKey)"
+          class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale transition-all duration-[1000ms] group-hover:opacity-80 group-hover:grayscale-0 group-hover:scale-105"
+        />
         <div
-          class="font-josefin text-[13px] text-brown leading-relaxed border-l border-line pl-8 mb-4"
+          class="absolute inset-0 bg-gradient-to-t from-[#1a1208] via-[#1a1208]/60 to-transparent transition-opacity duration-700 group-hover:opacity-80"
+        ></div>
+      </div>
+
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-30 transition-opacity duration-1000 delay-300 pointer-events-none"
+      >
+        <div
+          class="text-[15vh] text-white whitespace-nowrap"
+          style="font-family: &quot;Noto Sans Javanese&quot;, sans-serif"
         >
-          {{ $t("editorial.description") }}
+          {{ item.script }}
         </div>
       </div>
 
       <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-line"
+        class="relative z-10 w-full p-6 md:p-10 transition-transform duration-700 lg:translate-y-8 group-hover:translate-y-0"
       >
-        <article
-          v-for="(item, index) in pillars"
-          :key="item.id"
-          v-observe
-          class="group flex flex-col border-r border-b border-line p-10 lg:p-14 reveal-up transition-colors duration-500 hover:bg-ink/[0.02]"
-          :style="`transition-delay: ${index * 100}ms`"
-        >
+        <div class="flex items-center justify-between w-full">
+          <div>
+            <div
+              class="font-josefin text-[10px] tracking-[0.3em] text-terra uppercase mb-2 opacity-0 lg:opacity-100 transition-opacity duration-500 lg:group-hover:opacity-100"
+            >
+              0{{ index + 1 }}
+            </div>
+            <h2
+              class="font-libre text-3xl md:text-5xl text-white font-bold tracking-tight whitespace-nowrap"
+            >
+              {{ t(item.titleKey) }}
+            </h2>
+          </div>
           <div
-            class="font-libre text-[12px] text-muted mb-12 flex items-center gap-2"
+            class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 group-hover:bg-terra group-hover:border-terra group-hover:-rotate-45"
           >
-            <span class="text-terra">/</span> 0{{ index + 1 }}
-          </div>
-
-          <div class="flex items-baseline gap-4 mb-8">
-            <span
-              class="font-libre text-[42px] font-bold text-ink leading-none"
-              >{{ item.metric }}</span
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-white"
             >
-            <span
-              class="font-josefin text-[9px] tracking-[0.2em] uppercase text-terra font-semibold"
-            >
-              {{ $t(`editorial.pillars.${item.id}.metric_label`) }}
-            </span>
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
           </div>
+        </div>
 
-          <h3
-            class="font-libre text-[26px] font-bold text-ink mb-4 group-hover:text-terra transition-colors duration-300"
-          >
-            {{ $t(`editorial.pillars.${item.id}.title`) }}
-          </h3>
-
-          <p
-            class="text-[15px] font-light text-brown leading-[1.9] mb-12 flex-grow"
-          >
-            {{ $t(`editorial.pillars.${item.id}.desc`) }}
-          </p>
-
-          <NuxtLink
-            :to="item.link"
-            class="inline-flex items-center gap-4 font-josefin text-[11px] font-bold tracking-[0.2em] uppercase text-ink group-hover:gap-6 transition-all duration-300"
-            :aria-label="`${$t('editorial.read_more')} ${$t(`editorial.pillars.${item.id}.title`)}`"
-          >
-            {{ $t("editorial.read_more") }}
-            <span class="text-terra text-[16px] leading-none">→</span>
-          </NuxtLink>
-        </article>
+        <div
+          class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-[800ms] ease-[cubic-bezier(0.7,0,0.3,1)]"
+        >
+          <div class="overflow-hidden">
+            <p
+              class="font-lato text-sm md:text-base text-white/70 mt-6 max-w-sm leading-relaxed"
+            >
+              {{ t(item.descKey) }}
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </NuxtLink>
   </section>
 </template>
 
-<style scoped>
-.reveal-up {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal-up.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-#editorial-section {
-  scroll-margin-top: 100px;
-}
-</style>
+<style scoped></style>
