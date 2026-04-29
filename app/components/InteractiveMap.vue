@@ -117,31 +117,31 @@ const internetData = [
   {
     name: "Kota Yogyakarta",
     coords: [-7.8014, 110.3646],
-    penetration: 92,
+    penetration: 97.2,
     tier: "high",
   },
   {
     name: "Kabupaten Sleman",
     coords: [-7.6833, 110.3333],
-    penetration: 89,
-    tier: "mid",
+    penetration: 95.5,
+    tier: "high",
   },
   {
     name: "Kabupaten Bantul",
     coords: [-7.8833, 110.3333],
-    penetration: 85,
+    penetration: 91.8,
     tier: "mid",
   },
   {
     name: "Kabupaten Kulon Progo",
     coords: [-7.8282, 110.1585],
-    penetration: 78,
+    penetration: 88.4,
     tier: "low",
   },
   {
     name: "Kabupaten Gunungkidul",
     coords: [-7.9945, 110.6054],
-    penetration: 74,
+    penetration: 85.1,
     tier: "low",
   },
 ];
@@ -275,6 +275,7 @@ let axisLayer: any = null;
 let diyBoundaryLayer: any = null;
 let regionsLayer: any = null;
 let internetCircles: any[] = [];
+let regionLabels: any[] = [];
 let L: any = null;
 let debounceTimer: any = null;
 
@@ -444,24 +445,52 @@ onMounted(async () => {
           : data.tier === "mid"
             ? "#c84b31"
             : "#a38b72";
-      const circle = L.circle(data.coords as [number, number], {
-        color,
-        fillColor: color,
-        fillOpacity: 0.6,
-        radius: data.penetration * 130,
-        weight: 1,
-        className: `internet-circle tier-${data.tier}`,
+      const beaconSize = data.penetration * 2.5;
+      const duration =
+        data.tier === "high" ? 1.5 : data.tier === "mid" ? 2 : 2.5;
+
+      const iconHTML = `
+        <div class="relative flex items-center justify-center w-full h-full">
+          <div class="absolute rounded-full z-10" style="width: 14px; height: 14px; background-color: ${color}; box-shadow: 0 0 10px ${color}80;"></div>
+          <div class="absolute rounded-full beacon-wave" style="border-color: ${color}; animation-duration: ${duration}s; --max-size: ${beaconSize}px;"></div>
+          <div class="absolute rounded-full beacon-wave" style="border-color: ${color}; animation-duration: ${duration}s; animation-delay: ${duration / 2}s; --max-size: ${beaconSize}px;"></div>
+        </div>
+      `;
+
+      const icon = L.divIcon({
+        className: "internet-beacon-wrapper",
+        html: iconHTML,
+        iconSize: [beaconSize, beaconSize],
+        iconAnchor: [beaconSize / 2, beaconSize / 2],
       });
-      circle.bindTooltip(
+
+      const marker = L.marker(data.coords as [number, number], { icon });
+      marker.bindTooltip(
         `<div class="font-lato bg-ink text-warm-white p-3 rounded-lg shadow-xl"><div class="text-[10px] uppercase text-terra mb-1">${data.name}</div><div class="text-[20px] font-bold">${data.penetration}%</div></div>`,
         { direction: "top", className: "internet-tooltip", opacity: 1 },
       );
-      circle.tier = data.tier;
-      internetCircles.push(circle);
+      marker.tier = data.tier;
+      internetCircles.push(marker);
+
+      const regionName = data.name
+        .replace("Kabupaten ", "")
+        .replace("Kota ", "");
+      const labelIcon = L.divIcon({
+        className: "region-label",
+        html: `<div style="color: #1a1208; font-family: 'Josefin Sans', sans-serif; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.25em; text-shadow: 2px 2px 0px #faf7f2, -2px -2px 0px #faf7f2, 2px -2px 0px #faf7f2, -2px 2px 0px #faf7f2; opacity: 0.6;">${regionName}</div>`,
+        iconSize: [140, 20],
+        iconAnchor: [70, 10],
+      });
+      const labelMarker = L.marker(data.coords, {
+        icon: labelIcon,
+        interactive: false,
+      });
+      regionLabels.push(labelMarker);
     });
 
     if (props.mode === "internet") {
       internetCircles.forEach((c) => c.addTo(mapInstance));
+      regionLabels.forEach((l) => l.addTo(mapInstance));
     }
   }
 });
@@ -472,6 +501,7 @@ watch(
     if (!mapInstance) return;
     if (mode === "poi") {
       internetCircles.forEach((c) => mapInstance.removeLayer(c));
+      regionLabels.forEach((l) => mapInstance.removeLayer(l));
       mapInstance.addLayer(regionsLayer);
       mapInstance.addLayer(axisLayer);
       mapInstance.addLayer(markersGroup);
@@ -481,6 +511,7 @@ watch(
       mapInstance.removeLayer(axisLayer);
       mapInstance.removeLayer(regionsLayer);
       internetCircles.forEach((c) => c.addTo(mapInstance));
+      regionLabels.forEach((l) => l.addTo(mapInstance));
     }
   },
 );
@@ -496,10 +527,10 @@ watch(
   () => props.highlightedTier,
   (tier) => {
     if (props.mode !== "internet") return;
-    internetCircles.forEach((circle) => {
-      const el = circle.getElement();
+    internetCircles.forEach((marker) => {
+      const el = marker.getElement();
       if (!el) return;
-      if (!tier || circle.tier === tier) {
+      if (!tier || marker.tier === tier) {
         el.style.opacity = "1";
         el.style.filter = tier ? "drop-shadow(0 0 10px currentColor)" : "none";
       } else {
@@ -539,12 +570,6 @@ onUnmounted(() => {
   background: transparent !important;
   border: none !important;
 }
-.internet-circle {
-  transition:
-    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    filter 0.5s ease;
-  pointer-events: auto;
-}
 .internet-tooltip {
   background: transparent !important;
   border: none !important;
@@ -555,6 +580,9 @@ onUnmounted(() => {
 }
 .leaflet-container {
   background: #faf7f2 !important;
+}
+.region-label {
+  pointer-events: none;
 }
 
 .region-polygon {
@@ -595,5 +623,36 @@ onUnmounted(() => {
   opacity: 1;
   font-size: 14px;
   z-index: 1000 !important;
+}
+
+.internet-beacon-wrapper {
+  background: transparent !important;
+  border: none !important;
+  transition:
+    opacity 0.4s ease,
+    filter 0.4s ease;
+}
+
+.beacon-wave {
+  border-width: 2px;
+  border-style: solid;
+  animation-name: radar-pulse;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-iteration-count: infinite;
+}
+
+@keyframes radar-pulse {
+  0% {
+    width: 14px;
+    height: 14px;
+    opacity: 0.8;
+    border-width: 3px;
+  }
+  100% {
+    width: var(--max-size);
+    height: var(--max-size);
+    opacity: 0;
+    border-width: 1px;
+  }
 }
 </style>
