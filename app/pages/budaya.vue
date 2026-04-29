@@ -41,8 +41,7 @@ const { t, locale } = useI18n();
 const rawCulturalHeritage: CulturalHeritageItem[] = [
   {
     id: "batik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Batik_Tulis.jpg",
+    image: "/images/budaya/batik.jpg",
     category: "Seni Kriya · UNESCO 2009",
     title: { id: "Filosofi Batik Kraton", en: "Kraton Batik Philosophy" },
     subtitle: {
@@ -69,8 +68,7 @@ const rawCulturalHeritage: CulturalHeritageItem[] = [
   },
   {
     id: "wayang-kulit",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Wayang_kulit.jpg",
+    image: "/images/budaya/wayang.jpg",
     category: "Seni Pertunjukan · UNESCO 2003",
     title: { id: "Wayang Kulit Purwa", en: "Purwa Shadow Puppets" },
     subtitle: {
@@ -97,8 +95,7 @@ const rawCulturalHeritage: CulturalHeritageItem[] = [
   },
   {
     id: "gamelan",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Gamelan_Jawa.jpg",
+    image: "/images/budaya/gamelan.jpg",
     category: "Pusaka Bunyi · UNESCO 2021",
     title: { id: "Gamelan Kraton Yogyakarta", en: "Yogyakarta Kraton Gamelan" },
     subtitle: {
@@ -125,8 +122,7 @@ const rawCulturalHeritage: CulturalHeritageItem[] = [
   },
   {
     id: "arsitektur-keraton",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Kraton_Yogyakarta.jpg",
+    image: "/images/budaya/kraton.jpg",
     category: "Arsitektur Tradisional",
     title: {
       id: "Tata Ruang Keraton Ngayogyakarta",
@@ -156,8 +152,7 @@ const rawCulturalHeritage: CulturalHeritageItem[] = [
   },
   {
     id: "baju-adat",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Prajurit_Keraton_Yogyakarta.jpg",
+    image: "/images/budaya/prajurit.jpg",
     category: "Busana Tradisional",
     title: {
       id: "Busana Adat Gagrag Ngayogyakarta",
