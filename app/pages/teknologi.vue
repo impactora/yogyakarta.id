@@ -62,6 +62,15 @@ const rawInitiatives = [
       en: "Spatial transformation of the southern area into a hybrid district: local designer boutiques, international animation studios, and 24-hour co-working spaces.",
     },
   },
+  {
+    id: "gamedev-animation",
+    meta: { id: "Kreatif & Hiburan", en: "Creative & Entertainment" },
+    title: { id: "Pusat Game Dev & Animasi", en: "Game Dev & Animation Hub" },
+    desc: {
+      id: "Markas bagi raksasa industri seperti Gameloft dan ratusan studio indie. Memproduksi IP global, dari game mobile hingga film animasi pemenang penghargaan.",
+      en: "Headquarters for industry giants like Gameloft and hundreds of indie studios. Producing global IPs, from mobile games to award-winning animated films.",
+    },
+  },
 ];
 
 const initiatives = computed(() => {
@@ -157,7 +166,7 @@ useHead({
         class="bg-terra p-10 lg:p-14 flex flex-col justify-between group reveal-up delay-100 transition-colors duration-300"
       >
         <div
-          class="font-josefin text-[10px] tracking-[0.25em] uppercase text-ink mb-12 Transition-colors duration-300"
+          class="font-josefin text-[10px] tracking-[0.25em] uppercase text-ink mb-12 transition-colors duration-300"
         >
           {{ $t("teknologi.connectivity") }}
         </div>
@@ -185,23 +194,23 @@ useHead({
         class="bg-line p-10 lg:p-12 flex flex-col justify-between reveal-up delay-200 lg:col-span-3 transition-colors duration-300 shadow-sm"
       >
         <div
-          class="font-josefin text-[10px] tracking-[0.25em] uppercase text-muted mb-12 Transition-colors duration-300"
+          class="font-josefin text-[10px] tracking-[0.25em] uppercase text-muted mb-12 transition-colors duration-300"
         >
           {{ $t("teknologi.business_infrastructure") }}
         </div>
         <div>
           <div
-            class="font-libre text-[40px] font-bold text-ink leading-none mb-4 Transition-colors duration-300"
+            class="font-libre text-[40px] font-bold text-ink leading-none mb-4 transition-colors duration-300"
           >
             300+
           </div>
           <div
-            class="font-libre text-[18px] text-ink/80 mb-3 Transition-colors duration-300"
+            class="font-libre text-[18px] text-ink/80 mb-3 transition-colors duration-300"
           >
             {{ $t("teknologi.active_startups") }}
           </div>
           <p
-            class="text-[13px] text-brown font-light leading-[1.6] mb-4 Transition-colors duration-300"
+            class="text-[13px] text-brown font-light leading-[1.6] mb-4 transition-colors duration-300"
           >
             {{ $t("teknologi.business_desc") }}
           </p>
@@ -215,7 +224,7 @@ useHead({
     </section>
 
     <section
-      class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 pt-10 border-t border-line"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 pt-10 border-t border-line"
     >
       <article
         v-for="(item, index) in initiatives"
@@ -231,12 +240,12 @@ useHead({
           {{ item.displayMeta }}
         </div>
         <h3
-          class="font-libre text-[22px] font-bold text-ink mb-4 Transition-colors duration-300"
+          class="font-libre text-[22px] font-bold text-ink mb-4 transition-colors duration-300"
         >
           {{ item.displayTitle }}
         </h3>
         <p
-          class="text-[15px] font-light text-brown leading-[1.8] Transition-colors duration-300"
+          class="text-[15px] font-light text-brown leading-[1.8] transition-colors duration-300"
         >
           {{ item.displayDesc }}
         </p>
@@ -244,3 +253,5 @@ useHead({
     </section>
   </main>
 </template>
+
+<style scoped></style>
