@@ -19,8 +19,7 @@ const rawCulinary = [
     id: "gudeg",
     categoryId: "main_course",
     featured: true,
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Gudeg_Jogja.jpg",
+    image: "/images/kuliner/gudeg.jpg",
     title: { id: "Gudeg Kraton", en: "Royal Gudeg" },
     story: {
       id: "Nangka muda direbus 12 jam dengan santan dan gula aren. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
@@ -34,8 +33,7 @@ const rawCulinary = [
     id: "oseng",
     categoryId: "main_course",
     featured: false,
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Oseng_mercon.jpg",
+    image: "/images/kuliner/oseng.jpg",
     title: {
       id: "Oseng Mercon Bu Narti",
       en: "Bu Narti's Firecracker Stir-fry",
@@ -52,8 +50,7 @@ const rawCulinary = [
     id: "klathak",
     categoryId: "main_course",
     featured: false,
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Sate_Klathak.jpg",
+    image: "/images/kuliner/klathak.jpg",
     title: { id: "Sate Klathak", en: "Klathak Satay" },
     story: {
       id: "Dua tusuk jeruji sepeda memastikan daging kambing matang merata. Hanya dibumbui garam kasar.",
@@ -70,8 +67,7 @@ const rawCulinary = [
     id: "bakpia",
     categoryId: "snacks",
     featured: false,
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Bakpia_Pathok.jpg",
+    image: "/images/kuliner/bakpia.jpg",
     title: { id: "Bakpia Pathok 75", en: "Bakpia Pathok 75" },
     story: {
       id: "Akulturasi kuliner Tionghoa-Jawa abad 20. Kulit tipis berlapis isi pasta kacang hijau kukus tradisional.",
@@ -85,7 +81,7 @@ const rawCulinary = [
     id: "kopijos",
     categoryId: "drinks",
     featured: false,
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Kopi_Joss.jpg",
+    image: "/images/kuliner/kopi-joss.jpg",
     title: { id: "Kopi Joss Lek Man", en: "Lek Man's Joss Coffee" },
     story: {
       id: "Arang membara yang diceburkan memunculkan karbon aktif yang menetralkan asam lambung.",
@@ -99,8 +95,7 @@ const rawCulinary = [
     id: "wedang",
     categoryId: "drinks",
     featured: false,
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Wedang_Uwuh.jpg",
+    image: "/images/kuliner/wedang.jpg",
     title: { id: "Wedang Uwuh", en: "Trash Ginger Drink" },
     story: {
       id: "Campuran jahe bakar, kayu secang, cengkeh, dan pala yang tampak seperti reruntuhan dedaunan.",

@@ -20,8 +20,7 @@ const rawDestinations = [
     transport: "Trans Jogja Jalur 1A",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.489,-7.753,110.493,-7.749&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Prambanan,_Candi_Hindu_Terbesar_Warisan_Budaya_Indonesia.jpg",
+    image: "/images/wisata/prambanan.jpg",
   },
   {
     id: "keraton",
@@ -36,8 +35,7 @@ const rawDestinations = [
     transport: "Berjalan kaki dari Malioboro",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.361,-7.807,110.365,-7.804&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Kraton_Yogyakarta_Pagelaran.jpg",
+    image: "/images/wisata/keraton.jpg",
   },
   {
     id: "malioboro",
@@ -52,8 +50,7 @@ const rawDestinations = [
     transport: "Stasiun Tugu / Trans Jogja 1A, 2A, 3A",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.364,-7.794,110.367,-7.791&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Malioboro_Street,_Yogyakarta.JPG",
+    image: "/images/wisata/malioboro.jpg",
   },
   {
     id: "tamansari",
@@ -68,8 +65,7 @@ const rawDestinations = [
     transport: "Becak dari Alun-Alun Selatan",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.357,-7.811,110.361,-7.808&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Taman_Sari_Water_Castle,_Yogyakarta.jpg",
+    image: "/images/wisata/tamansari.jpg",
   },
   {
     id: "kaliurang",
@@ -84,8 +80,7 @@ const rawDestinations = [
     transport: "Bus DAMRI / Jeep Wisata",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.42,-7.6,110.43,-7.59&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Gunong_Merapi_from_Kaliurang_Q0S7942_-_Flickr_-_Lip_Kee.jpg",
+    image: "/images/wisata/kaliurang.jpg",
   },
   {
     id: "sambisari",
@@ -100,8 +95,7 @@ const rawDestinations = [
     transport: "10 menit dari Bandara Adisutjipto",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.445,-7.763,110.448,-7.761&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Candi_Sambisari_2013-11-14_01.jpg",
+    image: "/images/wisata/sambisari.jpg",
   },
   {
     id: "merapi",
@@ -116,8 +110,7 @@ const rawDestinations = [
     transport: "Jeep dari Basecamp Kaliurang",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.44,-7.545,110.45,-7.535&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/TN_Gunung_Merapi.jpg",
+    image: "/images/wisata/merapi.jpg",
   },
   {
     id: "parangtritis",
@@ -132,8 +125,7 @@ const rawDestinations = [
     transport: "Bus DAMRI dari Terminal Giwangan",
     mapUrl:
       "https://www.openstreetmap.org/export/embed.html?bbox=110.31,-8.03,110.33,-8.01&layer=mapnik",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Parangtritis_Beach,_Bantul,_Yogyakarta_01.JPG",
+    image: "/images/wisata/parangtritis.jpg",
   },
 ];
 
