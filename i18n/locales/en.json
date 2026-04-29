@@ -14,6 +14,16 @@
       "subtitle": "Soul of Mataram",
       "cta": "Explore"
     },
+    "intro": {
+      "prefix": "Yogyakarta Is",
+      "text": "An endless symphony between the majesty of the past and the courage of the future. A harmonious blend where ancestral traditions are never rendered obsolete by the passage of time, but continue to thrive alongside boundless innovation. It is not merely a geographic expanse on a map, but a dimensional space where every visiting soul will always find their way back home to embrace the true meaning of peace."
+    },
+    "philosophy": {
+      "title": "Memayu Hayuning Bawana",
+      "subtitle": "Beautifying the Beauty of the World",
+      "desc": "A bridge between a majestic past and an infinite future. Yogyakarta is not just a space, but a manifestation of harmony.",
+      "cta": "Explore Philosophy"
+    },
     "editorial": {
       "sejarah": {
         "title": "History",
