@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch, onUnmounted } from "vue";
 import { useHead, useI18n } from "#imports";
 
 const { t, locale } = useI18n();
@@ -13,8 +13,7 @@ const rawTimeline = [
       en: "King Sanjaya erected a lingam on Stirangga Hill, Mount Wukir. The oldest document of Hindu civilization in the Kedu plain — the zero point of Yogyakarta's written history.",
     },
     meta: { id: "Awal Peradaban", en: "Dawn of Civilization" },
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Canggal_inscription.jpg",
+    image: "/images/sejarah/canggal.jpg",
   },
   {
     year: "856",
@@ -24,7 +23,20 @@ const rawTimeline = [
       en: "The Sanjaya dynasty completed Southeast Asia's largest Hindu temple complex. 240 andesite stone structures built without cement — only gravity, precision, and faith.",
     },
     meta: { id: "Puncak Wangsa Sanjaya", en: "Peak of Sanjaya Dynasty" },
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Prambanan.jpg",
+    image: "/images/sejarah/prambanan.jpg",
+  },
+  {
+    year: "1587",
+    title: {
+      id: "Berdirinya Mataram Islam",
+      en: "Founding of Islamic Mataram",
+    },
+    desc: {
+      id: "Panembahan Senopati mendirikan Kesultanan Mataram di Kotagede. Momen ini menandai pergeseran kembali episentrum kekuatan politik dan budaya Jawa dari pesisir utara ke wilayah pedalaman.",
+      en: "Panembahan Senopati founded the Mataram Sultanate in Kotagede. This moment marked the shift of Java's political and cultural epicenter from the northern coast back to the interior.",
+    },
+    meta: { id: "Pusat Kekuasaan Baru", en: "New Power Center" },
+    image: "/images/sejarah/kotagede.jpg",
   },
   {
     year: "1755",
@@ -34,8 +46,7 @@ const rawTimeline = [
       en: "The VOC divided the Islamic Mataram. Prince Mangkubumi became Sultan Hamengku Buwono I and immediately designed a city layout based on a cosmological axis.",
     },
     meta: { id: "Kelahiran Kesultanan", en: "Birth of the Sultanate" },
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Keraton_Ngayogyakarta.jpg",
+    image: "/images/sejarah/keraton.jpg",
   },
   {
     year: "1825",
@@ -45,8 +56,7 @@ const rawTimeline = [
       en: "Five years of guerrilla warfare from Selarong Cave drained the Dutch East Indies treasury by 20 million guilders. The longest and most expensive resistance the VOC ever faced in Java.",
     },
     meta: { id: "Perlawanan Kolonial", en: "Colonial Resistance" },
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Raden_Saleh_-_Diponegoro_arrest.jpg",
+    image: "/images/sejarah/diponegoro.jpg",
   },
   {
     year: "1946",
@@ -59,8 +69,7 @@ const rawTimeline = [
       en: "Sultan HB IX surrendered his territory's sovereignty to the Republic of Indonesia. When Jakarta fell to NICA, Yogyakarta became the heart of the independence revolution.",
     },
     meta: { id: "Revolusi", en: "Revolution" },
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Gedung_Agung.jpg",
+    image: "/images/sejarah/gedung-agung.jpg",
   },
   {
     year: "1949",
@@ -70,8 +79,7 @@ const rawTimeline = [
       en: "The Indonesian National Armed Forces occupied Yogyakarta for 6 hours under the command of Lt. Col. Soeharto. A symbolic attack proving to the UN that Indonesia was not dead.",
     },
     meta: { id: "Eksistensi Militer", en: "Military Existence" },
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Monumen_Serangan_Umum_1_Maret_(1_March_General_Attack_Monument).JPG",
+    image: "/images/sejarah/serangan-umum.jpg",
   },
   {
     year: "2012",
@@ -81,7 +89,7 @@ const rawTimeline = [
       en: "Law No. 13 of 2012 confirmed the Sultan and Paku Alam as Governor and Vice Governor for life — the only state-recognized constitutional monarchy.",
     },
     meta: { id: "Era Istimewa", en: "Special Era" },
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tugu_Jogja.jpg",
+    image: "/images/sejarah/tugu.jpg",
   },
 ];
 
@@ -96,6 +104,55 @@ const timeline = computed(() => {
 });
 
 const activeIndex = ref(0);
+const isPlaying = ref(false);
+let audioElement: HTMLAudioElement | null = null;
+
+const stopAudio = () => {
+  if (audioElement) {
+    audioElement.pause();
+    audioElement.currentTime = 0;
+    isPlaying.value = false;
+  }
+};
+
+const toggleAudio = () => {
+  if (isPlaying.value) {
+    stopAudio();
+    return;
+  }
+
+  stopAudio();
+
+  const currentYear = timeline.value[activeIndex.value].year;
+  const audioPath = `/audio/sejarah/${currentYear}-${locale.value}.mp3`;
+
+  audioElement = new Audio(audioPath);
+
+  audioElement.onended = () => {
+    isPlaying.value = false;
+  };
+
+  audioElement.onerror = () => {
+    isPlaying.value = false;
+  };
+
+  audioElement
+    .play()
+    .then(() => {
+      isPlaying.value = true;
+    })
+    .catch(() => {
+      isPlaying.value = false;
+    });
+};
+
+watch(activeIndex, () => {
+  stopAudio();
+});
+
+onUnmounted(() => {
+  stopAudio();
+});
 
 useHead({
   title: computed(() => t("sejarah.page_title")),
@@ -193,6 +250,64 @@ useHead({
             >
               {{ timeline[activeIndex].displayDesc }}
             </p>
+
+            <button
+              @click="toggleAudio"
+              class="mt-8 flex items-center justify-center gap-3 px-5 py-2.5 border border-line rounded-none bg-transparent hover:border-terra hover:text-terra transition-colors w-fit"
+              :class="isPlaying ? 'text-terra border-terra' : 'text-ink'"
+            >
+              <svg
+                v-if="!isPlaying"
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+              <span
+                class="font-josefin text-[10px] tracking-[0.2em] uppercase font-bold"
+              >
+                {{
+                  isPlaying
+                    ? locale === "id"
+                      ? "Hentikan Narasi"
+                      : "Stop Narration"
+                    : locale === "id"
+                      ? "Dengarkan Narasi"
+                      : "Listen to Narration"
+                }}
+              </span>
+              <div
+                v-if="isPlaying"
+                class="flex items-center gap-[3px] ml-1 h-[14px]"
+              >
+                <div class="visualizer-bar"></div>
+                <div class="visualizer-bar"></div>
+                <div class="visualizer-bar"></div>
+                <div class="visualizer-bar"></div>
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -213,5 +328,35 @@ useHead({
 }
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out forwards;
+}
+
+.visualizer-bar {
+  width: 2px;
+  height: 4px;
+  background-color: currentColor;
+  animation: soundWave 1.2s ease-in-out infinite;
+  border-radius: 1px;
+}
+.visualizer-bar:nth-child(1) {
+  animation-delay: 0s;
+}
+.visualizer-bar:nth-child(2) {
+  animation-delay: -0.2s;
+}
+.visualizer-bar:nth-child(3) {
+  animation-delay: -0.4s;
+}
+.visualizer-bar:nth-child(4) {
+  animation-delay: -0.6s;
+}
+
+@keyframes soundWave {
+  0%,
+  100% {
+    height: 4px;
+  }
+  50% {
+    height: 14px;
+  }
 }
 </style>
