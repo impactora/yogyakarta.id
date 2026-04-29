@@ -174,7 +174,7 @@ useHead({
           <div
             class="font-libre text-[64px] lg:text-[80px] font-bold text-warm-white leading-none mb-4 group-hover:text-ink transition-colors duration-500"
           >
-            87%
+            91%
           </div>
           <div
             class="font-libre text-[18px] text-warm-white/90 leading-[1.4] mb-4 transition-colors duration-300"
