@@ -9,8 +9,7 @@ const editorials = [
     titleKey: "home.editorial.sejarah.title",
     descKey: "home.editorial.sejarah.desc",
     script: "ꦱꦼꦗꦫꦃ",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Kotagede_Mosque.jpg/1920px-Kotagede_Mosque.jpg",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tugu_Jogja.jpg",
     link: "/sejarah",
   },
   {
@@ -19,7 +18,7 @@ const editorials = [
     descKey: "home.editorial.budaya.desc",
     script: "ꦧꦸꦢꦪ",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kraton_Yogyakarta.jpg/1920px-Kraton_Yogyakarta.jpg",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kraton_Yogyakarta.jpg",
     link: "/budaya",
   },
   {
@@ -28,7 +27,7 @@ const editorials = [
     descKey: "home.editorial.wisata.desc",
     script: "ꦮꦶꦱꦠ",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Prambanan_Temple%2C_Yogyakarta.jpg/1920px-Prambanan_Temple%2C_Yogyakarta.jpg",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Prambanan_Temple_Yogyakarta_Indonesia.jpg",
     link: "/wisata",
   },
   {
@@ -36,8 +35,7 @@ const editorials = [
     titleKey: "home.editorial.kuliner.title",
     descKey: "home.editorial.kuliner.desc",
     script: "ꦏꦸꦭꦶꦤꦺꦂ",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Gudeg_Yogyakarta.jpg/1920px-Gudeg_Yogyakarta.jpg",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Nasi_Gudeg.jpg",
     link: "/kuliner",
   },
   {
@@ -46,7 +44,7 @@ const editorials = [
     descKey: "home.editorial.teknologi.desc",
     script: "ꦠꦺꦏ꧀ꦤꦺꦴꦭꦺꦴꦒꦶ",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Balaikota_Yogyakarta.jpg/1920px-Balaikota_Yogyakarta.jpg",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Stasiun_Tugu_Yogyakarta.jpg",
     link: "/teknologi",
   },
   {
@@ -55,7 +53,7 @@ const editorials = [
     descKey: "home.editorial.peta.desc",
     script: "ꦥꦺꦠ",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Jalan_Malioboro_Yogyakarta.jpg/1920px-Jalan_Malioboro_Yogyakarta.jpg",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Malioboro_Street,_Yogyakarta.JPG",
     link: "/peta",
   },
 ];
@@ -75,6 +73,10 @@ const editorials = [
         <img
           :src="item.image"
           :alt="t(item.titleKey)"
+          @error="
+            (e) =>
+              ((e.target as HTMLImageElement).src = '/images/placeholder.jpg')
+          "
           class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale transition-all duration-[1000ms] group-hover:opacity-80 group-hover:grayscale-0 group-hover:scale-105"
         />
         <div
