@@ -105,7 +105,7 @@ useHead({
       class="w-full h-[30vh] lg:h-[40vh] mt-10 mb-16 relative overflow-hidden reveal-up delay-100 border border-line shadow-xl bg-[#1a1208]"
     >
       <AppImage
-        src="https://commons.wikimedia.org/wiki/Special:FilePath/Gedung_Pusat_(Rektorat)_UGM.jpg"
+        src="/images/teknologi/ugm.jpg"
         alt="Pusat Pendidikan UGM"
         class="w-full h-full object-cover grayscale-[20%] opacity-90 transition-none"
         loading="lazy"
@@ -115,7 +115,7 @@ useHead({
       ></div>
       <div class="absolute bottom-6 left-6 z-20 transition-none">
         <div
-          class="font-josefin text-[9px] tracking-[0.2em] text-terra uppercase mb-2"
+          class="font-josefin text-[9px] tracking-[0.2em] text-[#faf7f2] uppercase mb-2"
         >
           {{ $t("teknologi.ecosystem_node") }}
         </div>
@@ -154,7 +154,7 @@ useHead({
             {{ $t("teknologi.graduates_desc") }}
           </p>
           <div
-            class="font-josefin text-[9px] text-[#faf7f2]/30 uppercase tracking-widest border-t border-[#faf7f2]/10 pt-4 mt-4 inline-block transition-none"
+            class="block w-full font-josefin text-[9px] text-parchment/40 dark:text-parchment/60 uppercase tracking-widest border-t border-parchment/10 pt-4 mt-4 transition-colors duration-300"
           >
             *{{ $t("teknologi.graduates_source") }}
           </div>
