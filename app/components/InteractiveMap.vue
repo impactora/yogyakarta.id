@@ -86,6 +86,27 @@ const resetDebounce = () => {
   }, 60000);
 };
 
+const getAdjustedPoiCoords = (loc: any, index: number): [number, number] => {
+  if (loc.regionId !== "kota") return loc.coords;
+
+  // Keep marker distribution stable between renders while reducing overlap in Kota area.
+  const spreadPattern: Array<[number, number]> = [
+    [0.008, -0.008],
+    [0.01, 0],
+    [0.008, 0.008],
+    [0, 0.01],
+    [-0.008, 0.008],
+    [-0.01, 0],
+    [-0.008, -0.008],
+    [0, -0.01],
+  ];
+
+  const patternIndex = index % spreadPattern.length;
+  const [latOffset, lngOffset] = spreadPattern[patternIndex];
+
+  return [loc.coords[0] + latOffset, loc.coords[1] + lngOffset];
+};
+
 const renderMarkers = () => {
   if (!markersGroup || !L) return;
   markersGroup.clearLayers();
@@ -97,7 +118,7 @@ const renderMarkers = () => {
     return catMatch && regMatch;
   });
 
-  filtered.forEach((loc) => {
+  filtered.forEach((loc, index) => {
     const customIcon = L.divIcon({
       className: "custom-div-icon",
       html: `<svg width="40" height="40" viewBox="0 0 24 24" fill="#c84b31" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3)); cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" stroke="#faf7f2" stroke-width="1"/></svg>`,
@@ -107,8 +128,10 @@ const renderMarkers = () => {
 
     const popupContent = `<div class="w-64 rounded-xl bg-warm-white overflow-hidden shadow-2xl border border-line"><img src="${loc.image}" class="h-32 w-full object-cover grayscale" /><div class="p-4"><div class="text-[9px] uppercase tracking-widest text-terra font-bold mb-1">${loc.category}</div><h4 class="text-ink font-libre font-bold text-[16px] mb-2">${locale.value === "en" ? loc.name.en : loc.name.id}</h4><a href="/${loc.category}" class="block w-full bg-ink text-warm-white py-2 font-josefin text-[10px] text-center uppercase tracking-widest hover:bg-terra transition-colors decoration-none">${locale.value === "en" ? "Explore Details" : "Lihat Detail"}</a></div></div>`;
 
+    const markerCoords = getAdjustedPoiCoords(loc, index);
+
     markersGroup.addLayer(
-      L.marker(loc.coords, { icon: customIcon }).bindPopup(popupContent, {
+      L.marker(markerCoords, { icon: customIcon }).bindPopup(popupContent, {
         closeButton: false,
         className: "immersive-popup",
         offset: [0, -30],
@@ -266,6 +289,12 @@ watch(
   () => props.mode,
   (mode) => {
     if (!mapInstance) return;
+
+    const mapEl = mapInstance.getContainer?.();
+    if (mapEl) {
+      mapEl.classList.toggle("internet-mode", mode === "internet");
+    }
+
     if (mode === "poi") {
       internetCircles.forEach((c) => mapInstance.removeLayer(c));
       regionLabels.forEach((l) => mapInstance.removeLayer(l));
@@ -382,6 +411,9 @@ onUnmounted(() => {
   pointer-events: none;
 }
 .region-polygon-label::before {
+  display: none !important;
+}
+.leaflet-container.internet-mode .region-polygon-label {
   display: none !important;
 }
 .region-polygon-label.inactive {
