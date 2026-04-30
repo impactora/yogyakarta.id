@@ -11,6 +11,7 @@ const selectedCategory = ref<
 const highlightedTier = ref<string | null>(null);
 const isFullscreen = ref(false);
 const isLegendVisible = ref(true);
+const resetViewSignal = ref(0);
 
 const fullContainer = ref<HTMLElement | null>(null);
 
@@ -68,11 +69,37 @@ useHead({ title: computed(() => t("peta.page_title")) });
           :mode="currentMode"
           :category="selectedCategory"
           :highlighted-tier="highlightedTier"
+          :reset-view-signal="resetViewSignal"
         />
       </ClientOnly>
 
       <div class="absolute top-6 right-6 z-20 flex flex-col gap-3">
         <div class="flex gap-2 self-end">
+          <button
+            @click="resetViewSignal += 1"
+            class="bg-warm-white/90 backdrop-blur-md border border-line p-3 rounded-xl shadow-xl hover:bg-terra hover:text-warm-white transition-all"
+            :title="$t('peta.reset_view')"
+            :aria-label="$t('peta.reset_view')"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="2" />
+              <line x1="12" y1="3" x2="12" y2="7" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+              <line x1="3" y1="12" x2="7" y2="12" />
+              <line x1="17" y1="12" x2="21" y2="12" />
+            </svg>
+          </button>
           <button
             @click="isLegendVisible = !isLegendVisible"
             class="bg-warm-white/90 backdrop-blur-md border border-line p-3 rounded-xl shadow-xl hover:bg-terra hover:text-warm-white transition-all"

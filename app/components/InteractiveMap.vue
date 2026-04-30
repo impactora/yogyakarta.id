@@ -6,6 +6,7 @@ const props = defineProps<{
   mode: "poi" | "internet";
   category: "all" | "wisata" | "kuliner" | "budaya" | "teknologi";
   highlightedTier: string | null;
+  resetViewSignal: number;
 }>();
 
 const { locale } = useI18n();
@@ -26,6 +27,9 @@ let debounceTimer: any = null;
 
 const activeRegion = ref<string | null>(null);
 const hoveredRegion = ref<string | null>(null);
+
+const DEFAULT_CENTER: [number, number] = [-7.7956, 110.3695];
+const DEFAULT_ZOOM = 10;
 
 const updateRegionStyles = () => {
   if (!regionsLayer) return;
@@ -155,7 +159,7 @@ onMounted(async () => {
   await import("leaflet.markercluster/dist/MarkerCluster.css");
   await import("leaflet.markercluster/dist/MarkerCluster.Default.css");
 
-  mapInstance = L.map(mapContainer.value!).setView([-7.7956, 110.3695], 10);
+  mapInstance = L.map(mapContainer.value!).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
 
   L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
@@ -334,6 +338,23 @@ watch(
         el.style.filter = "none";
       }
     });
+  },
+);
+
+watch(
+  () => props.resetViewSignal,
+  () => {
+    if (!mapInstance) return;
+
+    activeRegion.value = null;
+    hoveredRegion.value = null;
+
+    mapInstance.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM, {
+      duration: 0.6,
+      easeLinearity: 0.25,
+    });
+
+    updateRegionStyles();
   },
 );
 
