@@ -137,7 +137,7 @@ useHead({ title: computed(() => t("budaya.page_title")) });
           {{ $t("budaya.time_cycle") }}
         </h2>
         <p class="text-[15px] font-light text-brown max-w-[600px] mx-auto">
-          {{ $t("budaya.time_cycle_desc") }}
+          {{ $t("budaya.time_cycle") }}
         </p>
       </div>
 
