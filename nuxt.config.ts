@@ -93,6 +93,10 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    serverAssets: [{ baseName: "data", dir: "./server/data" }],
+  },
+
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {

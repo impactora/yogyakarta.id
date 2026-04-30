@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from "vue";
+import { ref, computed, watch, nextTick, type Component } from "vue";
 import { useRouter } from "vue-router";
 import {
   Search,
@@ -15,190 +15,29 @@ import { useI18n } from "#imports";
 
 const { locale } = useI18n();
 
-const props = defineProps({
-  isOpen: { type: Boolean, required: true },
-});
-
+const props = defineProps({ isOpen: { type: Boolean, required: true } });
 const emit = defineEmits(["close"]);
 const router = useRouter();
 
 const searchQuery = ref("");
 const searchInput = ref<HTMLInputElement | null>(null);
 
-const rawSearchIndex = [
-  {
-    id: "s1",
-    url: "/sejarah",
-    icon: Landmark,
-    category: { id: "Sejarah", en: "History" },
-    title: { id: "Prasasti Canggal", en: "Canggal Inscription" },
-    desc: {
-      id: "Dokumen tertua keberadaan peradaban Hindu di dataran Kedu (732 M).",
-      en: "The oldest document of Hindu civilization in the Kedu plain (732 AD).",
-    },
-  },
-  {
-    id: "s2",
-    url: "/sejarah",
-    icon: Landmark,
-    category: { id: "Sejarah", en: "History" },
-    title: { id: "Perang Diponegoro", en: "Java War" },
-    desc: {
-      id: "Perlawanan terpanjang dan termahal yang pernah dihadapi VOC di Jawa.",
-      en: "The longest and most expensive resistance the VOC ever faced in Java.",
-    },
-  },
-  {
-    id: "s3",
-    url: "/sejarah",
-    icon: Landmark,
-    category: { id: "Sejarah", en: "History" },
-    title: { id: "Serangan Umum 1 Maret", en: "March 1st General Attack" },
-    desc: {
-      id: "Pembuktian eksistensi militer Republik Indonesia kepada dunia.",
-      en: "Proof of the military existence of the Republic of Indonesia to the world.",
-    },
-  },
-  {
-    id: "b1",
-    url: "/budaya",
-    icon: Landmark,
-    category: { id: "Budaya", en: "Culture" },
-    title: { id: "Wayang Kulit Purwa", en: "Purwa Shadow Puppets" },
-    desc: {
-      id: "Seni pertunjukan bayangan semalam suntuk dengan 200 karakter.",
-      en: "All-night shadow performance art with 200 characters.",
-    },
-  },
-  {
-    id: "b2",
-    url: "/budaya",
-    icon: Landmark,
-    category: { id: "Budaya", en: "Culture" },
-    title: { id: "Batik Kraton", en: "Kraton Batik" },
-    desc: {
-      id: "Filosofi motif larangan seperti Parang Rusak dan pewarna soga alami.",
-      en: "Philosophy of forbidden motifs like Parang Rusak and natural soga dye.",
-    },
-  },
-  {
-    id: "b3",
-    url: "/budaya",
-    icon: Landmark,
-    category: { id: "Budaya", en: "Culture" },
-    title: { id: "Gamelan Kraton", en: "Kraton Gamelan" },
-    desc: {
-      id: "Demokrasi suara berusia sepuluh abad tanpa instrumen prima donna.",
-      en: "Ten-century-old democracy of sound with no prima donna instrument.",
-    },
-  },
-  {
-    id: "k1",
-    url: "/kuliner",
-    icon: Utensils,
-    category: { id: "Kuliner", en: "Culinary" },
-    title: { id: "Gudeg Kraton", en: "Royal Gudeg" },
-    desc: {
-      id: "Nangka muda direbus 12 jam dengan santan dan gula aren.",
-      en: "Young jackfruit boiled for 12 hours with coconut milk and palm sugar.",
-    },
-  },
-  {
-    id: "k2",
-    url: "/kuliner",
-    icon: Utensils,
-    category: { id: "Kuliner", en: "Culinary" },
-    title: { id: "Oseng Mercon", en: "Firecracker Stir-fry" },
-    desc: {
-      id: "Kikil sapi ditumis dengan cabai rawit industrial. Perlawanan pedas.",
-      en: "Beef tendon stir-fried with industrial bird's eye chili. Spicy resistance.",
-    },
-  },
-  {
-    id: "k3",
-    url: "/kuliner",
-    icon: Utensils,
-    category: { id: "Kuliner", en: "Culinary" },
-    title: { id: "Sate Klathak", en: "Klathak Satay" },
-    desc: {
-      id: "Daging kambing matang merata di atas jeruji besi sepeda.",
-      en: "Mutton cooked evenly on bicycle iron spokes.",
-    },
-  },
-  {
-    id: "w1",
-    url: "/wisata",
-    icon: MapPin,
-    category: { id: "Wisata", en: "Tourism" },
-    title: { id: "Candi Prambanan", en: "Prambanan Temple" },
-    desc: {
-      id: "Trilogi candi Trimurti setinggi 47 meter dari wangsa Sanjaya.",
-      en: "47-meter high Trimurti temple trilogy from the Sanjaya dynasty.",
-    },
-  },
-  {
-    id: "w2",
-    url: "/wisata",
-    icon: MapPin,
-    category: { id: "Wisata", en: "Tourism" },
-    title: { id: "Jalan Malioboro", en: "Malioboro Street" },
-    desc: {
-      id: "Koridor 2 kilometer yang merupakan sumbu filosofis kota.",
-      en: "2-kilometer corridor that is the city's philosophical axis.",
-    },
-  },
-  {
-    id: "w3",
-    url: "/wisata",
-    icon: MapPin,
-    category: { id: "Wisata", en: "Tourism" },
-    title: { id: "Gunung Merapi", en: "Mount Merapi" },
-    desc: {
-      id: "Stratovolcano paling aktif di Indonesia.",
-      en: "The most active stratovolcano in Indonesia.",
-    },
-  },
-  {
-    id: "w4",
-    url: "/wisata",
-    icon: MapPin,
-    category: { id: "Wisata", en: "Tourism" },
-    title: { id: "Kawasan Kaliurang", en: "Kaliurang Area" },
-    desc: {
-      id: "Resor pegunungan bersejarah di lereng selatan Merapi.",
-      en: "Historic mountain resort on the southern slopes of Merapi.",
-    },
-  },
-  {
-    id: "t1",
-    url: "/teknologi",
-    icon: MonitorSmartphone,
-    category: { id: "Teknologi", en: "Technology" },
-    title: { id: "Silicon Wali", en: "Silicon Wali" },
-    desc: {
-      id: "Koridor ekosistem startup di Ringroad Utara.",
-      en: "Startup ecosystem corridor in North Ringroad.",
-    },
-  },
-  {
-    id: "t2",
-    url: "/teknologi",
-    icon: MonitorSmartphone,
-    category: { id: "Teknologi", en: "Technology" },
-    title: { id: "Jogja Smart Province", en: "Jogja Smart Province" },
-    desc: {
-      id: "Cetak biru digitalisasi layanan publik dan sensor IoT mitigasi bencana.",
-      en: "Blueprint for public service digitalization and disaster mitigation IoT sensors.",
-    },
-  },
-];
+const iconMap: Record<string, Component> = {
+  landmark: Landmark,
+  utensils: Utensils,
+  mappin: MapPin,
+  monitor: MonitorSmartphone,
+};
+
+const { data: rawSearchData } = useFetch<any[]>("/api/data/search");
 
 const localizedSearchIndex = computed(() => {
+  if (!rawSearchData.value) return [];
   const l = locale.value as "id" | "en";
-  return rawSearchIndex.map((item) => ({
+  return rawSearchData.value.map((item: any) => ({
     id: item.id,
     url: item.url,
-    icon: item.icon,
+    icon: iconMap[item.iconType] ?? Landmark,
     category: item.category[l],
     title: item.title[l],
     desc: item.desc[l],
@@ -216,8 +55,10 @@ const fuse = computed(
 
 const searchResults = computed(() => {
   if (!searchQuery.value.trim()) return [];
-  const results = fuse.value.search(searchQuery.value);
-  return results.slice(0, 5).map((r) => r.item);
+  return fuse.value
+    .search(searchQuery.value)
+    .slice(0, 5)
+    .map((r) => r.item);
 });
 
 const handleNavigate = (url: string) => {

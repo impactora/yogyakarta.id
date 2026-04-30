@@ -2,322 +2,16 @@
 import { ref, computed } from "vue";
 import { useHead, useI18n } from "#imports";
 
-interface LocalizedText {
-  id: string;
-  en: string;
-}
-
-interface LocalizedArray {
-  id: string[];
-  en: string[];
-}
-
-interface CulturalHeritageItem {
-  id: string;
-  image: string;
-  category: string;
-  title: LocalizedText;
-  subtitle: LocalizedText;
-  description: LocalizedText;
-  highlights: LocalizedArray;
-  reverse: boolean;
-}
-
-interface FestivalItem {
-  id: string;
-  name: LocalizedText;
-  month: LocalizedText;
-  desc: LocalizedText;
-}
-
-interface HanacarakaChar {
-  script: string;
-  latin: string;
-  philosophy: LocalizedText;
-}
-
 const { t, locale } = useI18n();
 
-const rawCulturalHeritage: CulturalHeritageItem[] = [
-  {
-    id: "batik",
-    image: "/images/budaya/batik.jpg",
-    category: "Seni Kriya · UNESCO 2009",
-    title: { id: "Filosofi Batik Kraton", en: "Kraton Batik Philosophy" },
-    subtitle: {
-      id: "Doa yang Digoreskan di Atas Lembaran Kain",
-      en: "Prayers Etched on Fabric",
-    },
-    description: {
-      id: "Bukan sekadar motif — setiap goresan canting membawa muatan kosmologi Jawa. Motif Parang Rusak dilarang dikenakan rakyat biasa di era Mataram.",
-      en: "Not just a motif — every stroke of the canting carries Javanese cosmology. The Parang Rusak motif was forbidden for commoners in the Mataram era.",
-    },
-    highlights: {
-      id: [
-        "Motif Larangan Keraton",
-        "Teknik Tulis vs Cap",
-        "Pewarna Soga Alami",
-      ],
-      en: [
-        "Royal Forbidden Motifs",
-        "Hand-Drawn vs Stamped",
-        "Natural Soga Dye",
-      ],
-    },
-    reverse: false,
-  },
-  {
-    id: "wayang-kulit",
-    image: "/images/budaya/wayang.jpg",
-    category: "Seni Pertunjukan · UNESCO 2003",
-    title: { id: "Wayang Kulit Purwa", en: "Purwa Shadow Puppets" },
-    subtitle: {
-      id: "Bayangan yang Lebih Nyata dari Realita",
-      en: "Shadows More Real Than Reality",
-    },
-    description: {
-      id: "Lakon berlangsung 8 jam tanpa jeda, dari senja hingga fajar. Dalang adalah satu-satunya seniman dunia yang sekaligus menjadi sutradara, aktor 200 karakter, komposer, dan filsuf.",
-      en: "The play lasts 8 hours without a break, from dusk till dawn. The Dalang is the only artist in the world who simultaneously acts as director, actor of 200 characters, composer, and philosopher.",
-    },
-    highlights: {
-      id: [
-        "Pakeliran Semalam Suntuk",
-        "Gunungan sebagai Aksis Kosmis",
-        "Sulukan & Antawecana",
-      ],
-      en: [
-        "All-Night Performance",
-        "Gunungan as Cosmic Axis",
-        "Vocal Chants & Dialogues",
-      ],
-    },
-    reverse: true,
-  },
-  {
-    id: "gamelan",
-    image: "/images/budaya/gamelan.jpg",
-    category: "Pusaka Bunyi · UNESCO 2021",
-    title: { id: "Gamelan Kraton Yogyakarta", en: "Yogyakarta Kraton Gamelan" },
-    subtitle: {
-      id: "Demokrasi Suara yang Berusia Sepuluh Abad",
-      en: "A Ten-Century-Old Democracy of Sound",
-    },
-    description: {
-      id: "Tidak ada instrumen prima donna dalam gamelan. Dua perangkat gamelan pusaka Kraton, Kyai Gunturmadu dan Kyai Nagawilaga, hanya dimainkan pada upacara Sekaten setiap Maulid Nabi.",
-      en: "There is no prima donna instrument in gamelan. The Kraton's two heirloom gamelan sets, Kyai Gunturmadu and Kyai Nagawilaga, are only played during the Sekaten ceremony every Mawlid.",
-    },
-    highlights: {
-      id: [
-        "Laras Pélog & Sléndro",
-        "Kyai Gunturmadu (Pusaka)",
-        "Irama Lancaran hingga Ketawang",
-      ],
-      en: [
-        "Pélog & Sléndro Scales",
-        "Kyai Gunturmadu (Heirloom)",
-        "Rhythms from Lancaran to Ketawang",
-      ],
-    },
-    reverse: false,
-  },
-  {
-    id: "arsitektur-keraton",
-    image: "/images/budaya/kraton.jpg",
-    category: "Arsitektur Tradisional",
-    title: {
-      id: "Tata Ruang Keraton Ngayogyakarta",
-      en: "Ngayogyakarta Palace Spatial Layout",
-    },
-    subtitle: {
-      id: "Kota di Dalam Kota yang Dirancang Bersama Semesta",
-      en: "A City Within a City Designed with the Universe",
-    },
-    description: {
-      id: "Sumbu filosofi Yogyakarta — Gunung Merapi, Tugu, Keraton, Panggung Krapyak, Pantai Parangtritis — bukan kebetulan geografis. Ini adalah mandala kosmologis yang direncanakan Sultan HB I.",
-      en: "Yogyakarta's philosophical axis — Mount Merapi, Tugu, Kraton, Panggung Krapyak, Parangtritis Beach — is no geographical accident. It is a cosmological mandala planned by Sultan HB I.",
-    },
-    highlights: {
-      id: [
-        "Sumbu Filosofis 33 km",
-        "Bangsal Kencana & Siti Hinggil",
-        "Konsep Hamemayu Hayuning Bawana",
-      ],
-      en: [
-        "33 km Philosophical Axis",
-        "Golden Pavilion & Siti Hinggil",
-        "Hamemayu Hayuning Bawana Concept",
-      ],
-    },
-    reverse: true,
-  },
-  {
-    id: "baju-adat",
-    image: "/images/budaya/prajurit.jpg",
-    category: "Busana Tradisional",
-    title: {
-      id: "Busana Adat Gagrag Ngayogyakarta",
-      en: "Ngayogyakarta Traditional Attire",
-    },
-    subtitle: {
-      id: "Manifestasi Tata Krama dan Stratifikasi Sosial",
-      en: "Manifestation of Etiquette and Social Stratification",
-    },
-    description: {
-      id: "Baju adat Jogja bukan sekadar penutup tubuh. Surjan, kebaya, hingga wiron jarik adalah bahasa visual yang meneriakkan status, sopan santun, dan kepatuhan kosmik.",
-      en: "Jogja's traditional attire is not merely clothing. Surjan, kebaya, and jarik pleats are a visual language screaming status, manners, and cosmic obedience.",
-    },
-    highlights: {
-      id: [
-        "Filosofi Surjan & Blangkon",
-        "Pakem Wiron Engkol",
-        "Simbolisme Kebaya Kuthubaru",
-      ],
-      en: [
-        "Surjan & Blangkon Philosophy",
-        "Engkol Pleating Rules",
-        "Kuthubaru Kebaya Symbolism",
-      ],
-    },
-    reverse: false,
-  },
-];
-
-const rawFestivals: FestivalItem[] = [
-  {
-    id: "sekaten",
-    name: { id: "Sekaten & Pasar Malam", en: "Sekaten & Night Market" },
-    month: { id: "Maulud (Rabiul Awal)", en: "Mawlid (Rabi' al-Awwal)" },
-    desc: {
-      id: "Perayaan kelahiran Nabi Muhammad SAW yang ditandai dengan dibunyikannya gamelan pusaka selama 7 hari penuh di halaman Masjid Gedhe Kauman.",
-      en: "A celebration of the Prophet Muhammad's birth marked by the playing of heirloom gamelan for 7 full days in the courtyard of the Great Kauman Mosque.",
-    },
-  },
-  {
-    id: "grebeg",
-    name: { id: "Grebeg Syawal & Besar", en: "Grebeg Syawal & Besar" },
-    month: { id: "Syawal & Dzulhijjah", en: "Shawwal & Dhu al-Hijjah" },
-    desc: {
-      id: "Sultan membagikan sedekah bumi berupa 'Gunungan' hasil panen yang diarak oleh prajurit keraton untuk diperebutkan rakyat.",
-      en: "The Sultan distributes earth's alms in the form of a 'Gunungan' of harvest yields, paraded by palace guards for the people.",
-    },
-  },
-  {
-    id: "labuhan",
-    name: { id: "Labuhan Alit & Ageng", en: "Labuhan Alit & Ageng" },
-    month: { id: "Rajab", en: "Rajab" },
-    desc: {
-      id: "Upacara persembahan Kraton di Pantai Parangtritis, Gunung Merapi, dan Gunung Lawu untuk menjaga keseimbangan spiritual antara manusia, alam, dan Tuhan.",
-      en: "A Kraton offering ceremony at Parangtritis Beach, Mount Merapi, and Mount Lawu to maintain spiritual balance between humans, nature, and God.",
-    },
-  },
-];
-
-const hanacaraka: HanacarakaChar[] = [
-  {
-    script: "ꦲ",
-    latin: "Ha",
-    philosophy: { id: "Utusan hidup", en: "Messenger of life" },
-  },
-  {
-    script: "ꦤ",
-    latin: "Na",
-    philosophy: { id: "Tanda keberadaan", en: "Sign of existence" },
-  },
-  {
-    script: "ꦕ",
-    latin: "Ca",
-    philosophy: { id: "Utusan rahasia", en: "Secret messenger" },
-  },
-  {
-    script: "ꦫ",
-    latin: "Ra",
-    philosophy: { id: "Sesuatu yang agung", en: "Something noble" },
-  },
-  {
-    script: "ꦏ",
-    latin: "Ka",
-    philosophy: { id: "Kekuatan mutlak", en: "Absolute power" },
-  },
-  {
-    script: "ꦢ",
-    latin: "Da",
-    philosophy: { id: "Zat yang suci", en: "Sacred essence" },
-  },
-  {
-    script: "ꦠ",
-    latin: "Ta",
-    philosophy: { id: "Kehendak ilahi", en: "Divine will" },
-  },
-  {
-    script: "ꦱ",
-    latin: "Sa",
-    philosophy: { id: "Satu tujuan", en: "Single purpose" },
-  },
-  {
-    script: "ꦮ",
-    latin: "Wa",
-    philosophy: { id: "Wujud nyata", en: "Physical form" },
-  },
-  {
-    script: "ꦭ",
-    latin: "La",
-    philosophy: { id: "Langkah hidup", en: "Path of life" },
-  },
-  {
-    script: "ꦥ",
-    latin: "Pa",
-    philosophy: { id: "Pilar jiwa", en: "Soul pillar" },
-  },
-  {
-    script: "ꦝ",
-    latin: "Dha",
-    philosophy: { id: "Dasar kebenaran", en: "Foundation of truth" },
-  },
-  {
-    script: "ꦗ",
-    latin: "Ja",
-    philosophy: { id: "Jalan cahaya", en: "Path of light" },
-  },
-  {
-    script: "ꦪ",
-    latin: "Ya",
-    philosophy: { id: "Yakin akan asal", en: "Faith in origin" },
-  },
-  {
-    script: "ꦚ",
-    latin: "Nya",
-    philosophy: { id: "Nyata adanya", en: "Truly exists" },
-  },
-  {
-    script: "ꦩ",
-    latin: "Ma",
-    philosophy: { id: "Menerima takdir", en: "Accepting destiny" },
-  },
-  {
-    script: "ꦒ",
-    latin: "Ga",
-    philosophy: { id: "Garis hidup", en: "Lifeline" },
-  },
-  {
-    script: "ꦧ",
-    latin: "Ba",
-    philosophy: { id: "Bekal abadi", en: "Eternal provision" },
-  },
-  {
-    script: "ꦛ",
-    latin: "Tha",
-    philosophy: { id: "Titik temu", en: "Meeting point" },
-  },
-  {
-    script: "ꦔ",
-    latin: "Nga",
-    philosophy: { id: "Ngalap berkah", en: "Seeking blessing" },
-  },
-];
+const { data: budayaData } = await useAsyncData("budaya", () =>
+  $fetch<any>("/api/data/budaya"),
+);
 
 const culturalHeritage = computed(() => {
+  if (!budayaData.value?.heritage) return [];
   const l = locale.value as "id" | "en";
-  return rawCulturalHeritage.map((item) => ({
+  return budayaData.value.heritage.map((item: any) => ({
     ...item,
     displayTitle: item.title[l],
     displaySubtitle: item.subtitle[l],
@@ -327,14 +21,17 @@ const culturalHeritage = computed(() => {
 });
 
 const festivals = computed(() => {
+  if (!budayaData.value?.festivals) return [];
   const l = locale.value as "id" | "en";
-  return rawFestivals.map((fest) => ({
+  return budayaData.value.festivals.map((fest: any) => ({
     ...fest,
     displayName: fest.name[l],
     displayMonth: fest.month[l],
     displayDesc: fest.desc[l],
   }));
 });
+
+const hanacaraka = computed(() => budayaData.value?.hanacaraka ?? []);
 
 const sourceText = ref("");
 const translatedText = ref("");
@@ -344,7 +41,7 @@ const handleTranslate = async () => {
   if (!sourceText.value.trim() || isTranslating.value) return;
   isTranslating.value = true;
   try {
-    const response = await $fetch("/api/chat", {
+    const response = await $fetch<any>("/api/chat", {
       method: "POST",
       body: {
         message: `Bantu saya menerjemahkan atau menuliskan teks ini ke/dari Aksara Jawa: "${sourceText.value}"`,
@@ -359,9 +56,7 @@ const handleTranslate = async () => {
   }
 };
 
-useHead({
-  title: computed(() => t("budaya.page_title")),
-});
+useHead({ title: computed(() => t("budaya.page_title")) });
 </script>
 
 <template>

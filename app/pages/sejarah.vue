@@ -4,98 +4,14 @@ import { useHead, useI18n } from "#imports";
 
 const { t, locale } = useI18n();
 
-const rawTimeline = [
-  {
-    year: "732",
-    title: { id: "Prasasti Canggal", en: "Canggal Inscription" },
-    desc: {
-      id: "Raja Sanjaya mendirikan lingga di Bukit Stirangga, Gunung Wukir. Dokumen tertua keberadaan peradaban Hindu di dataran Kedu — titik nol sejarah tertulis Yogyakarta.",
-      en: "King Sanjaya erected a lingam on Stirangga Hill, Mount Wukir. The oldest document of Hindu civilization in the Kedu plain — the zero point of Yogyakarta's written history.",
-    },
-    meta: { id: "Awal Peradaban", en: "Dawn of Civilization" },
-    image: "/images/sejarah/canggal.jpg",
-  },
-  {
-    year: "856",
-    title: { id: "Rampungnya Prambanan", en: "Completion of Prambanan" },
-    desc: {
-      id: "Wangsa Sanjaya merampungkan kompleks candi Hindu terbesar Asia Tenggara. 240 struktur batu andesit dibangun tanpa semen — hanya gravitasi, presisi, dan keyakinan.",
-      en: "The Sanjaya dynasty completed Southeast Asia's largest Hindu temple complex. 240 andesite stone structures built without cement — only gravity, precision, and faith.",
-    },
-    meta: { id: "Puncak Wangsa Sanjaya", en: "Peak of Sanjaya Dynasty" },
-    image: "/images/sejarah/prambanan.jpg",
-  },
-  {
-    year: "1587",
-    title: {
-      id: "Berdirinya Mataram Islam",
-      en: "Founding of Islamic Mataram",
-    },
-    desc: {
-      id: "Panembahan Senopati mendirikan Kesultanan Mataram di Kotagede. Momen ini menandai pergeseran kembali episentrum kekuatan politik dan budaya Jawa dari pesisir utara ke wilayah pedalaman.",
-      en: "Panembahan Senopati founded the Mataram Sultanate in Kotagede. This moment marked the shift of Java's political and cultural epicenter from the northern coast back to the interior.",
-    },
-    meta: { id: "Pusat Kekuasaan Baru", en: "New Power Center" },
-    image: "/images/sejarah/kotagede.jpg",
-  },
-  {
-    year: "1755",
-    title: { id: "Perjanjian Giyanti", en: "Treaty of Giyanti" },
-    desc: {
-      id: "VOC membelah Mataram Islam. Pangeran Mangkubumi menjadi Sultan Hamengku Buwono I dan langsung merancang tata kota berbasis poros kosmologis.",
-      en: "The VOC divided the Islamic Mataram. Prince Mangkubumi became Sultan Hamengku Buwono I and immediately designed a city layout based on a cosmological axis.",
-    },
-    meta: { id: "Kelahiran Kesultanan", en: "Birth of the Sultanate" },
-    image: "/images/sejarah/keraton.jpg",
-  },
-  {
-    year: "1825",
-    title: { id: "Perang Diponegoro", en: "Java War" },
-    desc: {
-      id: "Lima tahun gerilya dari Goa Selarong menguras kas Hindia Belanda hingga Fl 20 juta. Perlawanan terpanjang dan termahal yang pernah dihadapi VOC di Jawa.",
-      en: "Five years of guerrilla warfare from Selarong Cave drained the Dutch East Indies treasury by 20 million guilders. The longest and most expensive resistance the VOC ever faced in Java.",
-    },
-    meta: { id: "Perlawanan Kolonial", en: "Colonial Resistance" },
-    image: "/images/sejarah/diponegoro.jpg",
-  },
-  {
-    year: "1946",
-    title: {
-      id: "Yogyakarta: Ibukota Republik",
-      en: "Yogyakarta: Capital of the Republic",
-    },
-    desc: {
-      id: "Sultan HB IX menyerahkan kedaulatan wilayahnya kepada NKRI. Ketika Jakarta jatuh ke NICA, Yogyakarta menjelma menjadi jantung revolusi kemerdekaan.",
-      en: "Sultan HB IX surrendered his territory's sovereignty to the Republic of Indonesia. When Jakarta fell to NICA, Yogyakarta became the heart of the independence revolution.",
-    },
-    meta: { id: "Revolusi", en: "Revolution" },
-    image: "/images/sejarah/gedung-agung.jpg",
-  },
-  {
-    year: "1949",
-    title: { id: "Serangan Umum 1 Maret", en: "March 1st General Attack" },
-    desc: {
-      id: "TNI menduduki Yogyakarta selama 6 jam di bawah komando Letkol Soeharto. Serangan simbolis yang membuktikan kepada PBB bahwa RI belum mati.",
-      en: "The Indonesian National Armed Forces occupied Yogyakarta for 6 hours under the command of Lt. Col. Soeharto. A symbolic attack proving to the UN that Indonesia was not dead.",
-    },
-    meta: { id: "Eksistensi Militer", en: "Military Existence" },
-    image: "/images/sejarah/serangan-umum.jpg",
-  },
-  {
-    year: "2012",
-    title: { id: "UU Keistimewaan DIY", en: "Special Region Law" },
-    desc: {
-      id: "UU No. 13 Tahun 2012 mengukuhkan Sultan dan Paku Alam sebagai Gubernur dan Wakil Gubernur seumur hidup — satu-satunya monarki konstitusional diakui negara.",
-      en: "Law No. 13 of 2012 confirmed the Sultan and Paku Alam as Governor and Vice Governor for life — the only state-recognized constitutional monarchy.",
-    },
-    meta: { id: "Era Istimewa", en: "Special Era" },
-    image: "/images/sejarah/tugu.jpg",
-  },
-];
+const { data: rawTimeline } = await useAsyncData("sejarah", () =>
+  $fetch<any[]>("/api/data/sejarah"),
+);
 
 const timeline = computed(() => {
+  if (!rawTimeline.value) return [];
   const l = locale.value as "id" | "en";
-  return rawTimeline.map((item) => ({
+  return rawTimeline.value.map((item: any) => ({
     ...item,
     displayTitle: item.title[l],
     displayDesc: item.desc[l],
@@ -120,6 +36,7 @@ const toggleAudio = () => {
     stopAudio();
     return;
   }
+  if (!timeline.value.length) return;
 
   stopAudio();
 
@@ -127,11 +44,9 @@ const toggleAudio = () => {
   const audioPath = `/audio/sejarah/${currentYear}-${locale.value}.mp3`;
 
   audioElement = new Audio(audioPath);
-
   audioElement.onended = () => {
     isPlaying.value = false;
   };
-
   audioElement.onerror = () => {
     isPlaying.value = false;
   };
@@ -149,14 +64,11 @@ const toggleAudio = () => {
 watch(activeIndex, () => {
   stopAudio();
 });
-
 onUnmounted(() => {
   stopAudio();
 });
 
-useHead({
-  title: computed(() => t("sejarah.page_title")),
-});
+useHead({ title: computed(() => t("sejarah.page_title")) });
 </script>
 
 <template>
