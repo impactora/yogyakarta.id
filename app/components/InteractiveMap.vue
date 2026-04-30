@@ -18,8 +18,7 @@ const locations = [
     category: "budaya",
     regionId: "kota",
     coords: [-7.8052845, 110.3642031],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kraton_Yogyakarta.jpg/800px-Kraton_Yogyakarta.jpg",
+    image: "/images/wisata/keraton.jpg",
   },
   {
     id: "tugu",
@@ -27,8 +26,7 @@ const locations = [
     category: "budaya",
     regionId: "kota",
     coords: [-7.782884, 110.36706],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tugu_Yogyakarta.jpg/800px-Tugu_Yogyakarta.jpg",
+    image: "/images/sejarah/tugu.jpg",
   },
   {
     id: "prambanan",
@@ -36,8 +34,7 @@ const locations = [
     category: "wisata",
     regionId: "sleman",
     coords: [-7.75202, 110.491467],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Prambanan_Temple%2C_Yogyakarta.jpg/800px-Prambanan_Temple%2C_Yogyakarta.jpg",
+    image: "/images/wisata/prambanan.jpg",
   },
   {
     id: "malioboro",
@@ -45,8 +42,7 @@ const locations = [
     category: "wisata",
     regionId: "kota",
     coords: [-7.792651, 110.365844],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Jalan_Malioboro_Yogyakarta.jpg/800px-Jalan_Malioboro_Yogyakarta.jpg",
+    image: "/images/wisata/malioboro.jpg",
   },
   {
     id: "wijilan",
@@ -54,8 +50,7 @@ const locations = [
     category: "kuliner",
     regionId: "kota",
     coords: [-7.804389, 110.366408],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Gudeg_Yogyakarta.jpg/800px-Gudeg_Yogyakarta.jpg",
+    image: "/images/kuliner/gudeg.jpg",
   },
   {
     id: "tamansari",
@@ -63,8 +58,7 @@ const locations = [
     category: "wisata",
     regionId: "kota",
     coords: [-7.81, 110.3585],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Taman_Sari_Yogyakarta.jpg/800px-Taman_Sari_Yogyakarta.jpg",
+    image: "/images/wisata/tamansari.jpg",
   },
   {
     id: "merapi",
@@ -72,8 +66,7 @@ const locations = [
     category: "wisata",
     regionId: "sleman",
     coords: [-7.5407, 110.4457],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Mount_Merapi_from_Ketep_Pass.jpg/800px-Mount_Merapi_from_Ketep_Pass.jpg",
+    image: "/images/wisata/merapi.jpg",
   },
   {
     id: "parangtritis",
@@ -81,8 +74,7 @@ const locations = [
     category: "wisata",
     regionId: "bantul",
     coords: [-8.0244, 110.332],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Parangtritis_Beach.jpg/800px-Parangtritis_Beach.jpg",
+    image: "/images/wisata/parangtritis.jpg",
   },
   {
     id: "kotagede",
@@ -90,8 +82,7 @@ const locations = [
     category: "budaya",
     regionId: "kota",
     coords: [-7.8286, 110.3956],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Kotagede_Mosque.jpg/800px-Kotagede_Mosque.jpg",
+    image: "/images/sejarah/kotagede.jpg",
   },
   {
     id: "pakpong",
@@ -99,8 +90,7 @@ const locations = [
     category: "kuliner",
     regionId: "bantul",
     coords: [-7.8732, 110.3808],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Sate_Klatak_Pak_Pong.jpg/800px-Sate_Klatak_Pak_Pong.jpg",
+    image: "/images/kuliner/klathak.jpg",
   },
   {
     id: "smartprovince",
@@ -108,43 +98,42 @@ const locations = [
     category: "teknologi",
     regionId: "kota",
     coords: [-7.7981, 110.3888],
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Balaikota_Yogyakarta.jpg/800px-Balaikota_Yogyakarta.jpg",
+    image: "/images/teknologi/balaikota.jpg",
   },
 ];
 
-const internetData = [
-  {
+const regionStats: Record<string, any> = {
+  kota: {
     name: "Kota Yogyakarta",
     coords: [-7.8014, 110.3646],
     penetration: 97.2,
     tier: "high",
   },
-  {
+  sleman: {
     name: "Kabupaten Sleman",
     coords: [-7.6833, 110.3333],
     penetration: 95.5,
     tier: "high",
   },
-  {
+  bantul: {
     name: "Kabupaten Bantul",
     coords: [-7.8833, 110.3333],
     penetration: 91.8,
     tier: "mid",
   },
-  {
+  kulonprogo: {
     name: "Kabupaten Kulon Progo",
     coords: [-7.8282, 110.1585],
     penetration: 88.4,
     tier: "low",
   },
-  {
+  gunungkidul: {
     name: "Kabupaten Gunungkidul",
     coords: [-7.9945, 110.6054],
     penetration: 85.1,
     tier: "low",
   },
-];
+};
 
 const diyBoundary = {
   type: "Feature",
@@ -288,13 +277,39 @@ const updateRegionStyles = () => {
     const id = layer.feature.properties.id;
     const isActive = activeRegion.value === id;
     const isHovered = hoveredRegion.value === id;
+    const stats = regionStats[id];
+
+    let baseColor = "#c84b31";
+    let weight = 0;
+    let opac = 0;
+    let fillOpac = 0;
+
+    if (props.mode === "poi") {
+      baseColor = "#c84b31";
+      weight = isActive ? 2 : isHovered ? 1 : 0;
+      opac = isActive ? 0.8 : isHovered ? 0.5 : 0;
+      fillOpac = isActive ? 0.25 : isHovered ? 0.1 : 0.0;
+    } else {
+      baseColor =
+        stats.tier === "high"
+          ? "#1a1208"
+          : stats.tier === "mid"
+            ? "#c84b31"
+            : "#a38b72";
+      const isDimmed =
+        props.highlightedTier && stats.tier !== props.highlightedTier;
+
+      weight = isActive || isHovered ? 2 : 1;
+      opac = isDimmed ? 0.1 : isActive || isHovered ? 1 : 0.6;
+      fillOpac = isDimmed ? 0.05 : isActive ? 0.35 : isHovered ? 0.25 : 0.15;
+    }
 
     layer.setStyle({
-      color: "#c84b31",
-      weight: isActive ? 2 : isHovered ? 1 : 0,
-      opacity: isActive ? 0.8 : isHovered ? 0.5 : 0,
-      fillColor: "#c84b31",
-      fillOpacity: isActive ? 0.25 : isHovered ? 0.1 : 0.0,
+      color: baseColor,
+      weight: weight,
+      opacity: opac,
+      fillColor: baseColor,
+      fillOpacity: fillOpac,
       className: "region-polygon",
     });
 
@@ -411,8 +426,6 @@ onMounted(async () => {
       },
     });
 
-    updateRegionStyles();
-
     axisLayer = L.polyline(philosophicalAxis, {
       color: "#c84b31",
       weight: 2,
@@ -431,14 +444,7 @@ onMounted(async () => {
         }),
     });
 
-    if (props.mode === "poi") {
-      regionsLayer.addTo(mapInstance);
-      axisLayer.addTo(mapInstance);
-      mapInstance.addLayer(markersGroup);
-      renderMarkers();
-    }
-
-    internetData.forEach((data) => {
+    Object.entries(regionStats).forEach(([id, data]) => {
       const color =
         data.tier === "high"
           ? "#1a1208"
@@ -488,9 +494,16 @@ onMounted(async () => {
       regionLabels.push(labelMarker);
     });
 
-    if (props.mode === "internet") {
+    if (props.mode === "poi") {
+      regionsLayer.addTo(mapInstance);
+      axisLayer.addTo(mapInstance);
+      mapInstance.addLayer(markersGroup);
+      updateRegionStyles();
+    } else {
+      regionsLayer.addTo(mapInstance);
       internetCircles.forEach((c) => c.addTo(mapInstance));
       regionLabels.forEach((l) => l.addTo(mapInstance));
+      updateRegionStyles();
     }
   }
 });
@@ -505,14 +518,14 @@ watch(
       mapInstance.addLayer(regionsLayer);
       mapInstance.addLayer(axisLayer);
       mapInstance.addLayer(markersGroup);
-      renderMarkers();
     } else {
       mapInstance.removeLayer(markersGroup);
       mapInstance.removeLayer(axisLayer);
-      mapInstance.removeLayer(regionsLayer);
+      mapInstance.addLayer(regionsLayer);
       internetCircles.forEach((c) => c.addTo(mapInstance));
       regionLabels.forEach((l) => l.addTo(mapInstance));
     }
+    updateRegionStyles();
   },
 );
 
@@ -527,6 +540,7 @@ watch(
   () => props.highlightedTier,
   (tier) => {
     if (props.mode !== "internet") return;
+    updateRegionStyles();
     internetCircles.forEach((marker) => {
       const el = marker.getElement();
       if (!el) return;
