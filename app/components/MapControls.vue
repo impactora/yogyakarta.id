@@ -48,39 +48,44 @@ const filterOptions = [
       </button>
     </div>
 
-    <div
-      v-if="mode === 'poi'"
-      class="flex flex-wrap bg-warm-white/50 p-1 border border-line rounded-lg w-fit backdrop-blur-md animate-fade-in"
-    >
-      <button
-        v-for="filter in filterOptions"
-        :key="filter.id"
-        @click="emit('update:category', filter.id)"
-        class="px-4 py-2 font-josefin text-[9px] uppercase tracking-widest rounded-md transition-all"
-        :class="
-          category === filter.id
-            ? 'bg-parchment text-ink border border-line shadow-sm'
-            : 'text-ink/50 hover:text-ink'
-        "
+    <transition name="filter-slide-fade" mode="out-in">
+      <div
+        v-if="mode === 'poi'"
+        class="grid grid-cols-3 sm:grid-cols-5 gap-1 bg-warm-white/50 p-1 border border-line rounded-lg w-full sm:w-auto backdrop-blur-md"
       >
-        {{ locale === "en" ? filter.label.en : filter.label.id }}
-      </button>
-    </div>
+        <button
+          v-for="filter in filterOptions"
+          :key="filter.id"
+          @click="emit('update:category', filter.id)"
+          class="w-full px-2 sm:px-3 py-2 font-josefin text-[8px] sm:text-[9px] text-center uppercase tracking-widest rounded-md transition-all"
+          :class="
+            category === filter.id
+              ? 'bg-parchment text-ink border border-line shadow-sm'
+              : 'text-ink/50 hover:text-ink'
+          "
+        >
+          {{ locale === "en" ? filter.label.en : filter.label.id }}
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
 <style scoped>
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.filter-slide-fade-enter-active,
+.filter-slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+
+.filter-slide-fade-enter-from,
+.filter-slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+}
+
+.filter-slide-fade-enter-to,
+.filter-slide-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 </style>
