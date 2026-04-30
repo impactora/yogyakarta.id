@@ -1,0 +1,80 @@
+[
+  {
+    "id": "ugm-dteti",
+    "meta": { "id": "Pusat Riset & Talent", "en": "Research & Talent Hub" },
+    "title": {
+      "id": "Konsorsium Riset Pendidikan Tinggi",
+      "en": "Higher Education Research Consortium"
+    },
+    "desc": {
+      "id": "21 perguruan tinggi Yogyakarta berkolaborasi menghasilkan puluhan ribu lulusan per tahun. Penyuplai utama talenta engineer untuk industri teknologi nasional.",
+      "en": "21 Yogyakarta universities collaborate to produce tens of thousands of graduates annually. The main supplier of engineering talent for the national tech industry."
+    }
+  },
+  {
+    "id": "silicon-wali",
+    "meta": {
+      "id": "Klaster Industri Digital",
+      "en": "Digital Industry Cluster"
+    },
+    "title": {
+      "id": "Silicon Wali — Koridor Ringroad Utara",
+      "en": "Silicon Wali — North Ringroad Corridor"
+    },
+    "desc": {
+      "id": "Jalur ekosistem yang menampung ratusan startup aktif, membentang dari studio game indie kelas dunia hingga perusahaan SaaS B2B berskala enterprise.",
+      "en": "An ecosystem corridor hosting hundreds of active startups, ranging from world-class indie game studios to enterprise-scale B2B SaaS companies."
+    }
+  },
+  {
+    "id": "block71",
+    "meta": {
+      "id": "Inkubator & Akselerator",
+      "en": "Incubator & Accelerator"
+    },
+    "title": {
+      "id": "Block71 & Ekosistem Komunitas",
+      "en": "Block71 & Community Ecosystem"
+    },
+    "desc": {
+      "id": "Pusat inkubasi kolaborasi NUS Enterprise yang menghubungkan inovator lokal dengan pasar global. Didukung lebih dari 200 event tech komunitas per tahun.",
+      "en": "An incubation hub collaborating with NUS Enterprise, connecting local innovators with global markets. Supported by over 200 tech community events per year."
+    }
+  },
+  {
+    "id": "jogja-smart-province",
+    "meta": { "id": "Infrastruktur Kota", "en": "City Infrastructure" },
+    "title": {
+      "id": "Jogja Smart Province (JSP)",
+      "en": "Jogja Smart Province (JSP)"
+    },
+    "desc": {
+      "id": "Cetak biru digitalisasi layanan publik, integrasi sensor IoT mitigasi bencana Merapi, dan manajemen data presisi untuk tata kelola wilayah.",
+      "en": "A blueprint for public service digitalization, integration of Merapi disaster mitigation IoT sensors, and precision data management for regional governance."
+    }
+  },
+  {
+    "id": "jogjamark",
+    "meta": { "id": "Ekosistem Kreatif", "en": "Creative Ecosystem" },
+    "title": {
+      "id": "Jogja Creative District",
+      "en": "Jogja Creative District"
+    },
+    "desc": {
+      "id": "Transformasi spasial kawasan selatan menjadi distrik hybrid: butik desainer lokal, studio animasi internasional, dan co-working space 24 jam.",
+      "en": "Spatial transformation of the southern area into a hybrid district: local designer boutiques, international animation studios, and 24-hour co-working spaces."
+    }
+  },
+  {
+    "id": "gamedev-animation",
+    "meta": { "id": "Kreatif & Hiburan", "en": "Creative & Entertainment" },
+    "title": {
+      "id": "Pusat Game Dev & Animasi",
+      "en": "Game Dev & Animation Hub"
+    },
+    "desc": {
+      "id": "Markas bagi raksasa industri seperti Gameloft dan ratusan studio indie. Memproduksi IP global, dari game mobile hingga film animasi pemenang penghargaan.",
+      "en": "Headquarters for industry giants like Gameloft and hundreds of indie studios. Producing global IPs, from mobile games to award-winning animated films."
+    }
+  }
+]

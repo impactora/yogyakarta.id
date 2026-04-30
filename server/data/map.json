@@ -1,0 +1,247 @@
+{
+  "pois": [
+    {
+      "id": "keraton",
+      "name": {
+        "id": "Keraton Ngayogyakarta",
+        "en": "The Palace of Yogyakarta"
+      },
+      "category": "budaya",
+      "regionId": "kota",
+      "coords": [-7.8052845, 110.3642031],
+      "image": "/images/wisata/keraton.jpg"
+    },
+    {
+      "id": "tugu",
+      "name": { "id": "Tugu Yogyakarta", "en": "Tugu Monument" },
+      "category": "budaya",
+      "regionId": "kota",
+      "coords": [-7.782884, 110.36706],
+      "image": "/images/sejarah/tugu.jpg"
+    },
+    {
+      "id": "prambanan",
+      "name": { "id": "Candi Prambanan", "en": "Prambanan Temple" },
+      "category": "wisata",
+      "regionId": "sleman",
+      "coords": [-7.75202, 110.491467],
+      "image": "/images/wisata/prambanan.jpg"
+    },
+    {
+      "id": "malioboro",
+      "name": { "id": "Jalan Malioboro", "en": "Malioboro Street" },
+      "category": "wisata",
+      "regionId": "kota",
+      "coords": [-7.792651, 110.365844],
+      "image": "/images/wisata/malioboro.jpg"
+    },
+    {
+      "id": "wijilan",
+      "name": { "id": "Gudeg Wijilan", "en": "Wijilan Gudeg Center" },
+      "category": "kuliner",
+      "regionId": "kota",
+      "coords": [-7.804389, 110.366408],
+      "image": "/images/kuliner/gudeg.jpg"
+    },
+    {
+      "id": "tamansari",
+      "name": { "id": "Taman Sari", "en": "Taman Sari Water Castle" },
+      "category": "wisata",
+      "regionId": "kota",
+      "coords": [-7.81, 110.3585],
+      "image": "/images/wisata/tamansari.jpg"
+    },
+    {
+      "id": "merapi",
+      "name": { "id": "Gunung Merapi", "en": "Mount Merapi" },
+      "category": "wisata",
+      "regionId": "sleman",
+      "coords": [-7.5407, 110.4457],
+      "image": "/images/wisata/merapi.jpg"
+    },
+    {
+      "id": "parangtritis",
+      "name": { "id": "Pantai Parangtritis", "en": "Parangtritis Beach" },
+      "category": "wisata",
+      "regionId": "bantul",
+      "coords": [-8.0244, 110.332],
+      "image": "/images/wisata/parangtritis.jpg"
+    },
+    {
+      "id": "kotagede",
+      "name": { "id": "Kawasan Kotagede", "en": "Kotagede Area" },
+      "category": "budaya",
+      "regionId": "kota",
+      "coords": [-7.8286, 110.3956],
+      "image": "/images/sejarah/kotagede.jpg"
+    },
+    {
+      "id": "pakpong",
+      "name": { "id": "Sate Klathak Pak Pong", "en": "Sate Klathak Pak Pong" },
+      "category": "kuliner",
+      "regionId": "bantul",
+      "coords": [-7.8732, 110.3808],
+      "image": "/images/kuliner/klathak.jpg"
+    },
+    {
+      "id": "smartprovince",
+      "name": { "id": "Jogja Smart Province", "en": "Jogja Smart Province" },
+      "category": "teknologi",
+      "regionId": "kota",
+      "coords": [-7.7981, 110.3888],
+      "image": "/images/teknologi/balaikota.jpg"
+    }
+  ],
+  "regionStats": {
+    "kota": {
+      "name": "Kota Yogyakarta",
+      "coords": [-7.8014, 110.3646],
+      "penetration": 97.2,
+      "tier": "high"
+    },
+    "sleman": {
+      "name": "Kabupaten Sleman",
+      "coords": [-7.6833, 110.3333],
+      "penetration": 95.5,
+      "tier": "high"
+    },
+    "bantul": {
+      "name": "Kabupaten Bantul",
+      "coords": [-7.8833, 110.3333],
+      "penetration": 91.8,
+      "tier": "mid"
+    },
+    "kulonprogo": {
+      "name": "Kabupaten Kulon Progo",
+      "coords": [-7.8282, 110.1585],
+      "penetration": 88.4,
+      "tier": "low"
+    },
+    "gunungkidul": {
+      "name": "Kabupaten Gunungkidul",
+      "coords": [-7.9945, 110.6054],
+      "penetration": 85.1,
+      "tier": "low"
+    }
+  },
+  "diyBoundary": {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [110.01, -7.67],
+          [110.25, -7.6],
+          [110.45, -7.54],
+          [110.84, -7.65],
+          [110.84, -8.21],
+          [110.51, -8.26],
+          [110.25, -8.05],
+          [110.01, -7.99],
+          [110.01, -7.67]
+        ]
+      ]
+    }
+  },
+  "diyRegionsGeoJSON": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": { "id": "kota", "name": "Kota Yogyakarta" },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [110.35, -7.78],
+              [110.4, -7.78],
+              [110.4, -7.83],
+              [110.35, -7.83],
+              [110.35, -7.78]
+            ]
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": { "id": "sleman", "name": "Kabupaten Sleman" },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [110.25, -7.6],
+              [110.45, -7.54],
+              [110.5, -7.83],
+              [110.4, -7.83],
+              [110.4, -7.78],
+              [110.35, -7.78],
+              [110.35, -7.83],
+              [110.25, -7.83],
+              [110.25, -7.6]
+            ]
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": { "id": "bantul", "name": "Kabupaten Bantul" },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [110.25, -7.83],
+              [110.35, -7.83],
+              [110.4, -7.83],
+              [110.5, -7.83],
+              [110.51, -8.26],
+              [110.25, -8.05],
+              [110.25, -7.83]
+            ]
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": { "id": "kulonprogo", "name": "Kabupaten Kulon Progo" },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [110.01, -7.67],
+              [110.25, -7.6],
+              [110.25, -7.83],
+              [110.25, -8.05],
+              [110.01, -7.99],
+              [110.01, -7.67]
+            ]
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": { "id": "gunungkidul", "name": "Kabupaten Gunungkidul" },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [110.5, -7.83],
+              [110.45, -7.54],
+              [110.84, -7.65],
+              [110.84, -8.21],
+              [110.51, -8.26],
+              [110.5, -7.83]
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "philosophicalAxis": [
+    [-7.5407, 110.4457],
+    [-7.782884, 110.36706],
+    [-7.8052845, 110.3642031],
+    [-7.8252, 110.3633],
+    [-8.0244, 110.332]
+  ]
+}

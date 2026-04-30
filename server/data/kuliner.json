@@ -1,0 +1,107 @@
+[
+  {
+    "id": "gudeg",
+    "categoryId": "main_course",
+    "featured": true,
+    "image": "/images/kuliner/gudeg.jpg",
+    "lat": -7.8046,
+    "lng": 110.3664,
+    "title": { "id": "Gudeg Kraton", "en": "Royal Gudeg" },
+    "story": {
+      "id": "Nangka muda direbus 12 jam dengan santan dan gula aren. Resep dapur abdi dalem yang tak berubah sejak abad ke-18.",
+      "en": "Young jackfruit boiled for 12 hours with coconut milk and palm sugar. A royal kitchen recipe unchanged since the 18th century."
+    },
+    "meta": { "id": "Warisan Dapur Kerajaan", "en": "Royal Kitchen Heritage" },
+    "address": {
+      "id": "Jl. Wijilan, Panembahan",
+      "en": "Wijilan St., Panembahan"
+    },
+    "price": { "id": "Rp 25.000 - 50.000", "en": "IDR 25,000 - 50,000" }
+  },
+  {
+    "id": "oseng",
+    "categoryId": "main_course",
+    "featured": false,
+    "image": "/images/kuliner/oseng.jpg",
+    "lat": -7.7975,
+    "lng": 110.3593,
+    "title": {
+      "id": "Oseng Mercon Bu Narti",
+      "en": "Bu Narti's Firecracker Stir-fry"
+    },
+    "story": {
+      "id": "Kikil dan kulit sapi ditumis dengan cabai rawit dalam jumlah industrial. Provokasi terhadap rasa manis-gurih.",
+      "en": "Beef tendon and skin stir-fried with an industrial amount of bird's eye chili. A provocation against the sweet-savory norm."
+    },
+    "meta": { "id": "Perlawanan Pedas", "en": "Spicy Resistance" },
+    "address": { "id": "Jl. KH. Ahmad Dahlan", "en": "KH. Ahmad Dahlan St." },
+    "price": { "id": "Rp 30.000 / Porsi", "en": "IDR 30,000 / Portion" }
+  },
+  {
+    "id": "klathak",
+    "categoryId": "main_course",
+    "featured": false,
+    "image": "/images/kuliner/klathak.jpg",
+    "lat": -7.8732,
+    "lng": 110.3808,
+    "title": { "id": "Sate Klathak", "en": "Klathak Satay" },
+    "story": {
+      "id": "Dua tusuk jeruji sepeda memastikan daging kambing matang merata. Hanya dibumbui garam kasar.",
+      "en": "Two bicycle spokes skewers ensure the mutton is cooked evenly. Seasoned only with coarse sea salt."
+    },
+    "meta": { "id": "Minimalis Ekstrem", "en": "Extreme Minimalism" },
+    "address": {
+      "id": "Jl. Imogiri Timur, Bantul",
+      "en": "East Imogiri St., Bantul"
+    },
+    "price": { "id": "Rp 35.000 - 50.000", "en": "IDR 35,000 - 50,000" }
+  },
+  {
+    "id": "bakpia",
+    "categoryId": "snacks",
+    "featured": false,
+    "image": "/images/kuliner/bakpia.jpg",
+    "lat": -7.798,
+    "lng": 110.3618,
+    "title": { "id": "Bakpia Pathok 75", "en": "Bakpia Pathok 75" },
+    "story": {
+      "id": "Akulturasi kuliner Tionghoa-Jawa abad 20. Kulit tipis berlapis isi pasta kacang hijau kukus tradisional.",
+      "en": "20th-century Chinese-Javanese culinary acculturation. Thin layered skin filled with traditional steamed mung bean paste."
+    },
+    "meta": { "id": "Akulturasi Budaya", "en": "Cultural Acculturation" },
+    "address": { "id": "Kawasan Pathuk", "en": "Pathuk Area" },
+    "price": { "id": "Rp 45.000 / Kotak", "en": "IDR 45,000 / Box" }
+  },
+  {
+    "id": "kopijos",
+    "categoryId": "drinks",
+    "featured": false,
+    "image": "/images/kuliner/kopi-joss.jpg",
+    "lat": -7.7825,
+    "lng": 110.3667,
+    "title": { "id": "Kopi Joss Lek Man", "en": "Lek Man's Joss Coffee" },
+    "story": {
+      "id": "Arang membara yang diceburkan memunculkan karbon aktif yang menetralkan asam lambung.",
+      "en": "Plunging burning charcoal releases activated carbon that neutralizes stomach acid."
+    },
+    "meta": { "id": "Kimia Warung Angkringan", "en": "Angkringan Chemistry" },
+    "address": { "id": "Utara Stasiun Tugu", "en": "North of Tugu Station" },
+    "price": { "id": "Rp 8.000 / Gelas", "en": "IDR 8,000 / Glass" }
+  },
+  {
+    "id": "wedang",
+    "categoryId": "drinks",
+    "featured": false,
+    "image": "/images/kuliner/wedang.jpg",
+    "lat": -7.946,
+    "lng": 110.3617,
+    "title": { "id": "Wedang Uwuh", "en": "Trash Ginger Drink" },
+    "story": {
+      "id": "Campuran jahe bakar, kayu secang, cengkeh, dan pala yang tampak seperti reruntuhan dedaunan.",
+      "en": "A blend of roasted ginger, sappan wood, cloves, and nutmeg that looks like leaf debris."
+    },
+    "meta": { "id": "Jamu dalam Cangkir", "en": "Herbal Medicine in a Cup" },
+    "address": { "id": "Makam Raja Imogiri", "en": "Imogiri Royal Cemetery" },
+    "price": { "id": "Rp 10.000 / Gelas", "en": "IDR 10,000 / Glass" }
+  }
+]
