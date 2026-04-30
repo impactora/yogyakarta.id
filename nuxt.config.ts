@@ -94,6 +94,18 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    prerender: {
+      routes: [
+        "/",
+        "/sejarah",
+        "/budaya",
+        "/kuliner",
+        "/wisata",
+        "/teknologi",
+        "/peta",
+      ],
+      crawlLinks: false,
+    },
     serverAssets: [{ baseName: "data", dir: "./server/data" }],
   },
 
