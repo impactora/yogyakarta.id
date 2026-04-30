@@ -89,7 +89,6 @@ const resetDebounce = () => {
 const getAdjustedPoiCoords = (loc: any, index: number): [number, number] => {
   if (loc.regionId !== "kota") return loc.coords;
 
-  // Keep marker distribution stable between renders while reducing overlap in Kota area.
   const spreadPattern: Array<[number, number]> = [
     [0.008, -0.008],
     [0.01, 0],
