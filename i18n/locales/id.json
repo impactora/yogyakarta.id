@@ -181,6 +181,7 @@
     "legend_title": "Legenda Peta",
     "legend_axis": "Sumbu Filosofis",
     "legend_poi": "Titik Lokasi",
+    "reset_view": "Kembali ke tampilan awal",
     "explore_btn": "Lihat Detail"
   },
   "error": {
