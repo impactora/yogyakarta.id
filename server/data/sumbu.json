@@ -1,0 +1,127 @@
+[
+  {
+    "id": "merapi",
+    "name": { "id": "Gunung Merapi", "en": "Mount Merapi" },
+    "subtitle": {
+      "id": "Kutub Api dari Utara",
+      "en": "The Fire Pole of the North"
+    },
+    "coordsDisplay": "7°32'S · 110°26'E",
+    "elevation": "2.930 mdpl",
+    "distanceFromKeraton": "28 km ke utara",
+    "distanceFromKeratonEn": "28 km north",
+    "image": "/images/wisata/merapi.jpg",
+    "narrative": {
+      "id": "Di sini perjalanan dimulai. Dari puncak yang tak pernah benar-benar diam, sumbu filosofis Yogyakarta merentang ke selatan — menembus kabut, melewati kota, menuju samudera. Bukan garis biasa. Sebuah janji.",
+      "en": "Here the journey begins. From the summit that is never truly still, Yogyakarta's philosophical axis stretches southward — through mist, through the city, toward the ocean. Not an ordinary line. A covenant."
+    },
+    "philosophy": {
+      "id": "Merapi bukan sekadar gunung berapi. Ia adalah singgasana kekuatan alam yang Sultan HB I pilih sebagai kutub utara kosmologinya. Saat mendirikan Keraton, Sultan tidak mencari lokasi yang nyaman — ia mencari titik yang tepat di selatan Merapi, untuk menyatakan bahwa kekuasaannya berakar pada dialog dengan alam.",
+      "en": "Merapi is not merely a volcano. It is the throne of natural force that Sultan HB I chose as the northern pole of his cosmology. When founding the Keraton, the Sultan did not seek a comfortable location — he sought the precise point south of Merapi, to declare that his power was rooted in dialogue with nature."
+    },
+    "secret": {
+      "id": "Merapi dan Keraton dihubungkan bukan hanya secara simbolis. Setiap kali Merapi menunjukkan aktivitas signifikan, Keraton melakukan ritual khusus — Labuhan Merapi. Abdi dalem membawa sesaji ke lereng gunung, termasuk potongan kuku dan rambut Sultan, sebagai penghormatan kepada Kyai Sapu Jagad, penunggu gunung.",
+      "en": "Merapi and the Keraton are connected not only symbolically. Each time Merapi shows significant activity, the Keraton performs a special ritual — Labuhan Merapi. Palace servants carry offerings to the mountain's slopes, including the Sultan's nail clippings and hair, as homage to Kyai Sapu Jagad, the mountain's guardian spirit."
+    }
+  },
+  {
+    "id": "tugu",
+    "name": { "id": "Tugu Yogyakarta", "en": "Tugu Monument" },
+    "subtitle": {
+      "id": "Titik Meditasi Sultan",
+      "en": "The Sultan's Meditation Point"
+    },
+    "coordsDisplay": "7°46'S · 110°21'E",
+    "elevation": "113 mdpl",
+    "distanceFromKeraton": "2,2 km ke utara",
+    "distanceFromKeratonEn": "2.2 km north",
+    "image": "/images/sejarah/tugu.jpg",
+    "narrative": {
+      "id": "Dari Merapi, perjalanan turun ke kota. Tugu berdiri bukan sebagai ornamen, melainkan sebagai penanda bahwa manusia telah memasuki ruang yang diatur oleh perjanjian kosmologis. Melewati tiang ini berarti tunduk pada tatanan Mataram.",
+      "en": "From Merapi, the journey descends into the city. The Tugu stands not as ornament, but as a marker that humans have entered a space governed by cosmological covenant. Passing this pillar means submitting to the Mataram order."
+    },
+    "philosophy": {
+      "id": "Setiap malam 1 Suro, Sultan berdiri di sini menghadap Merapi — sebuah ritual meditasi yang menghubungkan dirinya dengan poros alam semesta. Tugu yang kita lihat hari ini hanyalah rekonstruksi pasca-gempa 1867 setinggi 15 meter. Tugu asli Sultan HB I mencapai 25 meter — ramping dan sakral seperti jarum kompas yang menunjuk ke langit.",
+      "en": "Every Suro New Year's Eve, the Sultan stood here facing Merapi — a meditation ritual connecting himself to the universal axis. The Tugu we see today is merely a post-1867 earthquake reconstruction at 15 meters. Sultan HB I's original Tugu reached 25 meters — slender and sacred like a compass needle pointing to heaven."
+    },
+    "secret": {
+      "id": "Nama 'Tugu Golong Gilig' yang disandang oleh Tugu asli bukan sekadar deskripsi bentuk. 'Golong' berarti bulat (kesempurnaan), 'Gilig' berarti silinder (kekuatan). Kombinasi keduanya merepresentasikan penyatuan manusia dengan Tuhan — sebuah konsep yang disebut 'manunggaling kawula Gusti' dalam filsafat Jawa.",
+      "en": "The name 'Tugu Golong Gilig' borne by the original Tugu is not merely a shape description. 'Golong' means round (perfection), 'Gilig' means cylinder (strength). Their combination represents the union of human and God — a concept called 'manunggaling kawula Gusti' in Javanese philosophy."
+    }
+  },
+  {
+    "id": "keraton",
+    "name": { "id": "Keraton Ngayogyakarta", "en": "Ngayogyakarta Palace" },
+    "subtitle": {
+      "id": "Pusat Mandala Semesta Jawa",
+      "en": "Center of the Javanese Cosmic Mandala"
+    },
+    "coordsDisplay": "7°48'S · 110°21'E",
+    "elevation": "113 mdpl",
+    "distanceFromKeraton": "Pusat Sumbu",
+    "distanceFromKeratonEn": "Axis Center",
+    "image": "/images/wisata/keraton.jpg",
+    "narrative": {
+      "id": "Di sinilah jantung sumbu berdenyut. Keraton bukan istana biasa — ia adalah mandala, sebuah diagram kosmologis yang diwujudkan dalam tata ruang. Sultan duduk di pusatnya bukan sebagai raja belaka, melainkan sebagai titik keseimbangan antara langit dan bumi.",
+      "en": "Here is where the axis heart beats. The Keraton is no ordinary palace — it is a mandala, a cosmological diagram manifested in spatial form. The Sultan sits at its center not merely as king, but as the balance point between heaven and earth."
+    },
+    "philosophy": {
+      "id": "Setiap elemen Keraton memiliki makna filosofis yang saling terhubung. Dua pohon beringin kembar di Alun-Alun Utara disebut 'Kyai Dewadaru' dan 'Kyai Wijayadaru' — simbol dualitas yang selalu hadir dalam pemikiran Jawa. Bahkan arah hadap Keraton ke utara (ke Merapi) bukan keputusan praktis, melainkan filosofis.",
+      "en": "Every element of the Keraton holds interconnected philosophical meaning. The two twin banyan trees in the North Square are called 'Kyai Dewadaru' and 'Kyai Wijayadaru' — symbols of the duality ever-present in Javanese thought. Even the Keraton's orientation facing north (toward Merapi) is not a practical decision, but a philosophical one."
+    },
+    "secret": {
+      "id": "Di bawah tanah Keraton terdapat terowongan rahasia yang dikenal sebagai 'Sumur Gumuling' yang menghubungkan Keraton dengan Taman Sari. Terowongan ini berfungsi sebagai jalur evakuasi darurat, tempat meditasi Sultan, dan — menurut kepercayaan setempat — sebagai titik di mana Sultan dapat 'bertemu' dengan Kanjeng Ratu Kidul, penguasa Laut Selatan.",
+      "en": "Beneath the Keraton lies a secret tunnel network known as 'Sumur Gumuling' connecting the Palace to Taman Sari. This tunnel served as an emergency evacuation route, a Sultan's meditation space, and — according to local belief — the point where the Sultan could 'meet' Kanjeng Ratu Kidul, ruler of the Southern Sea."
+    }
+  },
+  {
+    "id": "krapyak",
+    "name": { "id": "Panggung Krapyak", "en": "Krapyak Hunting Pavilion" },
+    "subtitle": {
+      "id": "Gerbang ke Dunia yang Lain",
+      "en": "Gateway to Another World"
+    },
+    "coordsDisplay": "7°49'S · 110°21'E",
+    "elevation": "110 mdpl",
+    "distanceFromKeraton": "2 km ke selatan",
+    "distanceFromKeratonEn": "2 km south",
+    "image": "/images/budaya/kraton.jpg",
+    "narrative": {
+      "id": "Melewati Krapyak, perjalanan memasuki dimensi berbeda. Tanah mulai terasa lebih berat dengan sejarah. Ini adalah zona transisi — di mana dunia yang teratur bertemu dengan kekuatan alam yang tidak dapat ditaklukkan. Sultan menandai batasnya di sini.",
+      "en": "Past Krapyak, the journey enters a different dimension. The ground begins to feel heavier with history. This is a transition zone — where the ordered world meets the forces of nature that cannot be conquered. The Sultan marked his boundary here."
+    },
+    "philosophy": {
+      "id": "Panggung Krapyak adalah batas selatan wilayah manusia dalam kosmologi Keraton. Di utaranya: dunia sultan yang teratur. Di selatannya: wilayah Kanjeng Ratu Kidul yang misterius. Struktur ini bukan hanya menara berburu — ia adalah monumen pernyataan bahwa kekuasaan manusia selalu ada dalam dialog dengan kekuatan yang lebih besar.",
+      "en": "Panggung Krapyak is the southern boundary of the human realm in the Keraton cosmology. To its north: the Sultan's ordered world. To its south: the mysterious domain of Kanjeng Ratu Kidul. This structure is not merely a hunting tower — it is a monument declaring that human power always exists in dialogue with greater forces."
+    },
+    "secret": {
+      "id": "Nama 'Krapyak' berasal dari kata 'krapak' dalam bahasa Jawa Kuno yang berarti pagar atau tembok. Dahulu, kawasan ini dikelilingi tembok tinggi yang membentuk arena perburuan — rusa, banteng, dan babi hutan dihalau masuk oleh ratusan orang, lalu Sultan berburu dari atas menara. Ritual berburu ini bukan rekreasi semata — ia adalah demonstrasi kekuasaan Sultan atas alam.",
+      "en": "The name 'Krapyak' derives from 'krapak' in Old Javanese meaning fence or wall. In its time, this area was surrounded by high walls forming a hunting arena — deer, banteng, and wild boars were driven in by hundreds of people, then the Sultan hunted from atop the tower. This hunting ritual was not merely recreation — it was a demonstration of the Sultan's dominion over nature."
+    }
+  },
+  {
+    "id": "parangtritis",
+    "name": { "id": "Pantai Parangtritis", "en": "Parangtritis Beach" },
+    "subtitle": {
+      "id": "Kutub Selatan, Keabadian Samudra",
+      "en": "Southern Pole, Ocean's Eternity"
+    },
+    "coordsDisplay": "8°00'S · 110°19'E",
+    "elevation": "0 mdpl",
+    "distanceFromKeraton": "27 km ke selatan",
+    "distanceFromKeratonEn": "27 km south",
+    "image": "/images/wisata/parangtritis.jpg",
+    "narrative": {
+      "id": "Perjalanan berakhir di tepi dunia yang Sultan pandang dari Keraton setiap hari. Pasir hitam vulkanik ini adalah material Merapi yang telah menempuh perjalanan ribuan tahun — dari puncak sumbu di utara hingga ujungnya di sini. Sumbu bukan hanya metafora. Ia sungguh-sungguh mengalir.",
+      "en": "The journey ends at the edge of the world the Sultan views from the Keraton each day. This black volcanic sand is Merapi's material that has traveled thousands of years — from the axis summit in the north to its end point here. The axis is not merely a metaphor. It truly flows."
+    },
+    "philosophy": {
+      "id": "Parangtritis adalah titik di mana Sultan secara simbolis bertemu Kanjeng Ratu Kidul setiap tahunnya melalui ritual Labuhan. Samudra bukan hanya air — dalam kosmologi Jawa, ia adalah kekuatan tak terbatas yang harus dihormati, bukan ditaklukkan. Sumbu ini mengajarkan: kekuasaan sejati adalah kemampuan untuk hidup selaras dengan yang lebih besar dari dirimu.",
+      "en": "Parangtritis is the point where the Sultan symbolically meets Kanjeng Ratu Kidul each year through the Labuhan ritual. The ocean is not merely water — in Javanese cosmology, it is an infinite force to be respected, not conquered. This axis teaches: true power is the ability to live in harmony with that which is greater than yourself."
+    },
+    "secret": {
+      "id": "Nama 'Parangtritis' berasal dari kata 'parang' (batu karang) dan 'tritis' (tetesan air yang mengalir dari atap). Ini merujuk pada fenomena air laut yang merembes melalui celah-celah karang dan menetes di bagian bawah tebing — seperti air mata bumi. Konon, Syekh Bela Belu, seorang wali penyebar Islam, pertama kali melakukan meditasi di gua-gua karang di sini pada abad ke-16.",
+      "en": "The name 'Parangtritis' derives from 'parang' (rocky cliff) and 'tritis' (water dripping from a roof edge). This refers to the phenomenon of seawater seeping through rock crevices and dripping at the base of cliffs — like the earth's tears. Legend holds that Syekh Bela Belu, an Islamic proselytizer, first meditated in the caves here in the 16th century."
+    }
+  }
+]

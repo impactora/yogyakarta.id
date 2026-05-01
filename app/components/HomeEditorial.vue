@@ -9,7 +9,7 @@ const editorials = [
     titleKey: "home.editorial.sejarah.title",
     descKey: "home.editorial.sejarah.desc",
     script: "ꦱꦼꦗꦫꦃ",
-    image: "/images/home/Tugu_Jogja.jpg",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tugu_Jogja.jpg",
     link: "/sejarah",
   },
   {
@@ -17,7 +17,8 @@ const editorials = [
     titleKey: "home.editorial.budaya.title",
     descKey: "home.editorial.budaya.desc",
     script: "ꦧꦸꦢꦪ",
-    image: "/images/home/Kraton_Yogyakarta.jpg",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kraton_Yogyakarta.jpg",
     link: "/budaya",
   },
   {
@@ -25,7 +26,8 @@ const editorials = [
     titleKey: "home.editorial.wisata.title",
     descKey: "home.editorial.wisata.desc",
     script: "ꦮꦶꦱꦠ",
-    image: "/images/home/Prambanan_Temple_Yogyakarta_Indonesia.jpg",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Prambanan_Temple_Yogyakarta_Indonesia.jpg",
     link: "/wisata",
   },
   {
@@ -33,7 +35,7 @@ const editorials = [
     titleKey: "home.editorial.kuliner.title",
     descKey: "home.editorial.kuliner.desc",
     script: "ꦏꦸꦭꦶꦤꦺꦂ",
-    image: "/images/home/Nasi_Gudeg.jpg",
+    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Nasi_Gudeg.jpg",
     link: "/kuliner",
   },
   {
@@ -41,7 +43,8 @@ const editorials = [
     titleKey: "home.editorial.teknologi.title",
     descKey: "home.editorial.teknologi.desc",
     script: "ꦠꦺꦏ꧀ꦤꦺꦴꦭꦺꦴꦒꦶ",
-    image: "/images/home/Stasiun_Tugu_Yogyakarta.jpg",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Stasiun_Tugu_Yogyakarta.jpg",
     link: "/teknologi",
   },
   {
@@ -49,8 +52,18 @@ const editorials = [
     titleKey: "home.editorial.peta.title",
     descKey: "home.editorial.peta.desc",
     script: "ꦥꦺꦠ",
-    image: "/images/home/Malioboro_Street_Yogyakarta.jpg",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Malioboro_Street,_Yogyakarta.JPG",
     link: "/peta",
+  },
+  {
+    id: "sumbu",
+    titleKey: "home.editorial.sumbu.title",
+    descKey: "home.editorial.sumbu.desc",
+    script: "ꦱꦸꦩ꧀ꦧꦸ",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Parangtritis_beach.jpg",
+    link: "/sumbu",
   },
 ];
 </script>
@@ -78,6 +91,13 @@ const editorials = [
         <div
           class="absolute inset-0 bg-gradient-to-t from-[#1a1208] via-[#1a1208]/60 to-transparent transition-opacity duration-700 group-hover:opacity-80"
         ></div>
+      </div>
+
+      <div
+        v-if="item.id === 'sumbu'"
+        class="absolute top-3 right-3 z-20 font-josefin text-[8px] tracking-[0.2em] uppercase text-terra border border-terra/40 bg-terra/10 px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+      >
+        {{ t("home.editorial.sumbu.badge") }}
       </div>
 
       <div

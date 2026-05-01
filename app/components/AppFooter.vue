@@ -1,5 +1,13 @@
 <script setup lang="ts">
-const routes = ["sejarah", "budaya", "kuliner", "wisata", "teknologi", "peta"];
+const routes = [
+  "sejarah",
+  "budaya",
+  "kuliner",
+  "wisata",
+  "teknologi",
+  "peta",
+  "sumbu",
+];
 </script>
 
 <template>
@@ -48,6 +56,7 @@ const routes = ["sejarah", "budaya", "kuliner", "wisata", "teknologi", "peta"];
             :key="item"
             :to="`/${item}`"
             class="hover:text-[#b8491f] transition-colors"
+            :class="item === 'sumbu' ? 'text-[#b8491f]/70' : ''"
           >
             {{ $t(`nav.${item}`) }}
           </NuxtLink>

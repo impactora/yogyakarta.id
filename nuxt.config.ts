@@ -103,6 +103,7 @@ export default defineNuxtConfig({
         "/wisata",
         "/teknologi",
         "/peta",
+        "/sumbu",
       ],
       crawlLinks: false,
     },
@@ -112,12 +113,7 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: [
-        "@vue/devtools-core",
-        "@vue/devtools-kit",
-        "lucide-vue-next",
-        "fuse.js",
-      ],
+      include: ["@vue/devtools-core", "@vue/devtools-kit"],
     },
   },
 });

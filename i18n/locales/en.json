@@ -5,7 +5,8 @@
     "kuliner": "Culinary",
     "wisata": "Tourism",
     "teknologi": "Technology",
-    "peta": "Map"
+    "peta": "Map",
+    "sumbu": "Axis"
   },
   "home": {
     "hero": {
@@ -48,6 +49,11 @@
       "peta": {
         "title": "Map",
         "desc": "Explore spatial points and the philosophical axis."
+      },
+      "sumbu": {
+        "title": "Axis",
+        "desc": "A 33-kilometer cosmological journey from fire to ocean.",
+        "badge": "Interactive Feature"
       }
     }
   },
@@ -114,6 +120,7 @@
     "cultural_archive": "Cultural Archive",
     "ritual_calendar": "Ritual Calendar",
     "time_cycle": "Palace Time Cycle",
+    "time_cycle_desc": "Every Keraton festival is a cosmological expression connecting humans to the cycles of the universe.",
     "month_of": "Month of",
     "aksara_category": "Intellectual Heritage",
     "aksara_desc": "Hanacaraka is a philosophical symbol of the human life journey born in the land of Mataram.",
@@ -174,7 +181,6 @@
     "legend_title": "Map Legend",
     "legend_axis": "Philosophical Axis",
     "legend_poi": "Point of Interest",
-    "reset_view": "Reset to initial view",
     "explore_btn": "Explore Details"
   },
   "error": {

@@ -6,7 +6,15 @@ import { useI18n } from "#imports";
 
 const { locale, setLocale } = useI18n();
 
-const routes = ["sejarah", "budaya", "kuliner", "wisata", "teknologi", "peta"];
+const routes = [
+  "sejarah",
+  "budaya",
+  "kuliner",
+  "wisata",
+  "teknologi",
+  "peta",
+  "sumbu",
+];
 
 const isMenuOpen = ref(false);
 const isSearchOpen = ref(false);
@@ -45,6 +53,7 @@ const toggleLanguage = () => {
             :to="`/${item}`"
             active-class="text-terra"
             class="font-josefin text-[11px] font-semibold tracking-[0.18em] uppercase text-muted transition-colors duration-200 hover:text-terra"
+            :class="item === 'sumbu' ? 'text-terra/70' : ''"
           >
             {{ $t(`nav.${item}`) }}
           </NuxtLink>
@@ -123,7 +132,7 @@ const toggleLanguage = () => {
       class="lg:hidden absolute top-[60px] left-0 right-0 bg-parchment overflow-hidden transition-all duration-300 ease-in-out border-b border-line"
       :class="
         isMenuOpen
-          ? 'max-h-[400px] opacity-100'
+          ? 'max-h-[500px] opacity-100'
           : 'max-h-0 opacity-0 border-transparent'
       "
     >
@@ -134,6 +143,7 @@ const toggleLanguage = () => {
               :to="`/${item}`"
               active-class="text-terra"
               class="font-josefin text-[14px] font-semibold tracking-[0.2em] uppercase text-muted transition-colors duration-200 hover:text-terra block"
+              :class="item === 'sumbu' ? 'text-terra/70' : ''"
               @click="isMenuOpen = false"
             >
               {{ $t(`nav.${item}`) }}

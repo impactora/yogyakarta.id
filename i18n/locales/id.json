@@ -5,7 +5,8 @@
     "kuliner": "Kuliner",
     "wisata": "Wisata",
     "teknologi": "Teknologi",
-    "peta": "Peta"
+    "peta": "Peta",
+    "sumbu": "Sumbu"
   },
   "home": {
     "hero": {
@@ -48,6 +49,11 @@
       "peta": {
         "title": "Peta",
         "desc": "Jelajahi titik spasial dan sumbu filosofis."
+      },
+      "sumbu": {
+        "title": "Sumbu",
+        "desc": "Perjalanan kosmologis 33 kilometer dari api ke samudra.",
+        "badge": "Fitur Interaktif"
       }
     }
   },
@@ -114,6 +120,7 @@
     "cultural_archive": "Arsip Budaya",
     "ritual_calendar": "Kalender Ritual",
     "time_cycle": "Siklus Waktu Keraton",
+    "time_cycle_desc": "Setiap festival Keraton adalah ekspresi kosmologis yang menghubungkan manusia dengan siklus alam semesta.",
     "month_of": "Bulan",
     "aksara_category": "Warisan Intelektual",
     "aksara_desc": "Hanacaraka adalah simbol filosofis perjalanan hidup manusia yang lahir di tanah Mataram.",
@@ -174,7 +181,6 @@
     "legend_title": "Legenda Peta",
     "legend_axis": "Sumbu Filosofis",
     "legend_poi": "Titik Lokasi",
-    "reset_view": "Kembali ke tampilan awal",
     "explore_btn": "Lihat Detail"
   },
   "error": {
