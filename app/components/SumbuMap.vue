@@ -25,6 +25,7 @@ const pinImages = [
 const mapContainer = ref<HTMLElement | null>(null);
 const map = shallowRef<any>(null);
 const markerElements = ref<HTMLElement[]>([]);
+let animationFrame: number;
 
 const updateMarkers = (index: number) => {
   markerElements.value.forEach((el, i) => {
@@ -74,11 +75,86 @@ const flyToLocation = (index: number) => {
   });
 };
 
+const drawPath = (newIndex: number, oldIndex: number) => {
+  if (!map.value || !map.value.getSource("route-active")) return;
+
+  if (animationFrame) cancelAnimationFrame(animationFrame);
+
+  if (newIndex <= 0) {
+    map.value.getSource("route-active").setData({
+      type: "Feature",
+      properties: {},
+      geometry: { type: "LineString", coordinates: [] },
+    });
+    return;
+  }
+
+  const effectiveOldIndex = oldIndex <= 0 ? 0 : oldIndex;
+
+  if (Math.abs(newIndex - effectiveOldIndex) > 1) {
+    map.value.getSource("route-active").setData({
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: coordinates.slice(0, newIndex + 1),
+      },
+    });
+    return;
+  }
+
+  const isForward = newIndex > effectiveOldIndex;
+  const baseCoords = coordinates.slice(0, isForward ? newIndex : newIndex + 1);
+  const startCoord = coordinates[effectiveOldIndex];
+  const endCoord = coordinates[newIndex];
+
+  let startTime: number | null = null;
+  const duration = 1800;
+
+  const step = (timestamp: number) => {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+    const currentLon =
+      startCoord[0] + (endCoord[0] - startCoord[0]) * easeProgress;
+    const currentLat =
+      startCoord[1] + (endCoord[1] - startCoord[1]) * easeProgress;
+
+    const animatedCoords = [...baseCoords, [currentLon, currentLat]];
+
+    map.value.getSource("route-active").setData({
+      type: "Feature",
+      properties: {},
+      geometry: {
+        type: "LineString",
+        coordinates: animatedCoords,
+      },
+    });
+
+    if (progress < 1) {
+      animationFrame = requestAnimationFrame(step);
+    } else {
+      map.value.getSource("route-active").setData({
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "LineString",
+          coordinates: coordinates.slice(0, newIndex + 1),
+        },
+      });
+    }
+  };
+
+  animationFrame = requestAnimationFrame(step);
+};
+
 watch(
   () => props.activeIndex,
-  (newIndex) => {
+  (newIndex, oldIndex) => {
     flyToLocation(newIndex);
     updateMarkers(newIndex);
+    drawPath(newIndex, oldIndex ?? -1);
   },
 );
 
@@ -134,7 +210,7 @@ onMounted(async () => {
   map.value.once("load", () => {
     if (!map.value) return;
 
-    map.value.addSource("route", {
+    map.value.addSource("route-base", {
       type: "geojson",
       data: {
         type: "Feature",
@@ -147,9 +223,9 @@ onMounted(async () => {
     });
 
     map.value.addLayer({
-      id: "route-line",
+      id: "route-base-line",
       type: "line",
-      source: "route",
+      source: "route-base",
       layout: {
         "line-join": "round",
         "line-cap": "round",
@@ -158,6 +234,38 @@ onMounted(async () => {
         "line-color": "#b8491f",
         "line-width": 4,
         "line-dasharray": [2, 2],
+        "line-opacity": 0.2,
+      },
+    });
+
+    map.value.addSource("route-active", {
+      type: "geojson",
+      data: {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "LineString",
+          coordinates:
+            props.activeIndex > 0
+              ? coordinates.slice(0, props.activeIndex + 1)
+              : [],
+        },
+      },
+    });
+
+    map.value.addLayer({
+      id: "route-active-line",
+      type: "line",
+      source: "route-active",
+      layout: {
+        "line-join": "round",
+        "line-cap": "round",
+      },
+      paint: {
+        "line-color": "#b8491f",
+        "line-width": 4,
+        "line-dasharray": [2, 2],
+        "line-opacity": 1,
       },
     });
 
@@ -185,6 +293,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   if (map.value) map.value.remove();
+  if (animationFrame) cancelAnimationFrame(animationFrame);
 });
 </script>
 
