@@ -85,7 +85,7 @@ useHead({
     <SumbuMap :activeIndex="activeIndex" />
 
     <div
-      class="fixed inset-0 z-10 bg-gradient-to-r from-[#1a1208] via-[#1a1208]/80 to-transparent pointer-events-none"
+      class="fixed inset-0 z-10 bg-gradient-to-t lg:bg-gradient-to-r from-[#1a1208]/90 to-transparent to-[70%] pointer-events-none"
     ></div>
 
     <SumbuControls
