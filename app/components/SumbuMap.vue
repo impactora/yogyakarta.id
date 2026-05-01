@@ -4,6 +4,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
   activeIndex: number;
+  isSecretActive: boolean;
 }>();
 
 const coordinates: [number, number][] = [
@@ -26,6 +27,8 @@ const mapContainer = ref<HTMLElement | null>(null);
 const map = shallowRef<any>(null);
 const markerElements = ref<HTMLElement[]>([]);
 let animationFrame: number;
+let orbitReq: number;
+let orbitTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const updateMarkers = (index: number) => {
   markerElements.value.forEach((el, i) => {
@@ -50,6 +53,13 @@ const updateMarkers = (index: number) => {
       if (el.parentElement) el.parentElement.style.zIndex = "0";
     }
   });
+};
+
+const orbitMap = () => {
+  if (map.value) {
+    map.value.setBearing(map.value.getBearing() + 0.1);
+  }
+  orbitReq = requestAnimationFrame(orbitMap);
 };
 
 const flyToLocation = (index: number) => {
@@ -154,9 +164,16 @@ const drawPath = (newIndex: number, oldIndex: number) => {
 watch(
   () => props.activeIndex,
   (newIndex, oldIndex) => {
+    if (orbitReq) cancelAnimationFrame(orbitReq);
+    if (orbitTimeout) clearTimeout(orbitTimeout);
+
     flyToLocation(newIndex);
     updateMarkers(newIndex);
     drawPath(newIndex, oldIndex ?? -1);
+
+    orbitTimeout = setTimeout(() => {
+      orbitReq = requestAnimationFrame(orbitMap);
+    }, 5000);
   },
 );
 
@@ -292,12 +309,18 @@ onMounted(async () => {
     });
 
     updateMarkers(props.activeIndex);
+
+    orbitTimeout = setTimeout(() => {
+      orbitReq = requestAnimationFrame(orbitMap);
+    }, 5000);
   });
 });
 
 onUnmounted(() => {
   if (map.value) map.value.remove();
   if (animationFrame) cancelAnimationFrame(animationFrame);
+  if (orbitReq) cancelAnimationFrame(orbitReq);
+  if (orbitTimeout) clearTimeout(orbitTimeout);
 });
 </script>
 
@@ -306,7 +329,8 @@ onUnmounted(() => {
     <ClientOnly>
       <div
         ref="mapContainer"
-        class="absolute inset-0 w-full h-full map-filter transform-gpu"
+        class="absolute inset-0 w-full h-full map-filter transform-gpu transition-all duration-1000"
+        :class="{ 'secret-active': props.isSecretActive }"
       ></div>
     </ClientOnly>
   </div>
@@ -315,5 +339,8 @@ onUnmounted(() => {
 <style scoped>
 .map-filter {
   filter: sepia(0.5) contrast(1.1) brightness(0.7);
+}
+.map-filter.secret-active {
+  filter: sepia(0.2) contrast(1.3) brightness(0.3) saturate(1.5);
 }
 </style>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useI18n } from "#imports";
+import gsap from "gsap";
 
 const props = defineProps<{
   activeIndex: number;
@@ -8,7 +9,7 @@ const props = defineProps<{
   isCardVisible: boolean;
 }>();
 
-const emit = defineEmits(["navigate"]);
+const emit = defineEmits(["navigate", "secretState"]);
 
 const { locale } = useI18n();
 
@@ -20,10 +21,59 @@ const expandedSection = ref<"philosophy" | "secret" | null>(null);
 
 const toggleSection = (section: "philosophy" | "secret") => {
   expandedSection.value = expandedSection.value === section ? null : section;
+  emit("secretState", expandedSection.value === "secret");
 };
 
 const navigateTo = (index: number) => {
   emit("navigate", index);
+};
+
+const onEnter = (el: Element, done: () => void) => {
+  const tl = gsap.timeline({ onComplete: done });
+  tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.2 });
+
+  const title = el.querySelector(".gsap-title");
+  const line = el.querySelector(".gsap-line");
+  const texts = el.querySelectorAll(".gsap-text");
+  const controls = el.querySelectorAll(".gsap-control");
+
+  if (title)
+    tl.fromTo(
+      title,
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+    );
+  if (line)
+    tl.fromTo(
+      line,
+      { scaleX: 0, transformOrigin: "left" },
+      { scaleX: 1, duration: 0.6, ease: "power2.out" },
+      "-=0.4",
+    );
+  if (texts.length)
+    tl.fromTo(
+      texts,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" },
+      "-=0.2",
+    );
+  if (controls.length)
+    tl.fromTo(
+      controls,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.6, stagger: 0.1 },
+      "-=0.4",
+    );
+};
+
+const onLeave = (el: Element, done: () => void) => {
+  gsap.to(el, {
+    opacity: 0,
+    y: -20,
+    duration: 0.4,
+    ease: "power3.in",
+    onComplete: done,
+  });
 };
 </script>
 
@@ -31,16 +81,16 @@ const navigateTo = (index: number) => {
   <div
     class="fixed bottom-24 lg:bottom-10 left-4 right-4 lg:right-auto lg:left-10 z-50 lg:w-[400px] xl:w-[440px] flex flex-col justify-end pointer-events-none transform-gpu"
   >
-    <transition name="fade-slide" mode="out-in">
+    <transition @enter="onEnter" @leave="onLeave" mode="out-in" :css="false">
       <div
         v-if="activeIndex === -1 && isCardVisible"
         key="hero"
         class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-8 shadow-2xl flex flex-col items-start gap-4 lg:gap-6 max-h-[65vh] overflow-y-auto card-scrollbar rounded-2xl transform-gpu will-change-transform"
       >
         <div class="flex items-center gap-4 w-full">
-          <div class="w-8 h-[1px] bg-[#b8491f]"></div>
+          <div class="w-8 h-[1px] bg-[#b8491f] gsap-line"></div>
           <span
-            class="font-josefin text-[9px] tracking-[0.4em] uppercase text-[#b8491f]"
+            class="font-josefin text-[9px] tracking-[0.4em] uppercase text-[#b8491f] gsap-text"
           >
             {{
               locale === "id" ? "Perjalanan Interaktif" : "Interactive Journey"
@@ -48,13 +98,13 @@ const navigateTo = (index: number) => {
           </span>
         </div>
         <h1
-          class="font-libre text-[32px] lg:text-[40px] font-bold leading-[1.1] text-[#faf7f2]"
+          class="font-libre text-[32px] lg:text-[40px] font-bold leading-[1.1] text-[#faf7f2] gsap-title"
         >
           {{ locale === "id" ? "Sumbu Filosofis" : "The Philosophical Axis" }}
           <em class="text-[#b8491f] italic block mt-1">Yogyakarta</em>
         </h1>
         <p
-          class="font-lato text-[14px] text-[#faf7f2]/70 font-light leading-[1.7]"
+          class="font-lato text-[14px] text-[#faf7f2]/70 font-light leading-[1.7] gsap-text"
         >
           {{
             locale === "id"
@@ -63,7 +113,7 @@ const navigateTo = (index: number) => {
           }}
         </p>
         <div
-          class="flex items-center gap-3 text-[#faf7f2]/40 font-josefin text-[8px] uppercase tracking-widest flex-wrap mt-2"
+          class="flex items-center gap-3 text-[#faf7f2]/40 font-josefin text-[8px] uppercase tracking-widest flex-wrap mt-2 gsap-text"
         >
           <span
             >5 {{ locale === "id" ? "Titik Sakral" : "Sacred Points" }}</span
@@ -82,30 +132,30 @@ const navigateTo = (index: number) => {
       >
         <div class="flex items-center gap-3 mb-4">
           <span
-            class="font-josefin text-[9px] tracking-[0.3em] uppercase text-[#b8491f]"
+            class="font-josefin text-[9px] tracking-[0.3em] uppercase text-[#b8491f] gsap-text"
           >
             {{ String(activeIndex + 1).padStart(2, "0") }} /
             {{ String(stops.length).padStart(2, "0") }}
           </span>
-          <div class="w-6 h-[1px] bg-[#b8491f]"></div>
+          <div class="w-6 h-[1px] bg-[#b8491f] gsap-line"></div>
           <span
-            class="font-josefin text-[8px] tracking-[0.2em] uppercase text-[#faf7f2]/40"
+            class="font-josefin text-[8px] tracking-[0.2em] uppercase text-[#faf7f2]/40 gsap-text"
           >
             {{ activeStop.coordsDisplay }}
           </span>
         </div>
 
         <div
-          class="font-josefin text-[9px] tracking-[0.3em] uppercase text-[#b8491f] mb-2"
+          class="font-josefin text-[9px] tracking-[0.3em] uppercase text-[#b8491f] mb-2 gsap-text"
         >
           {{ activeStop.displaySubtitle }}
         </div>
         <h2
-          class="font-libre text-[28px] lg:text-[32px] font-bold text-[#faf7f2] leading-[1.15] mb-4"
+          class="font-libre text-[28px] lg:text-[32px] font-bold text-[#faf7f2] leading-[1.15] mb-4 gsap-title"
         >
           {{ activeStop.displayName }}
         </h2>
-        <div class="flex items-center gap-3 mb-4">
+        <div class="flex items-center gap-3 mb-4 gsap-text">
           <span
             class="font-josefin text-[8px] tracking-widest uppercase text-[#faf7f2]/40"
           >
@@ -113,14 +163,14 @@ const navigateTo = (index: number) => {
           </span>
         </div>
         <p
-          class="font-lato text-[13px] lg:text-[14px] text-[#faf7f2]/80 font-light leading-[1.7] mb-6"
+          class="font-lato text-[13px] lg:text-[14px] text-[#faf7f2]/80 font-light leading-[1.7] mb-6 gsap-text"
         >
           {{ activeStop.displayNarrative }}
         </p>
         <div class="flex flex-col gap-2">
           <button
             @click="toggleSection('philosophy')"
-            class="group flex items-center justify-between px-4 py-3 border transition-all duration-300 cursor-pointer"
+            class="group flex items-center justify-between px-4 py-3 border transition-all duration-300 cursor-pointer gsap-control"
             :class="
               expandedSection === 'philosophy'
                 ? 'border-[#b8491f] bg-[#b8491f]/10 text-[#faf7f2]'
@@ -167,9 +217,10 @@ const navigateTo = (index: number) => {
               </p>
             </div>
           </div>
+
           <button
             @click="toggleSection('secret')"
-            class="group flex items-center justify-between px-4 py-3 border transition-all duration-300 cursor-pointer"
+            class="group flex items-center justify-between px-4 py-3 border transition-all duration-300 cursor-pointer select-none gsap-control"
             :class="
               expandedSection === 'secret'
                 ? 'border-[#c4840a] bg-[#c4840a]/10 text-[#faf7f2]'
@@ -180,7 +231,8 @@ const navigateTo = (index: number) => {
               class="font-josefin text-[9px] tracking-[0.2em] uppercase flex items-center gap-2"
             >
               <span
-                class="w-1.5 h-1.5 rounded-full bg-[#c4840a] animate-pulse"
+                class="w-1.5 h-1.5 rounded-full bg-[#c4840a]"
+                :class="expandedSection === 'secret' ? '' : 'animate-pulse'"
               ></span>
               {{ locale === "id" ? "Rahasia Tersembunyi" : "Hidden Secret" }}
             </span>
@@ -221,7 +273,7 @@ const navigateTo = (index: number) => {
           </div>
         </div>
         <div
-          class="flex items-center justify-between w-full mt-6 pt-4 border-t border-[#faf7f2]/10"
+          class="flex items-center justify-between w-full mt-6 pt-4 border-t border-[#faf7f2]/10 gsap-control"
         >
           <button
             v-if="activeIndex > 0"
@@ -308,18 +360,6 @@ const navigateTo = (index: number) => {
 </template>
 
 <style scoped>
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.fade-slide-enter-from {
-  opacity: 0;
-  transform: translateY(20px) scale(0.98);
-}
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateY(-20px) scale(0.98);
-}
 .card-scrollbar::-webkit-scrollbar {
   display: none;
 }
