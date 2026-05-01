@@ -39,6 +39,14 @@ const coordinates: [number, number][] = [
   [110.332, -8.0244],
 ];
 
+const pinImages = [
+  "/images/wisata/merapi.jpg",
+  "/images/sejarah/tugu.jpg",
+  "/images/sejarah/keraton.jpg",
+  "krapyak.jpg",
+  "/images/home/parangtritis.jpg",
+];
+
 const activeIndex = ref(-1);
 const isCardVisible = ref(true);
 const activeStop = computed(() =>
@@ -183,56 +191,11 @@ onMounted(async () => {
       },
     });
 
-    const extrusions = {
-      type: "FeatureCollection",
-      features: coordinates.map((coord, i) => {
-        const isKeraton = i === 2;
-        const size = isKeraton ? 0.0015 : 0.0004;
-        const heights = [800, 120, 40, 100, 20];
-
-        return {
-          type: "Feature",
-          properties: {
-            height: heights[i],
-            base: 0,
-          },
-          geometry: {
-            type: "Polygon",
-            coordinates: [
-              [
-                [coord[0] - size, coord[1] - size],
-                [coord[0] + size, coord[1] - size],
-                [coord[0] + size, coord[1] + size],
-                [coord[0] - size, coord[1] + size],
-                [coord[0] - size, coord[1] - size],
-              ],
-            ],
-          },
-        };
-      }),
-    };
-
-    map.value.addSource("3d-buildings", {
-      type: "geojson",
-      data: extrusions,
-    });
-
-    map.value.addLayer({
-      id: "3d-buildings-extrusion",
-      type: "fill-extrusion",
-      source: "3d-buildings",
-      paint: {
-        "fill-extrusion-color": "#b8491f",
-        "fill-extrusion-height": ["get", "height"],
-        "fill-extrusion-base": ["get", "base"],
-        "fill-extrusion-opacity": 0.85,
-      },
-    });
-
-    coordinates.forEach((coord) => {
+    coordinates.forEach((coord, i) => {
       const el = document.createElement("div");
       el.className =
-        "w-3 h-3 bg-[#1a1208] rounded-full border-2 border-[#b8491f] shadow-[0_0_10px_rgba(184,73,31,0.5)]";
+        "w-12 h-12 bg-[#faf7f2] rounded-full border-[3px] border-[#b8491f] shadow-xl flex items-center justify-center overflow-hidden";
+      el.innerHTML = `<img src="${pinImages[i]}" alt="pin" class="w-full h-full object-cover" onerror="this.src='/images/placeholder.jpg'" />`;
       new maplibregl.Marker({ element: el }).setLngLat(coord).addTo(map.value);
     });
 
@@ -338,14 +301,14 @@ useHead({
     </div>
 
     <div class="relative z-20 w-full pointer-events-none">
-      <div ref="heroRef" class="h-[120vh] w-full"></div>
+      <div ref="heroRef" class="h-[100vh] w-full"></div>
       <div
         v-for="(stop, index) in stops"
         :key="'trigger-' + stop.id"
         :ref="(el) => setRef(el, index)"
-        class="h-[150vh] w-full"
+        class="h-[120vh] w-full"
       ></div>
-      <div class="h-[50vh] w-full"></div>
+      <div class="h-[30vh] w-full"></div>
     </div>
 
     <div
@@ -355,7 +318,7 @@ useHead({
         <div
           v-if="activeIndex === -1 && isCardVisible"
           key="hero"
-          class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-12 shadow-2xl flex flex-col items-start gap-5 lg:gap-8 max-h-[75vh] lg:max-h-none overflow-y-auto card-scrollbar"
+          class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-12 shadow-2xl flex flex-col items-start gap-5 lg:gap-8 max-h-[75vh] lg:max-h-none overflow-y-auto card-scrollbar rounded-t-2xl lg:rounded-2xl"
         >
           <div class="flex items-center gap-4 w-full">
             <div class="w-8 lg:w-12 h-[1px] bg-[#b8491f]"></div>
@@ -414,7 +377,7 @@ useHead({
         <div
           v-else-if="activeStop && isCardVisible"
           :key="activeStop.id"
-          class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-12 shadow-2xl max-h-[75vh] lg:max-h-none overflow-y-auto card-scrollbar"
+          class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-12 shadow-2xl max-h-[75vh] lg:max-h-none overflow-y-auto card-scrollbar rounded-t-2xl lg:rounded-2xl"
         >
           <div class="flex items-center gap-3 lg:gap-4 mb-4 lg:mb-6">
             <span
@@ -651,13 +614,13 @@ useHead({
     </div>
 
     <div
-      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 lg:hidden pointer-events-auto"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 lg:hidden pointer-events-auto bg-[#1a1208]/50 px-4 py-2 rounded-full backdrop-blur-md"
     >
       <button
         @click="navigateTo(-1)"
         class="w-2 h-2 rounded-full transition-all duration-300"
         :class="
-          activeIndex === -1 ? 'bg-[#b8491f] scale-125' : 'bg-[#faf7f2]/20'
+          activeIndex === -1 ? 'bg-[#b8491f] scale-125' : 'bg-[#faf7f2]/40'
         "
       ></button>
       <button
@@ -666,7 +629,7 @@ useHead({
         @click="navigateTo(i)"
         class="w-2 h-2 rounded-full transition-all duration-300"
         :class="
-          activeIndex === i ? 'bg-[#b8491f] scale-125' : 'bg-[#faf7f2]/20'
+          activeIndex === i ? 'bg-[#b8491f] scale-125' : 'bg-[#faf7f2]/40'
         "
       ></button>
     </div>
@@ -674,8 +637,6 @@ useHead({
 </template>
 
 <style scoped>
-@import "maplibre-gl/dist/maplibre-gl.css";
-
 .map-filter {
   filter: sepia(0.5) contrast(1.1) brightness(0.7);
 }
