@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, watch, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, shallowRef, watch, onMounted, onUnmounted, nextTick } from "vue";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const props = defineProps<{
@@ -24,6 +24,32 @@ const pinImages = [
 
 const mapContainer = ref<HTMLElement | null>(null);
 const map = shallowRef<any>(null);
+const markerElements = ref<HTMLElement[]>([]);
+
+const updateMarkers = (index: number) => {
+  markerElements.value.forEach((el, i) => {
+    el.classList.remove(
+      "opacity-100",
+      "scale-100",
+      "scale-125",
+      "opacity-40",
+      "scale-75",
+      "grayscale",
+      "shadow-2xl",
+    );
+
+    if (index === -1) {
+      el.classList.add("opacity-100", "scale-100");
+      if (el.parentElement) el.parentElement.style.zIndex = "10";
+    } else if (index === i) {
+      el.classList.add("opacity-100", "scale-125", "shadow-2xl");
+      if (el.parentElement) el.parentElement.style.zIndex = "50";
+    } else {
+      el.classList.add("opacity-40", "scale-75", "grayscale");
+      if (el.parentElement) el.parentElement.style.zIndex = "0";
+    }
+  });
+};
 
 const flyToLocation = (index: number) => {
   if (!map.value) return;
@@ -52,6 +78,7 @@ watch(
   () => props.activeIndex,
   (newIndex) => {
     flyToLocation(newIndex);
+    updateMarkers(newIndex);
   },
 );
 
@@ -135,12 +162,24 @@ onMounted(async () => {
     });
 
     coordinates.forEach((coord, i) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "relative transition-all duration-500";
+      wrapper.style.zIndex = "10";
+
       const el = document.createElement("div");
       el.className =
-        "w-12 h-12 bg-[#faf7f2] rounded-full border-[3px] border-[#b8491f] shadow-xl flex items-center justify-center overflow-hidden";
+        "w-12 h-12 bg-[#faf7f2] rounded-full border-[3px] border-[#b8491f] shadow-xl flex items-center justify-center overflow-hidden transition-all duration-500 origin-center";
       el.innerHTML = `<img src="${pinImages[i]}" alt="pin" class="w-full h-full object-cover" onerror="this.src='/images/placeholder.jpg'" />`;
-      new maplibregl.Marker({ element: el }).setLngLat(coord).addTo(map.value);
+
+      wrapper.appendChild(el);
+      markerElements.value.push(el);
+
+      new maplibregl.Marker({ element: wrapper })
+        .setLngLat(coord)
+        .addTo(map.value);
     });
+
+    updateMarkers(props.activeIndex);
   });
 });
 

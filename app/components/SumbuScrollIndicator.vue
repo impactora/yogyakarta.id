@@ -11,16 +11,16 @@ const { locale } = useI18n();
 
 <template>
   <div
-    class="fixed right-6 top-1/2 -translate-y-1/2 z-[50] hidden lg:flex flex-col items-center gap-8 pointer-events-none transition-opacity duration-500"
+    class="fixed right-4 lg:right-6 top-1/2 -translate-y-1/2 z-[50] flex flex-col items-center gap-6 lg:gap-8 pointer-events-none transition-opacity duration-500"
     :class="activeIndex >= stopsCount - 1 ? 'opacity-0' : 'opacity-100'"
   >
     <span
-      class="font-josefin text-[9px] tracking-[0.3em] uppercase text-[#faf7f2]/40"
+      class="font-josefin text-[10px] lg:text-[12px] font-bold tracking-[0.3em] uppercase text-[#faf7f2]/80"
       style="writing-mode: vertical-rl"
     >
       {{ locale === "id" ? "Scroll" : "Scroll" }}
     </span>
-    <div class="w-[1px] h-16 bg-[#faf7f2]/20 relative overflow-hidden">
+    <div class="w-[1px] h-12 lg:h-16 bg-[#faf7f2]/20 relative overflow-hidden">
       <div
         class="absolute top-0 left-0 w-full h-full bg-[#b8491f] animate-scroll-vertical"
       ></div>
