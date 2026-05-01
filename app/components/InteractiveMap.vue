@@ -159,7 +159,10 @@ onMounted(async () => {
   await import("leaflet.markercluster/dist/MarkerCluster.css");
   await import("leaflet.markercluster/dist/MarkerCluster.Default.css");
 
-  mapInstance = L.map(mapContainer.value!).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+  mapInstance = L.map(mapContainer.value!).setView(
+    DEFAULT_CENTER,
+    DEFAULT_ZOOM,
+  );
 
   L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",

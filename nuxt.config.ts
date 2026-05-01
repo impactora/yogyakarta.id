@@ -70,7 +70,10 @@ export default defineNuxtConfig({
       title: "Jiwa Nusantara — Yogyakarta",
       meta: [
         { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
         {
           name: "description",
           content:
@@ -105,7 +108,7 @@ export default defineNuxtConfig({
         "/peta",
         "/sumbu",
       ],
-      crawlLinks: false,
+      crawlLinks: true,
     },
     serverAssets: [{ baseName: "data", dir: "./server/data" }],
   },

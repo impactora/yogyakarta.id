@@ -9,7 +9,7 @@ const editorials = [
     titleKey: "home.editorial.sejarah.title",
     descKey: "home.editorial.sejarah.desc",
     script: "ꦱꦼꦗꦫꦃ",
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Tugu_Jogja.jpg",
+    image: "/images/home/Tugu_Jogja.jpg",
     link: "/sejarah",
   },
   {
@@ -17,8 +17,7 @@ const editorials = [
     titleKey: "home.editorial.budaya.title",
     descKey: "home.editorial.budaya.desc",
     script: "ꦧꦸꦢꦪ",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Kraton_Yogyakarta.jpg",
+    image: "/images/home/Kraton_Yogyakarta.jpg",
     link: "/budaya",
   },
   {
@@ -26,8 +25,7 @@ const editorials = [
     titleKey: "home.editorial.wisata.title",
     descKey: "home.editorial.wisata.desc",
     script: "ꦮꦶꦱꦠ",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Prambanan_Temple_Yogyakarta_Indonesia.jpg",
+    image: "/images/home/Prambanan_Temple_Yogyakarta_Indonesia.jpg",
     link: "/wisata",
   },
   {
@@ -35,7 +33,7 @@ const editorials = [
     titleKey: "home.editorial.kuliner.title",
     descKey: "home.editorial.kuliner.desc",
     script: "ꦏꦸꦭꦶꦤꦺꦂ",
-    image: "https://commons.wikimedia.org/wiki/Special:FilePath/Nasi_Gudeg.jpg",
+    image: "/images/home/Nasi_Gudeg.jpg",
     link: "/kuliner",
   },
   {
@@ -43,8 +41,7 @@ const editorials = [
     titleKey: "home.editorial.teknologi.title",
     descKey: "home.editorial.teknologi.desc",
     script: "ꦠꦺꦏ꧀ꦤꦺꦴꦭꦺꦴꦒꦶ",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Stasiun_Tugu_Yogyakarta.jpg",
+    image: "/images/home/Stasiun_Tugu_Yogyakarta.jpg",
     link: "/teknologi",
   },
   {
@@ -52,8 +49,7 @@ const editorials = [
     titleKey: "home.editorial.peta.title",
     descKey: "home.editorial.peta.desc",
     script: "ꦥꦺꦠ",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Malioboro_Street,_Yogyakarta.JPG",
+    image: "/images/home/Malioboro_Street_Yogyakarta.jpg",
     link: "/peta",
   },
   {
@@ -61,8 +57,7 @@ const editorials = [
     titleKey: "home.editorial.sumbu.title",
     descKey: "home.editorial.sumbu.desc",
     script: "ꦱꦸꦩ꧀ꦧꦸ",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:FilePath/Parangtritis_beach.jpg",
+    image: "/images/home/parangtritis.jpg",
     link: "/sumbu",
   },
 ];
