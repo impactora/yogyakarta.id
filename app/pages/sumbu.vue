@@ -183,10 +183,56 @@ onMounted(async () => {
       },
     });
 
+    const extrusions = {
+      type: "FeatureCollection",
+      features: coordinates.map((coord, i) => {
+        const isKeraton = i === 2;
+        const size = isKeraton ? 0.0015 : 0.0004;
+        const heights = [800, 120, 40, 100, 20];
+
+        return {
+          type: "Feature",
+          properties: {
+            height: heights[i],
+            base: 0,
+          },
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [coord[0] - size, coord[1] - size],
+                [coord[0] + size, coord[1] - size],
+                [coord[0] + size, coord[1] + size],
+                [coord[0] - size, coord[1] + size],
+                [coord[0] - size, coord[1] - size],
+              ],
+            ],
+          },
+        };
+      }),
+    };
+
+    map.value.addSource("3d-buildings", {
+      type: "geojson",
+      data: extrusions,
+    });
+
+    map.value.addLayer({
+      id: "3d-buildings-extrusion",
+      type: "fill-extrusion",
+      source: "3d-buildings",
+      paint: {
+        "fill-extrusion-color": "#b8491f",
+        "fill-extrusion-height": ["get", "height"],
+        "fill-extrusion-base": ["get", "base"],
+        "fill-extrusion-opacity": 0.85,
+      },
+    });
+
     coordinates.forEach((coord) => {
       const el = document.createElement("div");
       el.className =
-        "w-4 h-4 bg-[#b8491f] rounded-full border-2 border-[#faf7f2] shadow-[0_0_15px_rgba(184,73,31,0.8)]";
+        "w-3 h-3 bg-[#1a1208] rounded-full border-2 border-[#b8491f] shadow-[0_0_10px_rgba(184,73,31,0.5)]";
       new maplibregl.Marker({ element: el }).setLngLat(coord).addTo(map.value);
     });
 
@@ -196,22 +242,20 @@ onMounted(async () => {
       if (heroRef.value) {
         ScrollTrigger.create({
           trigger: heroRef.value,
-          start: "top center",
-          end: "bottom center",
-          onToggle: (self) => {
-            if (self.isActive) activate(-1);
-          },
+          start: "top bottom",
+          end: "bottom 50%",
+          onEnter: () => activate(-1),
+          onEnterBack: () => activate(-1),
         });
       }
 
       textRefs.value.forEach((section, i) => {
         ScrollTrigger.create({
           trigger: section,
-          start: "top center",
-          end: "bottom center",
-          onToggle: (self) => {
-            if (self.isActive) activate(i);
-          },
+          start: "top 50%",
+          end: "bottom 50%",
+          onEnter: () => activate(i),
+          onEnterBack: () => activate(i),
         });
       });
     });
@@ -294,7 +338,7 @@ useHead({
     </div>
 
     <div class="relative z-20 w-full pointer-events-none">
-      <div ref="heroRef" class="h-screen w-full"></div>
+      <div ref="heroRef" class="h-[120vh] w-full"></div>
       <div
         v-for="(stop, index) in stops"
         :key="'trigger-' + stop.id"
@@ -630,6 +674,8 @@ useHead({
 </template>
 
 <style scoped>
+@import "maplibre-gl/dist/maplibre-gl.css";
+
 .map-filter {
   filter: sepia(0.5) contrast(1.1) brightness(0.7);
 }
