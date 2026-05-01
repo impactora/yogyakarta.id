@@ -29,18 +29,18 @@ const navigateTo = (index: number) => {
 
 <template>
   <div
-    class="fixed inset-y-0 left-0 z-50 w-full lg:w-5/12 lg:ml-[5%] flex flex-col justify-end lg:justify-center px-4 sm:px-6 lg:px-12 pb-24 lg:pb-0 pointer-events-none"
+    class="fixed bottom-24 lg:bottom-10 left-4 right-4 lg:right-auto lg:left-10 z-50 lg:w-[400px] xl:w-[440px] flex flex-col justify-end pointer-events-none transform-gpu"
   >
     <transition name="fade-slide" mode="out-in">
       <div
         v-if="activeIndex === -1 && isCardVisible"
         key="hero"
-        class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-12 shadow-2xl flex flex-col items-start gap-5 lg:gap-8 max-h-[75vh] lg:max-h-none overflow-y-auto card-scrollbar rounded-t-2xl lg:rounded-2xl"
+        class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-8 shadow-2xl flex flex-col items-start gap-4 lg:gap-6 max-h-[65vh] overflow-y-auto card-scrollbar rounded-2xl transform-gpu will-change-transform"
       >
         <div class="flex items-center gap-4 w-full">
-          <div class="w-8 lg:w-12 h-[1px] bg-[#b8491f]"></div>
+          <div class="w-8 h-[1px] bg-[#b8491f]"></div>
           <span
-            class="font-josefin text-[9px] lg:text-[10px] tracking-[0.4em] uppercase text-[#b8491f]"
+            class="font-josefin text-[9px] tracking-[0.4em] uppercase text-[#b8491f]"
           >
             {{
               locale === "id" ? "Perjalanan Interaktif" : "Interactive Journey"
@@ -48,13 +48,13 @@ const navigateTo = (index: number) => {
           </span>
         </div>
         <h1
-          class="font-libre text-[clamp(28px,4vw,56px)] font-bold leading-[1.05] text-[#faf7f2]"
+          class="font-libre text-[32px] lg:text-[40px] font-bold leading-[1.1] text-[#faf7f2]"
         >
           {{ locale === "id" ? "Sumbu Filosofis" : "The Philosophical Axis" }}
-          <em class="text-[#b8491f] italic block mt-2">Yogyakarta</em>
+          <em class="text-[#b8491f] italic block mt-1">Yogyakarta</em>
         </h1>
         <p
-          class="font-lato text-[14px] lg:text-[16px] text-[#faf7f2]/70 font-light leading-[1.8]"
+          class="font-lato text-[14px] text-[#faf7f2]/70 font-light leading-[1.7]"
         >
           {{
             locale === "id"
@@ -63,7 +63,7 @@ const navigateTo = (index: number) => {
           }}
         </p>
         <div
-          class="flex items-center gap-3 lg:gap-4 text-[#faf7f2]/40 font-josefin text-[8px] lg:text-[9px] uppercase tracking-widest flex-wrap"
+          class="flex items-center gap-3 text-[#faf7f2]/40 font-josefin text-[8px] uppercase tracking-widest flex-wrap mt-2"
         >
           <span
             >5 {{ locale === "id" ? "Titik Sakral" : "Sacred Points" }}</span
@@ -73,92 +73,76 @@ const navigateTo = (index: number) => {
           <span class="w-1 h-1 rounded-full bg-[#b8491f]"></span>
           <span>{{ locale === "id" ? "Sejak 1755" : "Since 1755" }}</span>
         </div>
-        <div class="flex items-center gap-3 mt-2 lg:mt-4 text-[#faf7f2]/40">
-          <div
-            class="w-[1px] h-6 lg:h-8 bg-[#faf7f2]/20 relative overflow-hidden"
-          >
-            <div
-              class="absolute top-0 left-0 w-full h-full bg-[#b8491f] animate-[scroll_2s_ease-in-out_infinite]"
-            ></div>
-          </div>
-          <span
-            class="font-josefin text-[8px] lg:text-[9px] tracking-widest uppercase"
-          >
-            {{ locale === "id" ? "Scroll ke bawah" : "Scroll down" }}
-          </span>
-        </div>
       </div>
 
       <div
         v-else-if="activeStop && isCardVisible"
         :key="activeStop.id"
-        class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-12 shadow-2xl max-h-[75vh] lg:max-h-none overflow-y-auto card-scrollbar rounded-t-2xl lg:rounded-2xl"
+        class="pointer-events-auto bg-[#1a1208]/90 backdrop-blur-md border border-[#faf7f2]/10 p-6 lg:p-8 shadow-2xl max-h-[65vh] overflow-y-auto card-scrollbar rounded-2xl transform-gpu will-change-transform"
       >
-        <div class="flex items-center gap-3 lg:gap-4 mb-4 lg:mb-6">
+        <div class="flex items-center gap-3 mb-4">
           <span
-            class="font-josefin text-[9px] lg:text-[10px] tracking-[0.3em] uppercase text-[#b8491f]"
+            class="font-josefin text-[9px] tracking-[0.3em] uppercase text-[#b8491f]"
           >
             {{ String(activeIndex + 1).padStart(2, "0") }} /
             {{ String(stops.length).padStart(2, "0") }}
           </span>
-          <div class="w-6 lg:w-8 h-[1px] bg-[#b8491f]"></div>
+          <div class="w-6 h-[1px] bg-[#b8491f]"></div>
           <span
-            class="font-josefin text-[8px] lg:text-[9px] tracking-[0.2em] uppercase text-[#faf7f2]/40"
+            class="font-josefin text-[8px] tracking-[0.2em] uppercase text-[#faf7f2]/40"
           >
             {{ activeStop.coordsDisplay }}
           </span>
         </div>
 
         <div
-          class="font-josefin text-[9px] lg:text-[10px] tracking-[0.3em] uppercase text-[#b8491f] mb-3 lg:mb-4"
+          class="font-josefin text-[9px] tracking-[0.3em] uppercase text-[#b8491f] mb-2"
         >
           {{ activeStop.displaySubtitle }}
         </div>
         <h2
-          class="font-libre text-[clamp(24px,3.5vw,48px)] font-bold text-[#faf7f2] leading-[1.1] mb-4 lg:mb-6"
+          class="font-libre text-[28px] lg:text-[32px] font-bold text-[#faf7f2] leading-[1.15] mb-4"
         >
           {{ activeStop.displayName }}
         </h2>
-        <div class="flex items-center gap-3 mb-6 lg:mb-8">
+        <div class="flex items-center gap-3 mb-4">
           <span
-            class="font-josefin text-[8px] lg:text-[9px] tracking-widest uppercase text-[#faf7f2]/40"
+            class="font-josefin text-[8px] tracking-widest uppercase text-[#faf7f2]/40"
           >
             {{ activeStop.elevation }}
           </span>
         </div>
         <p
-          class="font-lato text-[14px] lg:text-[16px] text-[#faf7f2]/80 font-light leading-[1.8] lg:leading-[1.9] mb-6 lg:mb-10"
+          class="font-lato text-[13px] lg:text-[14px] text-[#faf7f2]/80 font-light leading-[1.7] mb-6"
         >
           {{ activeStop.displayNarrative }}
         </p>
-        <div class="flex flex-col gap-2 lg:gap-3">
+        <div class="flex flex-col gap-2">
           <button
             @click="toggleSection('philosophy')"
-            class="group flex items-center justify-between px-4 lg:px-5 py-3 lg:py-4 border transition-all duration-300 cursor-pointer"
+            class="group flex items-center justify-between px-4 py-3 border transition-all duration-300 cursor-pointer"
             :class="
               expandedSection === 'philosophy'
                 ? 'border-[#b8491f] bg-[#b8491f]/10 text-[#faf7f2]'
                 : 'border-[#faf7f2]/10 hover:border-[#b8491f]/40 text-[#faf7f2]/60'
             "
           >
-            <span
-              class="font-josefin text-[9px] lg:text-[10px] tracking-[0.2em] uppercase"
-            >
+            <span class="font-josefin text-[9px] tracking-[0.2em] uppercase">
               {{
                 locale === "id" ? "Filosofi & Makna" : "Philosophy & Meaning"
               }}
             </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
+              width="12"
+              height="12"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="transition-transform duration-300 w-3 h-3 lg:w-3.5 lg:h-3.5"
+              class="transition-transform duration-300"
               :class="expandedSection === 'philosophy' ? 'rotate-45' : ''"
             >
               <line x1="12" y1="5" x2="12" y2="19" />
@@ -169,15 +153,15 @@ const navigateTo = (index: number) => {
             class="overflow-hidden transition-all duration-500"
             :class="
               expandedSection === 'philosophy'
-                ? 'max-h-[600px] opacity-100'
+                ? 'max-h-[500px] opacity-100'
                 : 'max-h-0 opacity-0'
             "
           >
             <div
-              class="px-4 lg:px-5 py-4 lg:py-5 border border-t-0 border-[#b8491f]/30 bg-[#b8491f]/5"
+              class="px-4 py-4 border border-t-0 border-[#b8491f]/30 bg-[#b8491f]/5"
             >
               <p
-                class="font-lato text-[13px] lg:text-[14px] text-[#faf7f2]/75 font-light leading-[1.8] lg:leading-[1.9]"
+                class="font-lato text-[12px] lg:text-[13px] text-[#faf7f2]/75 font-light leading-[1.7]"
               >
                 {{ activeStop.displayPhilosophy }}
               </p>
@@ -185,7 +169,7 @@ const navigateTo = (index: number) => {
           </div>
           <button
             @click="toggleSection('secret')"
-            class="group flex items-center justify-between px-4 lg:px-5 py-3 lg:py-4 border transition-all duration-300 cursor-pointer"
+            class="group flex items-center justify-between px-4 py-3 border transition-all duration-300 cursor-pointer"
             :class="
               expandedSection === 'secret'
                 ? 'border-[#c4840a] bg-[#c4840a]/10 text-[#faf7f2]'
@@ -193,7 +177,7 @@ const navigateTo = (index: number) => {
             "
           >
             <span
-              class="font-josefin text-[9px] lg:text-[10px] tracking-[0.2em] uppercase flex items-center gap-2 lg:gap-3"
+              class="font-josefin text-[9px] tracking-[0.2em] uppercase flex items-center gap-2"
             >
               <span
                 class="w-1.5 h-1.5 rounded-full bg-[#c4840a] animate-pulse"
@@ -202,15 +186,15 @@ const navigateTo = (index: number) => {
             </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
+              width="12"
+              height="12"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="transition-transform duration-300 w-3 h-3 lg:w-3.5 lg:h-3.5"
+              class="transition-transform duration-300"
               :class="expandedSection === 'secret' ? 'rotate-45' : ''"
             >
               <line x1="12" y1="5" x2="12" y2="19" />
@@ -221,15 +205,15 @@ const navigateTo = (index: number) => {
             class="overflow-hidden transition-all duration-500"
             :class="
               expandedSection === 'secret'
-                ? 'max-h-[600px] opacity-100'
+                ? 'max-h-[500px] opacity-100'
                 : 'max-h-0 opacity-0'
             "
           >
             <div
-              class="px-4 lg:px-5 py-4 lg:py-5 border border-t-0 border-[#c4840a]/30 bg-[#c4840a]/5"
+              class="px-4 py-4 border border-t-0 border-[#c4840a]/30 bg-[#c4840a]/5"
             >
               <p
-                class="font-lato text-[13px] lg:text-[14px] text-[#faf7f2]/75 font-light leading-[1.8] lg:leading-[1.9]"
+                class="font-lato text-[12px] lg:text-[13px] text-[#faf7f2]/75 font-light leading-[1.7]"
               >
                 {{ activeStop.displaySecret }}
               </p>
@@ -237,12 +221,12 @@ const navigateTo = (index: number) => {
           </div>
         </div>
         <div
-          class="flex items-center justify-between w-full mt-6 lg:mt-10 pt-4 lg:pt-6 border-t border-[#faf7f2]/10"
+          class="flex items-center justify-between w-full mt-6 pt-4 border-t border-[#faf7f2]/10"
         >
           <button
             v-if="activeIndex > 0"
             @click="navigateTo(activeIndex - 1)"
-            class="flex items-center gap-2 lg:gap-3 font-josefin text-[9px] lg:text-[10px] tracking-widest uppercase text-[#faf7f2]/40 hover:text-terra transition-colors cursor-pointer"
+            class="flex items-center gap-2 font-josefin text-[9px] tracking-widest uppercase text-[#faf7f2]/40 hover:text-terra transition-colors cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -258,12 +242,12 @@ const navigateTo = (index: number) => {
               <path d="m12 19-7-7 7-7" />
               <path d="M19 12H5" />
             </svg>
-            {{ locale === "id" ? "Sebelumnya" : "Previous" }}
+            {{ locale === "id" ? "Sebelumnya" : "Prev" }}
           </button>
           <button
             v-else-if="activeIndex === 0"
             @click="navigateTo(-1)"
-            class="flex items-center gap-2 lg:gap-3 font-josefin text-[9px] lg:text-[10px] tracking-widest uppercase text-[#faf7f2]/40 hover:text-terra transition-colors cursor-pointer"
+            class="flex items-center gap-2 font-josefin text-[9px] tracking-widest uppercase text-[#faf7f2]/40 hover:text-terra transition-colors cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -286,7 +270,7 @@ const navigateTo = (index: number) => {
           <button
             v-if="activeIndex < stops.length - 1"
             @click="navigateTo(activeIndex + 1)"
-            class="flex items-center gap-2 lg:gap-3 font-josefin text-[9px] lg:text-[10px] tracking-widest uppercase text-[#faf7f2]/60 hover:text-terra transition-colors cursor-pointer"
+            class="flex items-center gap-2 font-josefin text-[9px] tracking-widest uppercase text-[#faf7f2]/60 hover:text-terra transition-colors cursor-pointer"
           >
             {{ locale === "id" ? "Selanjutnya" : "Next" }}
             <svg
@@ -304,21 +288,17 @@ const navigateTo = (index: number) => {
               <path d="m12 5 7 7-7 7" />
             </svg>
           </button>
-          <div v-else class="flex flex-col items-end gap-2">
+          <div v-else class="flex flex-col items-end gap-1">
             <span
-              class="font-josefin text-[9px] lg:text-[10px] tracking-widest uppercase text-[#b8491f]"
+              class="font-josefin text-[8px] tracking-widest uppercase text-[#b8491f]"
             >
-              {{ locale === "id" ? "Perjalanan Selesai" : "Journey Complete" }}
+              {{ locale === "id" ? "Perjalanan Selesai" : "End" }}
             </span>
             <NuxtLink
               to="/peta"
-              class="font-josefin text-[8px] lg:text-[9px] tracking-widest uppercase text-[#faf7f2]/40 hover:text-[#faf7f2] transition-colors underline"
+              class="font-josefin text-[8px] tracking-widest uppercase text-[#faf7f2]/40 hover:text-[#faf7f2] transition-colors underline"
             >
-              {{
-                locale === "id"
-                  ? "Lihat di Peta Interaktif"
-                  : "View on Interactive Map"
-              }}
+              {{ locale === "id" ? "Lihat di Peta" : "View Map" }}
             </NuxtLink>
           </div>
         </div>
@@ -330,15 +310,15 @@ const navigateTo = (index: number) => {
 <style scoped>
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .fade-slide-enter-from {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(20px) scale(0.98);
 }
 .fade-slide-leave-to {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-20px) scale(0.98);
 }
 .card-scrollbar::-webkit-scrollbar {
   display: none;

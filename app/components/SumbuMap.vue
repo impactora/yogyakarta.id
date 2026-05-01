@@ -60,17 +60,19 @@ const flyToLocation = (index: number) => {
       zoom: 10,
       pitch: 45,
       bearing: 0,
-      duration: 2500,
+      duration: 2000,
+      curve: 1,
       essential: true,
     });
     return;
   }
   map.value.flyTo({
     center: coordinates[index],
-    zoom: index === 4 ? 11.5 : 14.5,
-    pitch: 65,
+    zoom: index === 4 ? 11.5 : 14,
+    pitch: 50,
     bearing: index * 10 - 15,
-    duration: 2500,
+    duration: 2000,
+    curve: 1,
     essential: true,
   });
 };
@@ -167,6 +169,7 @@ onMounted(async () => {
 
   map.value = new maplibregl.Map({
     container: mapContainer.value,
+    fadeDuration: 0,
     style: {
       version: 8,
       sources: {
@@ -271,12 +274,13 @@ onMounted(async () => {
 
     coordinates.forEach((coord, i) => {
       const wrapper = document.createElement("div");
-      wrapper.className = "relative transition-all duration-500";
+      wrapper.className =
+        "relative transition-all duration-500 transform-gpu will-change-transform";
       wrapper.style.zIndex = "10";
 
       const el = document.createElement("div");
       el.className =
-        "w-12 h-12 bg-[#faf7f2] rounded-full border-[3px] border-[#b8491f] shadow-xl flex items-center justify-center overflow-hidden transition-all duration-500 origin-center";
+        "w-12 h-12 bg-[#faf7f2] rounded-full border-[3px] border-[#b8491f] shadow-xl flex items-center justify-center overflow-hidden transition-all duration-500 origin-center transform-gpu will-change-transform";
       el.innerHTML = `<img src="${pinImages[i]}" alt="pin" class="w-full h-full object-cover" onerror="this.src='/images/placeholder.jpg'" />`;
 
       wrapper.appendChild(el);
@@ -298,11 +302,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="fixed inset-0 w-full h-full z-0 bg-[#1a1208]">
+  <div class="fixed inset-0 w-full h-full z-0 bg-[#1a1208] transform-gpu">
     <ClientOnly>
       <div
         ref="mapContainer"
-        class="absolute inset-0 w-full h-full map-filter"
+        class="absolute inset-0 w-full h-full map-filter transform-gpu"
       ></div>
     </ClientOnly>
   </div>

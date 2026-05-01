@@ -11,7 +11,7 @@ const { locale } = useI18n();
 
 <template>
   <div
-    class="fixed right-4 lg:right-8 top-1/2 -translate-y-1/2 z-[50] flex flex-col items-center gap-5 pointer-events-none transition-opacity duration-500 bg-[#1a1208]/70 backdrop-blur-md px-3 py-6 rounded-full border border-[#faf7f2]/10 shadow-2xl"
+    class="fixed right-4 lg:right-8 top-1/2 -translate-y-1/2 z-[50] flex flex-col items-center gap-5 pointer-events-none transition-opacity duration-500 bg-[#1a1208]/70 backdrop-blur-md px-3 py-6 rounded-full border border-[#faf7f2]/10 shadow-2xl transform-gpu"
     :class="activeIndex >= stopsCount - 1 ? 'opacity-0' : 'opacity-100'"
   >
     <span

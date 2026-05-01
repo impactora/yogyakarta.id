@@ -9,7 +9,7 @@ const emit = defineEmits(["navigate"]);
 
 <template>
   <div
-    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 lg:hidden pointer-events-auto bg-[#1a1208]/50 px-4 py-2 rounded-full backdrop-blur-md"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 lg:hidden pointer-events-auto bg-[#1a1208]/50 px-4 py-2 rounded-full backdrop-blur-md transform-gpu"
   >
     <button
       @click="$emit('navigate', -1)"

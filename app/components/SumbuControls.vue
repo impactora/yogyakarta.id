@@ -10,7 +10,7 @@ const emit = defineEmits(["toggleCard", "navigate"]);
 
 <template>
   <div
-    class="fixed top-[90px] lg:top-24 right-6 z-[60] pointer-events-auto flex items-center gap-2"
+    class="fixed top-[90px] lg:top-24 right-6 z-[60] pointer-events-auto flex items-center gap-2 transform-gpu"
   >
     <button
       @click="$emit('navigate', activeIndex - 1)"
