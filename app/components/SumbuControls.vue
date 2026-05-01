@@ -1,13 +1,60 @@
 <script setup lang="ts">
 defineProps<{
   isCardVisible: boolean;
+  activeIndex: number;
+  stopsCount: number;
 }>();
 
-const emit = defineEmits(["toggleCard"]);
+const emit = defineEmits(["toggleCard", "navigate"]);
 </script>
 
 <template>
-  <div class="fixed top-[90px] lg:top-24 right-6 z-[60] pointer-events-auto">
+  <div
+    class="fixed top-[90px] lg:top-24 right-6 z-[60] pointer-events-auto flex items-center gap-2"
+  >
+    <button
+      @click="$emit('navigate', activeIndex - 1)"
+      :disabled="activeIndex <= -1"
+      class="bg-[#1a1208]/80 backdrop-blur-md border border-[#faf7f2]/10 p-3 rounded-xl shadow-2xl text-[#faf7f2]/60 hover:text-[#b8491f] hover:border-[#b8491f]/40 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+      aria-label="Sebelumnya"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+    </button>
+    <button
+      @click="$emit('navigate', activeIndex + 1)"
+      :disabled="activeIndex >= stopsCount - 1"
+      class="bg-[#1a1208]/80 backdrop-blur-md border border-[#faf7f2]/10 p-3 rounded-xl shadow-2xl text-[#faf7f2]/60 hover:text-[#b8491f] hover:border-[#b8491f]/40 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+      aria-label="Selanjutnya"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+
+    <div class="w-px h-6 bg-[#faf7f2]/20 mx-1"></div>
+
     <button
       @click="$emit('toggleCard')"
       class="bg-[#1a1208]/80 backdrop-blur-md border border-[#faf7f2]/10 p-3 rounded-xl shadow-2xl text-[#b8491f] hover:bg-[#b8491f] hover:text-[#faf7f2] transition-all cursor-pointer"

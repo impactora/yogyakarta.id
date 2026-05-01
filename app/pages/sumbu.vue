@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import { useHead, useI18n, useAsyncData } from "#imports";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Observer } from "gsap/Observer";
 
 const { locale } = useI18n();
 
@@ -25,56 +25,38 @@ const stops = computed(() => {
 
 const activeIndex = ref(-1);
 const isCardVisible = ref(true);
-
-const heroRef = ref<HTMLElement | null>(null);
-const textRefs = ref<HTMLElement[]>([]);
+let isAnimating = false;
 let ctx: gsap.Context | null = null;
 
-const setRef = (el: any, index: number) => {
-  if (el) textRefs.value[index] = el as HTMLElement;
-};
-
-const activate = (index: number) => {
-  if (activeIndex.value === index) return;
-  activeIndex.value = index;
-};
-
 const navigateTo = (index: number) => {
-  if (index === -1 && heroRef.value) {
-    heroRef.value.scrollIntoView({ behavior: "smooth", block: "center" });
-    return;
-  }
-  if (textRefs.value[index]) {
-    textRefs.value[index].scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-  }
+  if (index < -1 || index >= stops.value.length) return;
+
+  isAnimating = true;
+  activeIndex.value = index;
+
+  setTimeout(() => {
+    isAnimating = false;
+  }, 1800);
+};
+
+const handleScrollStep = (direction: 1 | -1) => {
+  if (isAnimating) return;
+  navigateTo(activeIndex.value + direction);
 };
 
 onMounted(async () => {
   await nextTick();
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(Observer);
 
   ctx = gsap.context(() => {
-    if (heroRef.value) {
-      ScrollTrigger.create({
-        trigger: heroRef.value,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () => activate(-1),
-        onEnterBack: () => activate(-1),
-      });
-    }
-
-    textRefs.value.forEach((section, i) => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () => activate(i),
-        onEnterBack: () => activate(i),
-      });
+    Observer.create({
+      target: window,
+      type: "wheel,touch,pointer",
+      tolerance: 40,
+      preventDefault: false,
+      ignore: ".card-scrollbar, .card-scrollbar *",
+      onUp: () => handleScrollStep(1),
+      onDown: () => handleScrollStep(-1),
     });
   });
 });
@@ -85,6 +67,9 @@ onUnmounted(() => {
 
 useHead({
   title: computed(() => `Sumbu Filosofis - Jiwa Nusantara`),
+  bodyAttrs: {
+    class: "overflow-hidden",
+  },
   style: [
     {
       innerHTML: "footer { display: none !important; }",
@@ -94,7 +79,9 @@ useHead({
 </script>
 
 <template>
-  <main class="relative w-full overflow-x-hidden bg-[#1a1208] text-[#faf7f2]">
+  <main
+    class="relative w-full h-screen overflow-hidden bg-[#1a1208] text-[#faf7f2]"
+  >
     <SumbuMap :activeIndex="activeIndex" />
 
     <div
@@ -103,24 +90,16 @@ useHead({
 
     <SumbuControls
       :isCardVisible="isCardVisible"
+      :activeIndex="activeIndex"
+      :stopsCount="stops.length"
       @toggleCard="isCardVisible = !isCardVisible"
+      @navigate="navigateTo"
     />
 
     <SumbuScrollIndicator
       :activeIndex="activeIndex"
       :stopsCount="stops.length"
     />
-
-    <div class="relative z-20 w-full pointer-events-none">
-      <div ref="heroRef" class="h-[100vh] w-full"></div>
-      <div
-        v-for="(stop, index) in stops"
-        :key="'trigger-' + stop.id"
-        :ref="(el) => setRef(el, index)"
-        class="h-[120vh] w-full"
-      ></div>
-      <div class="h-[30vh] w-full"></div>
-    </div>
 
     <SumbuInfoCard
       :activeIndex="activeIndex"
