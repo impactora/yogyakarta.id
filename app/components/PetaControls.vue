@@ -26,7 +26,7 @@ const filterOptions = [
     >
       <button
         @click="emit('update:mode', 'poi')"
-        class="px-4 py-2 font-josefin text-[10px] uppercase tracking-widest rounded-md transition-all"
+        class="px-4 py-2 font-josefin text-[10px] uppercase tracking-widest rounded-md transition-all cursor-pointer"
         :class="
           mode === 'poi'
             ? 'bg-ink text-warm-white shadow-md'
@@ -37,7 +37,7 @@ const filterOptions = [
       </button>
       <button
         @click="emit('update:mode', 'internet')"
-        class="px-4 py-2 font-josefin text-[10px] uppercase tracking-widest rounded-md transition-all"
+        class="px-4 py-2 font-josefin text-[10px] uppercase tracking-widest rounded-md transition-all cursor-pointer"
         :class="
           mode === 'internet'
             ? 'bg-terra text-warm-white shadow-md'
@@ -47,7 +47,6 @@ const filterOptions = [
         {{ locale === "en" ? "Connectivity" : "Konektivitas" }}
       </button>
     </div>
-
     <transition name="filter-slide-fade" mode="out-in">
       <div
         v-if="mode === 'poi'"
@@ -57,7 +56,7 @@ const filterOptions = [
           v-for="filter in filterOptions"
           :key="filter.id"
           @click="emit('update:category', filter.id)"
-          class="w-full px-2 sm:px-3 py-2 font-josefin text-[8px] sm:text-[9px] text-center uppercase tracking-widest rounded-md transition-all"
+          class="w-full px-2 sm:px-3 py-2 font-josefin text-[8px] sm:text-[9px] text-center uppercase tracking-widest rounded-md transition-all cursor-pointer"
           :class="
             category === filter.id
               ? 'bg-parchment text-ink border border-line shadow-sm'
@@ -76,13 +75,11 @@ const filterOptions = [
 .filter-slide-fade-leave-active {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .filter-slide-fade-enter-from,
 .filter-slide-fade-leave-to {
   opacity: 0;
   transform: translateY(-8px) scale(0.98);
 }
-
 .filter-slide-fade-enter-to,
 .filter-slide-fade-leave-from {
   opacity: 1;

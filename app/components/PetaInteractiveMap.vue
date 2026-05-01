@@ -10,8 +10,8 @@ const props = defineProps<{
 }>();
 
 const { locale } = useI18n();
-const mapContainer = ref<HTMLElement | null>(null);
 
+const mapContainer = ref<HTMLElement | null>(null);
 const pois = ref<any[]>([]);
 const regionStatsMap = ref<Record<string, any>>({});
 
@@ -33,11 +33,13 @@ const DEFAULT_ZOOM = 10;
 
 const updateRegionStyles = () => {
   if (!regionsLayer) return;
+
   regionsLayer.eachLayer((layer: any) => {
     const id = layer.feature.properties.id;
     const isActive = activeRegion.value === id;
     const isHovered = hoveredRegion.value === id;
     const stats = regionStatsMap.value[id];
+
     if (!stats) return;
 
     let baseColor = "#c84b31";
@@ -57,8 +59,10 @@ const updateRegionStyles = () => {
           : stats.tier === "mid"
             ? "#c84b31"
             : "#a38b72";
+
       const isDimmed =
         props.highlightedTier && stats.tier !== props.highlightedTier;
+
       weight = isActive || isHovered ? 2 : 1;
       opac = isDimmed ? 0.1 : isActive || isHovered ? 1 : 0.6;
       fillOpac = isDimmed ? 0.05 : isActive ? 0.35 : isHovered ? 0.25 : 0.15;
@@ -79,6 +83,7 @@ const updateRegionStyles = () => {
       tooltip._container.classList.toggle("inactive", !(isActive || isHovered));
     }
   });
+
   renderMarkers();
 };
 
@@ -106,12 +111,12 @@ const getAdjustedPoiCoords = (loc: any, index: number): [number, number] => {
 
   const patternIndex = index % spreadPattern.length;
   const [latOffset, lngOffset] = spreadPattern[patternIndex];
-
   return [loc.coords[0] + latOffset, loc.coords[1] + lngOffset];
 };
 
 const renderMarkers = () => {
   if (!markersGroup || !L) return;
+
   markersGroup.clearLayers();
 
   const filtered = pois.value.filter((loc) => {
@@ -149,11 +154,11 @@ onMounted(async () => {
   const mapData = await $fetch<any>("/api/data/map");
   pois.value = mapData.pois;
   regionStatsMap.value = mapData.regionStats;
-
   const { diyBoundary, diyRegionsGeoJSON, philosophicalAxis } = mapData;
 
   const leafletModule = await import("leaflet");
   L = leafletModule.default || leafletModule;
+
   await import("leaflet.markercluster");
   await import("leaflet/dist/leaflet.css");
   await import("leaflet.markercluster/dist/MarkerCluster.css");
@@ -187,11 +192,13 @@ onMounted(async () => {
       const name = feature.properties.name
         .replace("Kabupaten ", "")
         .replace("Kota ", "");
+
       layer.bindTooltip(name, {
         permanent: true,
         direction: "center",
         className: "region-polygon-label inactive",
       });
+
       layer.on({
         mouseover: () => {
           hoveredRegion.value = feature.properties.id;
@@ -259,10 +266,12 @@ onMounted(async () => {
     });
 
     const marker = L.marker(data.coords as [number, number], { icon });
+
     marker.bindTooltip(
       `<div class="font-lato bg-ink text-warm-white p-3 rounded-lg shadow-xl"><div class="text-[10px] uppercase text-terra mb-1">${data.name}</div><div class="text-[20px] font-bold">${data.penetration}%</div></div>`,
       { direction: "top", className: "internet-tooltip", opacity: 1 },
     );
+
     marker.tier = data.tier;
     internetCircles.push(marker);
 
@@ -273,6 +282,7 @@ onMounted(async () => {
       iconSize: [140, 20],
       iconAnchor: [70, 10],
     });
+
     regionLabels.push(
       L.marker(data.coords, { icon: labelIcon, interactive: false }),
     );
@@ -329,10 +339,13 @@ watch(
   () => props.highlightedTier,
   (tier) => {
     if (props.mode !== "internet") return;
+
     updateRegionStyles();
+
     internetCircles.forEach((marker) => {
       const el = marker.getElement();
       if (!el) return;
+
       if (!tier || marker.tier === tier) {
         el.style.opacity = "1";
         el.style.filter = tier ? "drop-shadow(0 0 10px currentColor)" : "none";
@@ -404,7 +417,6 @@ onUnmounted(() => {
 .region-label {
   pointer-events: none;
 }
-
 .region-polygon {
   transition:
     fill-opacity 0.3s ease,
@@ -412,7 +424,6 @@ onUnmounted(() => {
     stroke-width 0.3s ease;
   outline: none;
 }
-
 .region-polygon-label {
   background: transparent !important;
   border: none !important;
@@ -447,7 +458,6 @@ onUnmounted(() => {
   font-size: 14px;
   z-index: 1000 !important;
 }
-
 .internet-beacon-wrapper {
   background: transparent !important;
   border: none !important;
@@ -455,7 +465,6 @@ onUnmounted(() => {
     opacity 0.4s ease,
     filter 0.4s ease;
 }
-
 .beacon-wave {
   border-width: 2px;
   border-style: solid;
@@ -463,7 +472,6 @@ onUnmounted(() => {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   animation-iteration-count: infinite;
 }
-
 @keyframes radar-pulse {
   0% {
     width: 14px;
