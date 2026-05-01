@@ -106,6 +106,11 @@ useHead({
       @toggleCard="isCardVisible = !isCardVisible"
     />
 
+    <SumbuScrollIndicator
+      :activeIndex="activeIndex"
+      :stopsCount="stops.length"
+    />
+
     <div class="relative z-20 w-full pointer-events-none">
       <div ref="heroRef" class="h-[100vh] w-full"></div>
       <div
