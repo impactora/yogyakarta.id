@@ -166,7 +166,7 @@ onUnmounted(() => {
           <span
             v-for="(char, index) in String($t('home.hero.title'))"
             :key="index"
-            class="char inline-block origin-bottom transition-colors"
+            class="char inline-block origin-bottom transition-colors opacity-0"
           >
             {{ char === " " ? "\u00A0" : char }}
           </span>
