@@ -22,7 +22,7 @@ const handleClick = () => {
 
 <template>
   <section
-    class="relative w-full h-[60vh] bg-[#1a1208] flex items-center justify-center overflow-hidden z-10 select-none border-b border-white/5 cursor-pointer"
+    class="relative w-full h-[60vh] bg-parchment flex items-center justify-center overflow-hidden z-10 select-none border-b border-line cursor-pointer transition-colors duration-300"
     @pointerenter="handlePointerEnter"
     @pointerleave="handlePointerLeave"
     @click="handleClick"
@@ -44,7 +44,7 @@ const handleClick = () => {
       "
     >
       <h2
-        class="font-libre text-3xl md:text-5xl lg:text-6xl text-white font-bold mb-4 tracking-tight"
+        class="font-libre text-3xl md:text-5xl lg:text-6xl text-ink font-bold mb-4 tracking-tight transition-colors duration-300"
       >
         {{ t("home.philosophy.title") }}
       </h2>
@@ -54,13 +54,13 @@ const handleClick = () => {
         {{ t("home.philosophy.subtitle") }}
       </div>
       <p
-        class="font-lato text-base md:text-lg text-white/80 font-light max-w-xl mx-auto leading-relaxed"
+        class="font-lato text-base md:text-lg text-brown font-light max-w-xl mx-auto leading-relaxed transition-colors duration-300"
       >
         {{ t("home.philosophy.desc") }}
       </p>
     </div>
     <div
-      class="absolute font-josefin text-[10px] tracking-[0.5em] text-white/40 uppercase transition-all duration-700 ease-out"
+      class="absolute font-josefin text-[10px] tracking-[0.5em] text-muted uppercase transition-all duration-700 ease-out"
       :class="
         isHovered ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'
       "

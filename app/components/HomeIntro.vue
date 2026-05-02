@@ -4,6 +4,7 @@ import { useI18n } from "#imports";
 
 const { t } = useI18n();
 const words = computed(() => t("home.intro.text").split(" "));
+
 const textContainer = ref<HTMLElement | null>(null);
 const scrollProgress = ref(0);
 
@@ -31,7 +32,7 @@ onUnmounted(() => {
 
 <template>
   <section
-    class="relative w-full min-h-[60vh] bg-[#1a1208] flex items-center justify-center py-32 px-6 lg:px-12 z-10 select-none overflow-hidden border-b border-white/5"
+    class="relative w-full min-h-[60vh] bg-warm-white flex items-center justify-center py-32 px-6 lg:px-12 z-10 select-none overflow-hidden border-b border-line transition-colors duration-300"
   >
     <div class="max-w-5xl w-full" ref="textContainer">
       <div
@@ -40,7 +41,6 @@ onUnmounted(() => {
         <div class="w-8 h-[1px] bg-terra"></div>
         {{ t("home.intro.prefix") }}
       </div>
-
       <p
         class="text-justify leading-relaxed md:leading-[1.6] lg:leading-[1.7] whitespace-pre-wrap break-words"
       >
@@ -49,9 +49,7 @@ onUnmounted(() => {
           :key="index"
           class="font-libre text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight transition-colors duration-500 ease-out"
           :class="
-            scrollProgress >= index / words.length
-              ? 'text-white'
-              : 'text-white/10'
+            scrollProgress >= index / words.length ? 'text-ink' : 'text-ink/20'
           "
           >{{ word }}{{ index !== words.length - 1 ? " " : "" }}</span
         >
@@ -59,5 +57,3 @@ onUnmounted(() => {
     </div>
   </section>
 </template>
-
-<style scoped></style>
