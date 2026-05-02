@@ -5,17 +5,27 @@ import { useI18n } from "#imports";
 const { t } = useI18n();
 const isHovered = ref(false);
 
-const toggleInteraction = () => {
-  isHovered.value = !isHovered.value;
+const handlePointerEnter = (e: PointerEvent) => {
+  if (e.pointerType === "mouse") isHovered.value = true;
+};
+
+const handlePointerLeave = (e: PointerEvent) => {
+  if (e.pointerType === "mouse") isHovered.value = false;
+};
+
+const handleClick = () => {
+  if (window.matchMedia("(hover: none)").matches) {
+    isHovered.value = !isHovered.value;
+  }
 };
 </script>
 
 <template>
   <section
     class="relative w-full h-[60vh] bg-[#1a1208] flex items-center justify-center overflow-hidden z-10 select-none border-b border-white/5 cursor-pointer"
-    @mouseenter="isHovered = true"
-    @mouseleave="isHovered = false"
-    @click="toggleInteraction"
+    @pointerenter="handlePointerEnter"
+    @pointerleave="handlePointerLeave"
+    @click="handleClick"
   >
     <div
       class="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -25,7 +35,6 @@ const toggleInteraction = () => {
         :class="isHovered ? 'h-full opacity-10' : 'h-24 opacity-100'"
       ></div>
     </div>
-
     <div
       class="relative z-10 w-full px-6 flex flex-col items-center text-center transition-all duration-[1000ms] ease-[cubic-bezier(0.7,0,0.3,1)]"
       :class="
@@ -50,7 +59,6 @@ const toggleInteraction = () => {
         {{ t("home.philosophy.desc") }}
       </p>
     </div>
-
     <div
       class="absolute font-josefin text-[10px] tracking-[0.5em] text-white/40 uppercase transition-all duration-700 ease-out"
       :class="
@@ -61,5 +69,3 @@ const toggleInteraction = () => {
     </div>
   </section>
 </template>
-
-<style scoped></style>
