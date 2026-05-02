@@ -27,7 +27,7 @@ onUnmounted(() => {
     class="relative h-screen w-full bg-parchment overflow-hidden flex items-center justify-center select-none"
   >
     <div
-      class="absolute inset-0 w-full h-full bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tugu_Yogyakarta.jpg/1920px-Tugu_Yogyakarta.jpg')] bg-cover bg-center transition-all duration-[3000ms] ease-out grayscale scale-110 opacity-0"
+      class="absolute inset-0 w-full h-full bg-[url('/images/home/Tugu_Jogja.jpg')] bg-cover bg-center transition-all duration-[3000ms] ease-out grayscale scale-110 opacity-0"
       :class="{ '!opacity-30 !scale-100': phase === 2 }"
     ></div>
 
