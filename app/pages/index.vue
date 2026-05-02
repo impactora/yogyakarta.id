@@ -2,39 +2,57 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import gsap from "gsap";
 
-const cursorRef = ref<HTMLElement | null>(null);
-let xTo: ReturnType<typeof gsap.quickTo>;
-let yTo: ReturnType<typeof gsap.quickTo>;
+const cursorDotRef = ref<HTMLElement | null>(null);
+const cursorRingRef = ref<HTMLElement | null>(null);
 
-const onMove = (e: MouseEvent | TouchEvent) => {
-  let x, y;
-  if ("touches" in e) {
-    x = e.touches[0].clientX;
-    y = e.touches[0].clientY;
-  } else {
-    x = e.clientX;
-    y = e.clientY;
-  }
-  if (xTo && yTo) {
-    xTo(x);
-    yTo(y);
+let xToDot: ReturnType<typeof gsap.quickTo>;
+let yToDot: ReturnType<typeof gsap.quickTo>;
+let xToRing: ReturnType<typeof gsap.quickTo>;
+let yToRing: ReturnType<typeof gsap.quickTo>;
+
+const onMove = (e: MouseEvent) => {
+  if (xToDot && yToDot && xToRing && yToRing) {
+    xToDot(e.clientX);
+    yToDot(e.clientY);
+    xToRing(e.clientX);
+    yToRing(e.clientY);
   }
 };
 
 onMounted(() => {
-  if (cursorRef.value) {
-    gsap.set(cursorRef.value, { xPercent: -50, yPercent: -50 });
-    xTo = gsap.quickTo(cursorRef.value, "x", { duration: 0.3, ease: "power3" });
-    yTo = gsap.quickTo(cursorRef.value, "y", { duration: 0.3, ease: "power3" });
+  if (window.matchMedia("(pointer: fine)").matches) {
+    document.documentElement.style.cursor = "none";
 
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("touchmove", onMove, { passive: true });
+    if (cursorDotRef.value && cursorRingRef.value) {
+      gsap.set(cursorDotRef.value, { xPercent: -50, yPercent: -50 });
+      gsap.set(cursorRingRef.value, { xPercent: -50, yPercent: -50 });
+
+      xToDot = gsap.quickTo(cursorDotRef.value, "x", {
+        duration: 0,
+        ease: "none",
+      });
+      yToDot = gsap.quickTo(cursorDotRef.value, "y", {
+        duration: 0,
+        ease: "none",
+      });
+
+      xToRing = gsap.quickTo(cursorRingRef.value, "x", {
+        duration: 0.6,
+        ease: "power3.out",
+      });
+      yToRing = gsap.quickTo(cursorRingRef.value, "y", {
+        duration: 0.6,
+        ease: "power3.out",
+      });
+
+      window.addEventListener("mousemove", onMove);
+    }
   }
 });
 
 onUnmounted(() => {
+  document.documentElement.style.cursor = "auto";
   window.removeEventListener("mousemove", onMove);
-  window.removeEventListener("touchmove", onMove);
 });
 </script>
 
@@ -48,10 +66,12 @@ onUnmounted(() => {
     <HomeEditorial />
 
     <div
-      ref="cursorRef"
-      class="fixed top-0 left-0 w-8 h-8 border-[1.5px] border-[#b8491f] rounded-full pointer-events-none z-[10000] flex items-center justify-center bg-[#b8491f]/10 backdrop-blur-[1px]"
-    >
-      <div class="w-1.5 h-1.5 bg-[#b8491f] rounded-full"></div>
-    </div>
+      ref="cursorRingRef"
+      class="fixed top-0 left-0 w-10 h-10 border border-white rounded-full pointer-events-none z-[10000] mix-blend-difference hidden lg:block transform-gpu"
+    ></div>
+    <div
+      ref="cursorDotRef"
+      class="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[10000] mix-blend-difference hidden lg:block transform-gpu"
+    ></div>
   </main>
 </template>

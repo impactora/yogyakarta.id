@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { useI18n } from "#imports";
+import { useI18n, useRouter } from "#imports";
 
 const { t } = useI18n();
+const router = useRouter();
 
 const editorials = [
   {
@@ -65,28 +66,35 @@ const editorials = [
 
 const activeId = ref<string | null>(null);
 
-const handleLinkClick = (e: Event, id: string) => {
+const handleInteraction = (id: string, link: string) => {
   if (window.matchMedia("(hover: none)").matches) {
-    if (activeId.value !== id) {
-      e.preventDefault();
+    if (activeId.value === id) {
+      router.push(link);
+    } else {
       activeId.value = id;
     }
+  } else {
+    router.push(link);
   }
 };
 
 const handleOutsideClick = (e: Event) => {
-  const target = e.target as HTMLElement;
-  if (!target.closest(".editorial-link")) {
-    activeId.value = null;
+  if (window.matchMedia("(hover: none)").matches) {
+    const target = e.target as HTMLElement;
+    if (!target.closest(".editorial-card")) {
+      activeId.value = null;
+    }
   }
 };
 
 onMounted(() => {
-  document.addEventListener("click", handleOutsideClick);
+  document.addEventListener("touchstart", handleOutsideClick, {
+    passive: true,
+  });
 });
 
 onUnmounted(() => {
-  document.removeEventListener("click", handleOutsideClick);
+  document.removeEventListener("touchstart", handleOutsideClick);
 });
 </script>
 
@@ -94,12 +102,11 @@ onUnmounted(() => {
   <section
     class="w-full h-screen flex flex-col lg:flex-row bg-[#1a1208] overflow-hidden"
   >
-    <NuxtLink
+    <div
       v-for="(item, index) in editorials"
       :key="item.id"
-      :to="item.link"
-      @click="(e) => handleLinkClick(e, item.id)"
-      class="editorial-link group relative flex-1 flex items-end overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.7,0,0.3,1)] hover:flex-[3] [&.active]:flex-[3] lg:hover:flex-[4] lg:[&.active]:flex-[4] border-b lg:border-b-0 lg:border-r border-white/10"
+      @click="handleInteraction(item.id, item.link)"
+      class="editorial-card group relative flex-1 flex items-end overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.7,0,0.3,1)] hover:flex-[3] [&.active]:flex-[3] lg:hover:flex-[4] lg:[&.active]:flex-[4] border-b lg:border-b-0 lg:border-r border-white/10 cursor-pointer"
       :class="{ active: activeId === item.id }"
     >
       <div class="absolute inset-0 w-full h-full bg-[#1a1208]">
@@ -180,6 +187,6 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-    </NuxtLink>
+    </div>
   </section>
 </template>
