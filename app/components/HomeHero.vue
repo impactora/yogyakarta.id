@@ -3,12 +3,98 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useI18n } from "#imports";
 import gsap from "gsap";
 
+const HOVER_MODE = 1;
+
 const { t } = useI18n();
 const phase = ref(0);
 const titleRef = ref<HTMLElement | null>(null);
 let timer1: ReturnType<typeof setTimeout>;
 let timer2: ReturnType<typeof setTimeout>;
 let ctx: gsap.Context | null = null;
+
+const applyHoverInteraction = (
+  wrapper: HTMLElement,
+  chars: NodeListOf<Element>,
+) => {
+  if (HOVER_MODE === 1) {
+    chars.forEach((char) => {
+      char.addEventListener("mouseenter", () =>
+        gsap.to(char, {
+          y: -20,
+          scale: 1.1,
+          color: "#faf7f2",
+          duration: 0.3,
+          ease: "back.out(2)",
+        }),
+      );
+      char.addEventListener("mouseleave", () =>
+        gsap.to(char, {
+          y: 0,
+          scale: 1,
+          color: "#b8491f",
+          duration: 0.4,
+          ease: "power2.out",
+        }),
+      );
+    });
+  } else if (HOVER_MODE === 2) {
+    wrapper.addEventListener("mouseenter", () => {
+      gsap.to(chars, {
+        y: -15,
+        duration: 0.2,
+        stagger: 0.03,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut",
+      });
+    });
+  } else if (HOVER_MODE === 3) {
+    wrapper.addEventListener("mouseenter", () => {
+      gsap.to(chars, {
+        rotateX: "+=360",
+        duration: 0.8,
+        stagger: 0.04,
+        ease: "power2.inOut",
+      });
+    });
+  } else if (HOVER_MODE === 4) {
+    wrapper.addEventListener("mouseenter", () => {
+      gsap.to(wrapper, {
+        scale: 0.95,
+        letterSpacing: "0.1em",
+        filter: "blur(2px)",
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    });
+    wrapper.addEventListener("mouseleave", () => {
+      gsap.to(wrapper, {
+        scale: 1,
+        letterSpacing: "normal",
+        filter: "blur(0px)",
+        duration: 0.6,
+        ease: "elastic.out(1, 0.3)",
+      });
+    });
+  } else if (HOVER_MODE === 5) {
+    wrapper.addEventListener("mouseenter", () => {
+      gsap.to(wrapper, {
+        skewX: -10,
+        scale: 1.05,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    });
+    wrapper.addEventListener("mouseleave", () => {
+      gsap.to(wrapper, {
+        skewX: 0,
+        scale: 1,
+        duration: 1,
+        ease: "elastic.out(1, 0.3)",
+      });
+    });
+  }
+};
 
 onMounted(() => {
   timer1 = setTimeout(() => {
@@ -20,8 +106,10 @@ onMounted(() => {
 
     if (titleRef.value) {
       ctx = gsap.context(() => {
+        const chars = titleRef.value!.querySelectorAll(".char");
+
         gsap.fromTo(
-          titleRef.value!.children,
+          chars,
           { opacity: 0, y: 100, rotateX: -90 },
           {
             opacity: 1,
@@ -30,6 +118,9 @@ onMounted(() => {
             duration: 1.2,
             stagger: 0.05,
             ease: "back.out(1.7)",
+            onComplete: () => {
+              applyHoverInteraction(titleRef.value!, chars);
+            },
           },
         );
       });
@@ -70,12 +161,12 @@ onUnmounted(() => {
       >
         <h1
           ref="titleRef"
-          class="font-libre text-6xl md:text-8xl lg:text-[10rem] text-terra font-bold italic tracking-tighter flex justify-center perspective-[1000px]"
+          class="font-libre text-6xl md:text-8xl lg:text-[10rem] text-terra font-bold italic tracking-tighter flex justify-center perspective-[1000px] pointer-events-auto cursor-default"
         >
           <span
             v-for="(char, index) in String($t('home.hero.title'))"
             :key="index"
-            class="inline-block opacity-0 origin-bottom"
+            class="char inline-block origin-bottom transition-colors"
           >
             {{ char === " " ? "\u00A0" : char }}
           </span>
