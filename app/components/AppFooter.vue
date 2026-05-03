@@ -6,7 +6,7 @@ const routes = [
   "wisata",
   "teknologi",
   "peta",
-  "filosofi",
+  "sumbu",
 ];
 </script>
 
@@ -22,7 +22,7 @@ const routes = [
           to="/"
           class="font-libre text-[24px] font-normal tracking-[0.04em] text-[#faf7f2]"
         >
-          <em class="italic text-[#b8491f]">Jogja</em>Ku —
+          Jiwa <em class="italic text-[#b8491f]">Nusantara</em> —
           <span class="text-[18px] opacity-90">{{
             $t("footer.portal_tagline")
           }}</span>
@@ -73,7 +73,7 @@ const routes = [
     <div
       class="px-5 lg:px-[60px] py-6 flex justify-between items-center font-josefin text-[10px] font-light uppercase tracking-[0.15em] text-[#8a7560]"
     >
-      <span>&copy; 2026 JogjaKu.</span>
+      <span>&copy; 2026 JIWA NUSANTARA.</span>
       <span class="opacity-50">VOL. I YOGYAKARTA</span>
     </div>
   </footer>

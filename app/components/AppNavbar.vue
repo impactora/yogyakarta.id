@@ -12,7 +12,7 @@ const routes = [
   "wisata",
   "teknologi",
   "peta",
-  "filosofi",
+  "sumbu",
 ];
 
 const isMenuOpen = ref(false);
@@ -52,7 +52,7 @@ const toggleLanguage = () => {
         class="font-libre text-[18px] lg:text-[20px] font-normal text-ink tracking-[0.04em]"
         @click="isMenuOpen = false"
       >
-        <em class="italic text-terra">Jogja</em>Ku
+        Jiwa <em class="italic text-terra">Nusantara</em>
       </NuxtLink>
       <ul class="hidden lg:flex gap-9">
         <li v-for="item in routes" :key="item">
@@ -88,8 +88,7 @@ const toggleLanguage = () => {
           @click="toggleLanguage"
           class="flex items-center gap-1.5 font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra hover:opacity-60 transition-opacity"
         >
-          <Globe class="w-3.5 h-3.5" />
-          {{ locale === "id" ? "ID" : "EN" }}
+          <Globe class="w-3.5 h-3.5" /> {{ locale === "id" ? "ID" : "EN" }}
         </button>
       </div>
 
