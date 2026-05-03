@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import gsap from "gsap";
 
 const cursorDotRef = ref<HTMLElement | null>(null);
 const cursorRingRef = ref<HTMLElement | null>(null);
+const isMounted = ref(false);
 
 let xToDot: ReturnType<typeof gsap.quickTo>;
 let yToDot: ReturnType<typeof gsap.quickTo>;
@@ -20,34 +21,38 @@ const onMove = (e: MouseEvent) => {
 };
 
 onMounted(() => {
-  if (window.matchMedia("(pointer: fine)").matches) {
-    document.documentElement.style.cursor = "none";
+  isMounted.value = true;
 
-    if (cursorDotRef.value && cursorRingRef.value) {
-      gsap.set(cursorDotRef.value, { xPercent: -50, yPercent: -50 });
-      gsap.set(cursorRingRef.value, { xPercent: -50, yPercent: -50 });
+  nextTick(() => {
+    if (window.matchMedia("(pointer: fine)").matches) {
+      document.documentElement.style.cursor = "none";
 
-      xToDot = gsap.quickTo(cursorDotRef.value, "x", {
-        duration: 0,
-        ease: "none",
-      });
-      yToDot = gsap.quickTo(cursorDotRef.value, "y", {
-        duration: 0,
-        ease: "none",
-      });
+      if (cursorDotRef.value && cursorRingRef.value) {
+        gsap.set(cursorDotRef.value, { xPercent: -50, yPercent: -50 });
+        gsap.set(cursorRingRef.value, { xPercent: -50, yPercent: -50 });
 
-      xToRing = gsap.quickTo(cursorRingRef.value, "x", {
-        duration: 0.6,
-        ease: "power3.out",
-      });
-      yToRing = gsap.quickTo(cursorRingRef.value, "y", {
-        duration: 0.6,
-        ease: "power3.out",
-      });
+        xToDot = gsap.quickTo(cursorDotRef.value, "x", {
+          duration: 0,
+          ease: "none",
+        });
+        yToDot = gsap.quickTo(cursorDotRef.value, "y", {
+          duration: 0,
+          ease: "none",
+        });
 
-      window.addEventListener("mousemove", onMove);
+        xToRing = gsap.quickTo(cursorRingRef.value, "x", {
+          duration: 0.6,
+          ease: "power3.out",
+        });
+        yToRing = gsap.quickTo(cursorRingRef.value, "y", {
+          duration: 0.6,
+          ease: "power3.out",
+        });
+
+        window.addEventListener("mousemove", onMove);
+      }
     }
-  }
+  });
 });
 
 onUnmounted(() => {
@@ -65,13 +70,15 @@ onUnmounted(() => {
     <HomePhilosophy />
     <HomeEditorial />
 
-    <div
-      ref="cursorRingRef"
-      class="fixed top-0 left-0 w-10 h-10 border border-white rounded-full pointer-events-none z-[10000] mix-blend-difference hidden lg:block transform-gpu"
-    ></div>
-    <div
-      ref="cursorDotRef"
-      class="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[10000] mix-blend-difference hidden lg:block transform-gpu"
-    ></div>
+    <Teleport to="body" v-if="isMounted">
+      <div
+        ref="cursorRingRef"
+        class="fixed top-0 left-0 w-10 h-10 border border-white rounded-full pointer-events-none z-[10000] mix-blend-difference hidden lg:block transform-gpu"
+      ></div>
+      <div
+        ref="cursorDotRef"
+        class="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[10000] mix-blend-difference hidden lg:block transform-gpu"
+      ></div>
+    </Teleport>
   </main>
 </template>

@@ -2,10 +2,9 @@
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { Search, Globe } from "lucide-vue-next";
-import { useI18n } from "#imports";
+import { useI18n, useState } from "#imports";
 
 const { locale, setLocale } = useI18n();
-
 const routes = [
   "sejarah",
   "budaya",
@@ -19,6 +18,7 @@ const routes = [
 const isMenuOpen = ref(false);
 const isSearchOpen = ref(false);
 const route = useRoute();
+const isTranslating = useState("isTranslating", () => false);
 
 watch(
   () => route.path,
@@ -28,7 +28,15 @@ watch(
 );
 
 const toggleLanguage = () => {
-  setLocale(locale.value === "id" ? "en" : "id");
+  if (isTranslating.value) return;
+  isTranslating.value = true;
+
+  setTimeout(() => {
+    setLocale(locale.value === "id" ? "en" : "id");
+    setTimeout(() => {
+      isTranslating.value = false;
+    }, 50);
+  }, 400);
 };
 </script>
 
@@ -46,7 +54,6 @@ const toggleLanguage = () => {
       >
         Jiwa <em class="italic text-terra">Nusantara</em>
       </NuxtLink>
-
       <ul class="hidden lg:flex gap-9">
         <li v-for="item in routes" :key="item">
           <NuxtLink
@@ -59,7 +66,6 @@ const toggleLanguage = () => {
           </NuxtLink>
         </li>
       </ul>
-
       <div class="hidden lg:flex items-center gap-4">
         <div class="flex items-center gap-1">
           <button
@@ -71,16 +77,13 @@ const toggleLanguage = () => {
               class="w-4 h-4 text-ink hover:text-terra transition-colors"
             />
           </button>
-
           <ThemeToggle />
         </div>
-
         <span
           class="font-josefin text-[10px] font-light tracking-[0.15em] uppercase text-muted border-l border-r border-line px-4 mx-2"
         >
-          Vol. I · Yogyakarta
+          Vol. I // Yogyakarta
         </span>
-
         <button
           @click="toggleLanguage"
           class="flex items-center gap-1.5 font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra hover:opacity-60 transition-opacity"
@@ -97,16 +100,13 @@ const toggleLanguage = () => {
         >
           <Search class="w-5 h-5 text-ink" />
         </button>
-
         <ThemeToggle />
-
         <button
           @click="toggleLanguage"
           class="font-josefin text-[10px] font-semibold tracking-[0.1em] uppercase text-terra hover:opacity-60 transition-opacity px-1"
         >
           {{ locale === "id" ? "ID" : "EN" }}
         </button>
-
         <button
           class="flex flex-col justify-center items-center w-8 h-8 gap-[5px] cursor-pointer ml-1"
           @click="isMenuOpen = !isMenuOpen"
@@ -156,12 +156,11 @@ const toggleLanguage = () => {
           <span
             class="font-josefin text-[10px] font-light tracking-[0.15em] uppercase text-muted"
           >
-            Vol. I · Yogyakarta
+            Vol. I // Yogyakarta
           </span>
         </div>
       </div>
     </div>
-
     <GlobalSearch :isOpen="isSearchOpen" @close="isSearchOpen = false" />
   </nav>
 </template>
