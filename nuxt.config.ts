@@ -67,7 +67,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: "id" },
-      title: "Jiwa Nusantara — Yogyakarta",
+      title: "JogjaKu — Pusaka Jiwa Mataram",
       meta: [
         { charset: "utf-8" },
         {
@@ -106,7 +106,7 @@ export default defineNuxtConfig({
         "/wisata",
         "/teknologi",
         "/peta",
-        "/sumbu",
+        "/filosofi",
       ],
       crawlLinks: true,
     },
@@ -116,7 +116,17 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: ["@vue/devtools-core", "@vue/devtools-kit"],
+      include: [
+        "@vue/devtools-core",
+        "@vue/devtools-kit",
+        "gsap",
+        "gsap/Observer",
+        "lucide-vue-next",
+        "fuse.js",
+        "maplibre-gl", // CJS
+        "leaflet", // CJS
+        "leaflet.markercluster", // CJS
+      ],
     },
   },
 });

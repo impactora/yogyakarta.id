@@ -6,7 +6,7 @@ const routes = [
   "wisata",
   "teknologi",
   "peta",
-  "sumbu",
+  "filosofi",
 ];
 </script>
 
@@ -22,7 +22,7 @@ const routes = [
           to="/"
           class="font-libre text-[24px] font-normal tracking-[0.04em] text-[#faf7f2]"
         >
-          Jiwa <em class="italic text-[#b8491f]">Nusantara</em> —
+          <em class="italic text-[#b8491f]">Jogja</em>Ku —
           <span class="text-[18px] opacity-90">{{
             $t("footer.portal_tagline")
           }}</span>
@@ -56,7 +56,7 @@ const routes = [
             :key="item"
             :to="`/${item}`"
             class="hover:text-[#b8491f] transition-colors"
-            :class="item === 'sumbu' ? 'text-[#b8491f]/70' : ''"
+            :class="item === 'filosofi' ? 'text-[#b8491f]/70' : ''"
           >
             {{ $t(`nav.${item}`) }}
           </NuxtLink>
@@ -73,7 +73,7 @@ const routes = [
     <div
       class="px-5 lg:px-[60px] py-6 flex justify-between items-center font-josefin text-[10px] font-light uppercase tracking-[0.15em] text-[#8a7560]"
     >
-      <span>&copy; 2026 JIWA NUSANTARA.</span>
+      <span>&copy; 2026 JogjaKu.</span>
       <span class="opacity-50">VOL. I YOGYAKARTA</span>
     </div>
   </footer>
