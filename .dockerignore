@@ -1,0 +1,31 @@
+# Dependencies & caches
+node_modules
+npm-debug.log*
+yarn-error.log*
+.pnpm-store
+
+# Nuxt / Nitro
+.nuxt
+.nitro
+.output
+.data
+.cache
+dist
+
+# Git & IDE
+.git
+.gitignore
+.cursor
+.idea
+.fleet
+*.md
+
+# Env & secrets (inject at runtime)
+.env
+.env.*
+!.env.example
+
+# Tests & misc
+coverage
+*.test.*
+*.spec.*
