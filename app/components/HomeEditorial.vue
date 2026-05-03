@@ -55,12 +55,12 @@ const editorials = [
     link: "/peta",
   },
   {
-    id: "sumbu",
+    id: "filosofi",
     titleKey: "home.editorial.sumbu.title",
     descKey: "home.editorial.sumbu.desc",
     script: "ꦱꦸꦩ꧀ꦧꦸ",
     image: "/images/home/parangtritis.jpg",
-    link: "/sumbu",
+    link: "/filosofi",
   },
 ];
 
