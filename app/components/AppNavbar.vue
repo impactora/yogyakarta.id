@@ -60,7 +60,7 @@ const toggleLanguage = () => {
             :to="`/${item}`"
             active-class="text-terra"
             class="font-josefin text-[11px] font-semibold tracking-[0.18em] uppercase text-muted transition-colors duration-200 hover:text-terra"
-            :class="item === 'sumbu' ? 'text-terra/70' : ''"
+            :class="item === 'filosofi' ? 'text-terra/70' : ''"
           >
             {{ $t(`nav.${item}`) }}
           </NuxtLink>
@@ -144,7 +144,7 @@ const toggleLanguage = () => {
               :to="`/${item}`"
               active-class="text-terra"
               class="font-josefin text-[14px] font-semibold tracking-[0.2em] uppercase text-muted transition-colors duration-200 hover:text-terra block"
-              :class="item === 'sumbu' ? 'text-terra/70' : ''"
+              :class="item === 'filosofi' ? 'text-terra/70' : ''"
               @click="isMenuOpen = false"
             >
               {{ $t(`nav.${item}`) }}

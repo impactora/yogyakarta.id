@@ -56,7 +56,7 @@ const routes = [
             :key="item"
             :to="`/${item}`"
             class="hover:text-[#b8491f] transition-colors"
-            :class="item === 'sumbu' ? 'text-[#b8491f]/70' : ''"
+            :class="item === 'filosofi' ? 'text-[#b8491f]/70' : ''"
           >
             {{ $t(`nav.${item}`) }}
           </NuxtLink>
