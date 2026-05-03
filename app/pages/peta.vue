@@ -32,9 +32,6 @@ useHead({ title: computed(() => t("peta.page_title")) });
       />
     </div>
 
-    <PetaMapContainer
-      :mode="currentMode"
-      :category="selectedCategory"
-    />
+    <PetaMapContainer :mode="currentMode" :category="selectedCategory" />
   </main>
 </template>

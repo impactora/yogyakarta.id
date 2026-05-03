@@ -116,7 +116,17 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     optimizeDeps: {
-      include: ["@vue/devtools-core", "@vue/devtools-kit"],
+      include: [
+        "@vue/devtools-core",
+        "@vue/devtools-kit",
+        "gsap",
+        "gsap/Observer",
+        "lucide-vue-next",
+        "fuse.js",
+        "maplibre-gl", // CJS
+        "leaflet", // CJS
+        "leaflet.markercluster", // CJS
+      ],
     },
   },
 });
