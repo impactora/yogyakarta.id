@@ -1,7 +1,7 @@
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
   const route = useRoute();
-  const siteUrl = String(config.public.siteUrl || "https://yogyakarta.id").replace(
+  const siteUrl = String(config.public.siteUrl || "https://jogjaku.id").replace(
     /\/$/,
     "",
   );

@@ -142,12 +142,18 @@ onUnmounted(() => {
     <picture>
       <source
         type="image/webp"
-        srcset="/images/home/Tugu_Jogja-hero-sm.webp 960w, /images/home/Tugu_Jogja-hero.webp 1920w"
+        srcset="
+          /images/home/Tugu_Jogja-hero-sm.webp  960w,
+          /images/home/Tugu_Jogja-hero.webp    1920w
+        "
         sizes="100vw"
       />
       <img
         src="/images/home/Tugu_Jogja-hero.jpg"
-        srcset="/images/home/Tugu_Jogja-hero-sm.jpg 960w, /images/home/Tugu_Jogja-hero.jpg 1920w"
+        srcset="
+          /images/home/Tugu_Jogja-hero-sm.jpg  960w,
+          /images/home/Tugu_Jogja-hero.jpg    1920w
+        "
         sizes="100vw"
         alt=""
         width="1920"
