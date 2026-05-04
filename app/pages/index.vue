@@ -1,81 +1,93 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from "vue";
-import gsap from "gsap";
+import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+import { useSeoMeta, useI18n } from "#imports";
 
-const cursorRef = ref<HTMLElement | null>(null);
+const { t } = useI18n();
+
+useSeoMeta({
+  description: computed(() => t("footer.description")),
+});
+
+const cursorDotRef = ref<HTMLElement | null>(null);
+const cursorRingRef = ref<HTMLElement | null>(null);
 const isMounted = ref(false);
-const hasFinePointer = ref(false);
-const isDarkBg = ref(false);
 
-let xTo: ReturnType<typeof gsap.quickTo>;
-let yTo: ReturnType<typeof gsap.quickTo>;
+let xToDot: ((v: number) => void) | undefined;
+let yToDot: ((v: number) => void) | undefined;
+let xToRing: ((v: number) => void) | undefined;
+let yToRing: ((v: number) => void) | undefined;
 
 const onMove = (e: MouseEvent) => {
-  if (xTo && yTo) {
-    xTo(e.clientX);
-    yTo(e.clientY);
-
-    const target = document.elementFromPoint(
-      e.clientX,
-      e.clientY,
-    ) as HTMLElement | null;
-    if (target) {
-      isDarkBg.value = !!target.closest(
-        ".bg-\\[\\#1a1208\\], .bg-ink, .bg-terra",
-      );
-    }
+  if (xToDot && yToDot && xToRing && yToRing) {
+    xToDot(e.clientX);
+    yToDot(e.clientY);
+    xToRing(e.clientX);
+    yToRing(e.clientY);
   }
 };
 
-onMounted(async () => {
+onMounted(() => {
   isMounted.value = true;
-  hasFinePointer.value = window.matchMedia("(pointer: fine)").matches;
 
-  await nextTick();
+  nextTick(() => {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
 
-  if (hasFinePointer.value) {
-    document.body.classList.add("hide-default-cursor");
+    void (async () => {
+      const { default: gsap } = await import("gsap");
+      document.documentElement.style.cursor = "none";
 
-    if (cursorRef.value) {
-      gsap.set(cursorRef.value, { xPercent: -50, yPercent: -50 });
+      if (!cursorDotRef.value || !cursorRingRef.value) return;
 
-      xTo = gsap.quickTo(cursorRef.value, "x", {
-        duration: 0.15,
+      gsap.set(cursorDotRef.value, { xPercent: -50, yPercent: -50 });
+      gsap.set(cursorRingRef.value, { xPercent: -50, yPercent: -50 });
+
+      xToDot = gsap.quickTo(cursorDotRef.value, "x", {
+        duration: 0,
+        ease: "none",
+      });
+      yToDot = gsap.quickTo(cursorDotRef.value, "y", {
+        duration: 0,
+        ease: "none",
+      });
+
+      xToRing = gsap.quickTo(cursorRingRef.value, "x", {
+        duration: 0.6,
         ease: "power3.out",
       });
-      yTo = gsap.quickTo(cursorRef.value, "y", {
-        duration: 0.15,
+      yToRing = gsap.quickTo(cursorRingRef.value, "y", {
+        duration: 0.6,
         ease: "power3.out",
       });
 
       window.addEventListener("mousemove", onMove);
-    }
-  }
+    })();
+  });
 });
 
 onUnmounted(() => {
-  document.body.classList.remove("hide-default-cursor");
+  document.documentElement.style.cursor = "auto";
   window.removeEventListener("mousemove", onMove);
 });
 </script>
 
 <template>
   <main
-    class="min-h-screen bg-parchment relative w-full overflow-hidden flex flex-col"
+    class="min-h-screen bg-parchment relative w-full overflow-hidden flex flex-col lg:cursor-none"
   >
     <HomeHero />
     <HomeIntro />
     <HomePhilosophy />
     <HomeEditorial />
 
-    <Teleport to="body" v-if="isMounted && hasFinePointer">
+    <Teleport to="body" v-if="isMounted">
       <div
-        ref="cursorRef"
-        class="fixed top-0 left-0 w-10 h-10 flex items-center justify-center rounded-full pointer-events-none z-[10000] transform-gpu font-josefin text-[18px] font-bold italic uppercase transition-colors duration-300 shadow-xl"
-        :class="isDarkBg ? 'bg-parchment text-ink' : 'bg-ink text-parchment'"
-      >
-        <span class="mt-[2px]">J</span>
-      </div>
+        ref="cursorRingRef"
+        class="fixed top-0 left-0 w-10 h-10 border border-white rounded-full pointer-events-none z-[10000] mix-blend-difference hidden lg:block transform-gpu"
+      ></div>
+      <div
+        ref="cursorDotRef"
+        class="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[10000] mix-blend-difference hidden lg:block transform-gpu"
+      ></div>
     </Teleport>
   </main>
 </template>
