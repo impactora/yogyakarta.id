@@ -1,2 +1,4 @@
 User-Agent: *
 Disallow:
+
+Sitemap: https://yogyakarta.id/sitemap.xml
